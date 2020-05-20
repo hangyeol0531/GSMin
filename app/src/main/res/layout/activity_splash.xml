@@ -1,9 +1,0 @@
-<!-- 스플래시 -->
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/some_id"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:clipToOutline="true"
-    android:background="@drawable/some_id"
-    />

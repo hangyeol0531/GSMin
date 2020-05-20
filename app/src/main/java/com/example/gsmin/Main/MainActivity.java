@@ -1,8 +1,10 @@
-package com.example.gsmin;
+package com.example.gsmin.Main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.gsmin.R;
 
 public class MainActivity extends AppCompatActivity {
 
