@@ -2,6 +2,7 @@ var express = require('express'); //express 모듈 로드
 var bodyParser = require('body-parser');
 var app = express(); // express app 생성
 const Discord = require('discord.js');
+const nodemailer = require('nodemailer');
 const client = new Discord.Client();
 const config = require('../config.json');
 const axios = require('axios');
@@ -28,6 +29,35 @@ app.get('/', (req,res) =>{
 app.post('/emailCheck', async (req,res)=>{
     await console_all(`${req.body.email} : emailCheck 접속`);
     console.log("이메일 : " + req.body.email);
+
+    const smtpTransport = nodemailer.createTransport({
+        service: "Gmail",
+        auth: {
+            user: "a84225523@gmail.com",
+            pass: config.password
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+      });
+
+    
+    const mailOptions = {
+        from: "a84225523@gmail.com",
+        to: req.body.email,
+        subject: "인증해주세요",
+        text: "GSMin가입에 대한 인증 절차입니다."
+    };
+    
+    await smtpTransport.sendMail(mailOptions, (error, responses) =>{
+        if(error){
+            res.json({msg:'err'});
+        }else{
+            res.json({msg:'success'});
+        }
+        smtpTransport.close();
+    });
+      
     res.send("connect");
 });
 
