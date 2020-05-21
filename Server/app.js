@@ -6,7 +6,16 @@ const nodemailer = require('nodemailer');
 const client = new Discord.Client();
 const config = require('../config.json');
 const axios = require('axios');
+const mysql = require('mysql');
 var port = 3000;
+
+var db = mysql.createConnection({
+    host: "localhost",
+    database: config.sqlpassword,
+    user: "root",
+    password: config.dbname
+  })
+
 
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
@@ -33,7 +42,7 @@ app.post('/emailCheck', async (req,res)=>{
     const smtpTransport = nodemailer.createTransport({
         service: "Gmail",
         auth: {
-            user: "a84225523@gmail.com",
+            user: config.send_email,
             pass: config.password
         },
         tls: {
@@ -43,10 +52,10 @@ app.post('/emailCheck', async (req,res)=>{
 
     
     const mailOptions = {
-        from: "a84225523@gmail.com",
+        from: config.send_email,
         to: req.body.email,
-        subject: "인증해주세요",
-        text: "GSMin가입에 대한 인증 절차입니다."
+        subject: "광주소프트웨어마이스터고등학교 GSMin 가입 인증 코드입니다.",
+        text: `GSMin가입에 대한 인증 절차입니다.`
     };
     
     await smtpTransport.sendMail(mailOptions, (error, responses) =>{
