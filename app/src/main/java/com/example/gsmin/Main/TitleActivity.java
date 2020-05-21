@@ -70,12 +70,12 @@ public class TitleActivity extends AppCompatActivity {
                 Log.d("test", "onCreate: " + email);
 
                 ec.setVisibility(View.VISIBLE);
-                check_btn.setVisibility(View.GONE);
+                //check_btn.setVisibility(View.GONE);
                 // if 이메일 인증 성공
                 JSONTask ResData = (JSONTask) new JSONTask().execute("http://10.53.68.185:3000/emailCheck");//AsyncTask 시작시킴
 
-//                startActivity(new Intent(getApplication(), InfoActivity.class));
-//                TitleActivity.this.finish();
+                startActivity(new Intent(getApplication(), InfoActivity.class));
+                TitleActivity.this.finish();
             }
         });
     }

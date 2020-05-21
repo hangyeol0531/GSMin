@@ -44,15 +44,16 @@ public class InfoActivity extends AppCompatActivity {
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplication(), TitleActivity.class));
-                InfoActivity.this.finish();
+            startActivity(new Intent(getApplication(), TitleActivity.class));
+            InfoActivity.this.finish();
             }
         });
 
         check_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(getApplication(), MainActivity.class));
+                InfoActivity.this.finish();
             }
         });
 
@@ -68,7 +69,7 @@ public class InfoActivity extends AppCompatActivity {
                     ck2.setTextColor(Color.parseColor("#09AA4A"));
                     ck2.setText("비밀번호가 일치합니다.");
                 } else {
-                    ck2.setTextColor(Color.parseColor("#ff0000"));
+                    ck2.setTextColor(Color.parseColor("#E70C0C"));
                     ck2.setText("비밀번호가 일치하지 않습니다.");
                 }
             }
