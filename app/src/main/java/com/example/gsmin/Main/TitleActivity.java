@@ -45,7 +45,9 @@ public class TitleActivity extends AppCompatActivity {
                 email = ed.getText().toString()+"@gsm.hs.kr";
                 Log.d("test", "onCreate: "+email);
 
-                // if 이메일 인증 
+                // if 이메일 인증 성공
+                startActivity(new Intent(getApplication(), InfoActivity.class));
+                TitleActivity.this.finish();
             }
         });
     }
