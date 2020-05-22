@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:itemBackground="@android:color/white"
-        app:itemIconTint="#41AFE5"
+        app:itemIconTint="#cccccc"
         app:layout_behavior=".Util.BottomNavigationBehavior"
         app:menu="@menu/navigation_menu" />
 

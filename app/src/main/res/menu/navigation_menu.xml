@@ -7,14 +7,20 @@
     </item>
 
     <item
-        android:id="@+id/menu_Bookmark"
-        android:icon="@drawable/home"
+        android:id="@+id/menu_board"
+        android:icon="@drawable/apps"
         android:title="">
     </item>
 
     <item
-        android:id="@+id/menu_profile"
-        android:icon="@drawable/home"
+        android:id="@+id/menu_alert"
+        android:icon="@drawable/notifications"
+        android:title="">
+    </item>
+
+    <item
+        android:id="@+id/menu_setting"
+        android:icon="@drawable/settings"
         android:title="">
     </item>
 </menu>

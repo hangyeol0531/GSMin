@@ -1,10 +1,13 @@
 package com.example.gsmin.Json;
 
 import android.os.AsyncTask;
+import android.util.JsonReader;
 import android.util.Log;
 
+import com.example.gsmin.Fragment.HomeFragment;
 import com.example.gsmin.Model.Data;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -98,6 +101,30 @@ public class JSONTask extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
+        if (result == null){
+            Log.d("null", "onPostExecute: "+result);
+            return;
+        }
+
+        try {
+            JSONObject jo = new JSONObject(result);
+            String kind = jo.getString("kind");
+            if(kind == "emailCheck"){
+                Log.d("이메일", "onPostExecute: "+kind);
+
+            }else if(kind == "gsmschoolfood"){
+                Log.d("급식", "onPostExecute: "+kind);
+                HomeFragment.rice_list = jo.getString("meal");
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+//        String dataKey = "";
+
         Log.d("test node", "onPostExecute: "+result);
     }
 }

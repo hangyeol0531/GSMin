@@ -1,6 +1,7 @@
 package com.example.gsmin.Main;
 
 import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private FragmentManager fragmentManager = getSupportFragmentManager();
-      public static HomeFragment homeFragment;
+    public static HomeFragment homeFragment;
 //    public static BookmarkFragment bookmarkFragment;
 //    private ProfileFragment profileFragment;
     public static FragmentTransaction transaction;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
                 transaction = fragmentManager.beginTransaction();
                 switch (menuItem.getItemId()) {
                     case R.id.menu_home:
+                        // To-Do
+//                        bottomNavigationView.setItemIconTintList(new ColorStateList("", ""));
                         viewPager.setCurrentItem(0);
                         transaction.detach(homeFragment).attach(homeFragment).commit();
                         break;
