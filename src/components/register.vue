@@ -21,7 +21,7 @@
               <v-card-text>
               <ValidationObserver ref="reg_ob" v-slot="{ }">
                 <form>
-                  <ValidationProvider v-slot="{ errors }" name="비밀번호" rules="required|min:8">
+                  <ValidationProvider v-slot="{ errors }" name="비밀번호" rules="required|min:8" vid="pw">
                     <v-text-field
                     type="password"
                     outlined
@@ -35,7 +35,7 @@
                     required
                     ></v-text-field>
                   </ValidationProvider>                    
-                  <ValidationProvider v-slot="{ errors }" name="비밀번호 확인" rules="confirmed:password">
+                  <ValidationProvider v-slot="{ errors }" name="비밀번호 확인" rules="confirmed:pw|required">
                     <v-text-field
                     type="password"
                     outlined
