@@ -1,4 +1,4 @@
-package com.example.gsmin;
+package com.example.gsmin.Model;
 
 public class Data {
     private static String[] jsonData, jsonId;

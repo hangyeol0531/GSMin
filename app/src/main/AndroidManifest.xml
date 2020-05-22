@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    출처: https://chchy.tistory.com/175 [AtoZ]
     <application
         android:allowBackup="true"
         android:icon="@drawable/gsm"

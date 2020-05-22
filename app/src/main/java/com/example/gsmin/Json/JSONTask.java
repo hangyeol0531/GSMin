@@ -3,7 +3,7 @@ package com.example.gsmin.Json;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.gsmin.Data;
+import com.example.gsmin.Model.Data;
 
 import org.json.JSONObject;
 
@@ -37,7 +37,7 @@ public class JSONTask extends AsyncTask<String, String, String> {
 
             Log.d("JSON_ON", jsonObject.toString());
             try{
-                URL url = new URL("http://10.53.68.185:3000/emailCheck");
+                URL url = new URL(urls[0]);
                 con = (HttpURLConnection) url.openConnection();
 
                 con.setRequestMethod("POST");//POST방식으로 보냄

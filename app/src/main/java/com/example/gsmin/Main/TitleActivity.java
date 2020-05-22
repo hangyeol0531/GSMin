@@ -1,38 +1,19 @@
 package com.example.gsmin.Main;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.gsmin.Data;
+import com.example.gsmin.Model.Data;
 import com.example.gsmin.Json.JSONTask;
 import com.example.gsmin.R;
-import com.example.gsmin.Splash.SplashActivity;
-
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class TitleActivity extends AppCompatActivity {
 
@@ -64,20 +45,24 @@ public class TitleActivity extends AppCompatActivity {
         check_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ed.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "이메일을 입력하지 않았습니다!", Toast.LENGTH_LONG).show();
-                    return;
-                }
+                // Test
+                email = "s18011@gsm.hs.kr";
 
-                email = ed.getText().toString() + "@gsm.hs.kr";
-                ec.setVisibility(View.VISIBLE);
-                //check_btn.setVisibility(View.GONE);
-                // if 이메일 인증 성공
+                // Real
+//                if (ed.getText().toString().isEmpty()){
+//                    Toast.makeText(getApplicationContext(), "이메일을 입력하지 않았습니다!", Toast.LENGTH_LONG).show();
+//                    return;
+//                }
+//                email = ed.getText().toString() + "@gsm.hs.kr";
+//
+//                ec.setVisibility(View.VISIBLE);
+//                check_btn.setVisibility(View.GONE);
+//                // if 이메일 인증 성공
                 Data.setData(new String[]{"email"}, new String[]{email});
-               new JSONTask().execute("http://10.53.68.185:3000/emailCheck");//AsyncTask 시작시킴
+                new JSONTask().execute("http://10.53.68.185:3000/emailCheck");//AsyncTask 시작시킴
 
-//                startActivity(new Intent(getApplication(), InfoActivity.class));
-//                TitleActivity.this.finish();
+                startActivity(new Intent(getApplication(), InfoActivity.class));
+                TitleActivity.this.finish();
             }
         });
 
