@@ -1,41 +1,42 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../components/login'
-import confirm from '../components/confirm'
-import register from '../components/register'
-import endAuth from '../components/endAuth'
+import Home from '../components/Home'
+import HomeTest from '../components/HomeTest'
+
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/home',
     name: 'Home',
     component: Home
   },
   {
+    path: '/homeTest',
+    name: 'HomeTest',
+    component : HomeTest
+  },
+  {
+    path: '/',
+    name: 'login',
+    component: () => import('../views/login.vue')
+  },
+  {
     path: '/confirm',
     name: 'confirm',
-    component: confirm
+    component: () => import('../views/confirm.vue')
   },
   {
     path: '/register',
     name: 'register',
-    component: register
+    component: () => import('../views/register.vue')
   },
   {
     path: '/endAuth',
     name: 'endAuth',
-    component: endAuth
+    component: () => import('../views/endAuth.vue')
   },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
 ]
 
 const router = new VueRouter({
