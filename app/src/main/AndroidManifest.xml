@@ -23,6 +23,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Main.MainActivity"/>
+        <activity android:name=".Fragment.HomeFragment"/>
+        <activity android:name=".Main.BoardActivity"/>
         <activity android:name=".Main.StartActivity"/>
         <activity android:name=".Main.TitleActivity"/>
         <activity android:name=".Main.InfoActivity"/>

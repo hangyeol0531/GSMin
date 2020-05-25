@@ -5,9 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start"
-    tools:layout_behavior="@string/appbar_scrolling_view_behavior">
+    tools:openDrawer="start">
 
     <include
         layout="@layout/activity_toolbar"
@@ -24,8 +22,11 @@
         app:itemTextColor="#000000"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
-    <FrameLayout
-        android:id="@+id/mainFragment"
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="57dp"
+        tools:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 </androidx.drawerlayout.widget.DrawerLayout>
