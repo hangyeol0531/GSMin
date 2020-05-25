@@ -29,11 +29,16 @@ public class HomeFragment extends Fragment {
             R.id.t10, R.id.t11};
 //    private String[] strData = new String[]{
 //            "전체",
-//            "HOT",
-//            "전체",
-//            "전체",
-//            "전체",
-//            "전체",
+//            "HOT 게시판",
+//            "Best 게시판",
+//            "자유",
+//            "홍보",
+//            "장터",
+//            "1학년",
+//            "2학년",
+//            "3학년",
+//            "졸업생",
+//            "코딩"
 //    };
     private int TV_LEN = r.length;
     private TextView[] tvArr = new TextView[TV_LEN];
@@ -60,10 +65,12 @@ public class HomeFragment extends Fragment {
                 public void onClick(View view) {
                     Log.d("finalData", "onClick: "+finalI);
 
+                    String channel = tvArr[finalI].getText().toString();
+
 //                    Data.setData(new String[]{"clickData"}, new String[]{String.valueOf(finalI)});
 //                    new JSONTask().execute("@string/serverUrl"+"/emailCheck");//AsyncTask 시작시킴
                     Intent intent = new Intent(getContext(), BoardActivity.class);
-                    intent.putExtra("channel", finalI);
+                    intent.putExtra("channel", channel);
                     startActivity(intent);
                     getActivity().finish();
                 }

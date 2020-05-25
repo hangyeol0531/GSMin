@@ -27,19 +27,13 @@
 
             </androidx.recyclerview.widget.RecyclerView>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <ImageButton
                 android:id="@+id/fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"
-                android:layout_margin="16dp" >
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/enabled"/>
-
-
-            </com.google.android.material.floatingactionbutton.FloatingActionButton>
+                android:layout_margin="16dp"
+                android:background="@drawable/enabled"/>
         </FrameLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
