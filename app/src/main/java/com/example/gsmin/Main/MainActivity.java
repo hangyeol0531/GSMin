@@ -4,19 +4,27 @@ import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.gsmin.Adapter.ViewPagerAdapter;
+//import com.example.gsmin.Fragment.HomeFragment;
 import com.example.gsmin.Fragment.HomeFragment;
 import com.example.gsmin.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,67 +33,68 @@ public class MainActivity extends AppCompatActivity {
     public static HomeFragment homeFragment;
 //    public static BookmarkFragment bookmarkFragment;
 //    private ProfileFragment profileFragment;
-    public static FragmentTransaction transaction;
+//    public static FragmentTransaction transaction;
     private ViewPager viewPager;
     private MenuItem prevMenuItem;
     private ViewPagerAdapter adapter;
-
+    private ImageButton drawwr_btn;
+    private boolean mSlideState = false;
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+//        if (savedInstanceState == null){
+//            MainFragment mainFragment = new MainFragment();
+//            getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.mainFragment, mainFragment, "MAIN")
+//                    .commit();
+//        }
+//        final BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation_main);
 
-        final BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation_main);
-        viewPager = (ViewPager) findViewById(R.id.viewpager_main);
+        drawwr_btn = findViewById(R.id.drawer_btn);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        drawwr_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                transaction = fragmentManager.beginTransaction();
-                switch (menuItem.getItemId()) {
-                    case R.id.menu_home:
-                        // To-Do
-//                        bottomNavigationView.setItemIconTintList(new ColorStateList("", ""));
-                        viewPager.setCurrentItem(0);
-                        transaction.detach(homeFragment).attach(homeFragment).commit();
-                        break;
-//                    case R.id.menu_Bookmark:
-//                        viewPager.setCurrentItem(1);
-//                        transaction.detach(homeFragment).attach(homeFragment).commit();
-//                        break;
-//                    case R.id.menu_profile:
-//                        viewPager.setCurrentItem(2);
-//                        transaction.detach(homeFragment).attach(homeFragment).commit();
-//                        break;
+            public void onClick(View view) {
+                if(mSlideState){
+                    drawer.closeDrawer(Gravity.LEFT);
+                    mSlideState = false;
+                }else{
+                    drawer.openDrawer(Gravity.LEFT);
+                    mSlideState = true;
                 }
-                return false;
             }
         });
+        viewPager = (ViewPager) findViewById(R.id.viewpager_main);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
-
             @Override
             public void onPageSelected(int position) {
-                if (prevMenuItem != null) {
-                    prevMenuItem.setChecked(false);
-                } else {
-                    bottomNavigationView.getMenu().getItem(0).setChecked(false);
-                }
-//                adapter.notifyDataSetChanged();
-                Log.d("page", "onPageSelected: " + position);
-//                if (position == 1){
-//                    transaction = fragmentManager.beginTransaction();
-//                    transaction.detach(bookmarkFragment).attach(bookmarkFragment).commit();
+//                if (prevMenuItem != null) {
+//                    prevMenuItem.setChecked(false);
+//                } else {
+//                    bottomNavigationView.getMenu().getItem(0).setChecked(false);
 //                }
-                bottomNavigationView.getMenu().getItem(position).setChecked(true);
-                prevMenuItem = bottomNavigationView.getMenu().getItem(position);
-
-            }
+////                adapter.notifyDataSetChanged();
+//                Log.d("page", "onPageSelected: " + position);
+////                if (position == 1){
+////                    transaction = fragmentManager.beginTransaction();
+////                    transaction.detach(bookmarkFragment).attach(bookmarkFragment).commit();
+////                }
+//                bottomNavigationView.getMenu().getItem(position).setChecked(true);
+//                prevMenuItem = bottomNavigationView.getMenu().getItem(position);
+             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
@@ -94,21 +103,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         setupViewPager(viewPager);
-//        heart = (ImageView)findViewById(R.id.heart);
-//        heart.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (ck == true){
-//                    heart.setImageResource(R.drawable.binheart);
-//                    ck = false;
-//                }else{
-//                    heart.setImageResource(R.drawable.fillheart);
-//                    ck = true;
-//                }
-//            }
-//        });
-      /*  init();
-        getData();*/
     }
 
     private void setupViewPager(ViewPager viewPager) {

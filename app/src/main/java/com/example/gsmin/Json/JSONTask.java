@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 import android.util.JsonReader;
 import android.util.Log;
 
-import com.example.gsmin.Fragment.HomeFragment;
+//import com.example.gsmin.Fragment.HomeFragment;
 import com.example.gsmin.Model.Data;
 
 import org.json.JSONException;
@@ -114,7 +114,7 @@ public class JSONTask extends AsyncTask<String, String, String> {
 
             }else if(kind == "gsmschoolfood"){
                 Log.d("급식", "onPostExecute: "+kind);
-                HomeFragment.rice_list = jo.getString("meal");
+//                HomeFragment.rice_list = jo.getString("meal");
             }
 
 

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
 
+import com.example.gsmin.Main.MainActivity;
 import com.example.gsmin.Main.StartActivity;
 import com.example.gsmin.R;
 
@@ -20,13 +21,16 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.splash_background);
 
         Handler hd = new Handler();
-        hd.postDelayed(new splashhandler(), 3000);
-
+//        hd.postDelayed(new splashhandler(), 3000);
+        hd.postDelayed(new splashhandler(), 1);
     }
 
     private class splashhandler implements Runnable {
         public void run() {
-            startActivity(new Intent(getApplication(), StartActivity.class));
+//            startActivity(new Intent(getApplication(), StartActivity.class));
+//            SplashActivity.this.finish();
+
+            startActivity(new Intent(getApplication(), MainActivity.class));
             SplashActivity.this.finish();
         }
     }
