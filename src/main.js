@@ -12,7 +12,7 @@ Vue.prototype.$http = axios
 Vue.component('ValidationProvider', ValidationProvider)
 Vue.component('ValidationObserver', ValidationObserver)
 
-axios.defaults.baseURL = 'http://10.53.68.186:3000/';
+axios.defaults.baseURL = 'http://15.164.212.158:3000/';
 axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*"
 axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'Authorization, Content-Type'
 

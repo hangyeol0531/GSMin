@@ -136,6 +136,9 @@
                     </v-card-title>
                       <v-card>
                         <v-card-text>
+                          <div v-if="resBoard == false">
+                            {{resText}}
+                          </div>                          
                         <v-row v-for="(listItem, index) in CalData" :key="index">
                           <v-col>
                             <v-chip
@@ -185,18 +188,6 @@
                   </v-card>
                 </v-card>
               </v-col>
-              <v-col md="2">
-                <v-card
-                  class="mx-auto fixed"
-                  style="margin-top: -300px;">
-                  <v-card flat>
-                    <v-card-title class="font-weight-bold">{{meal_section}}</v-card-title>
-                    <v-card-text>
-                      밥
-                    </v-card-text>
-                  </v-card>
-                </v-card>                
-              </v-col>
             </v-row>
           </v-container>  
         </v-content>
@@ -223,26 +214,31 @@ export default {
       meal_section : `조식`,
       meal_all : meal_all,
       items : ['제목', '작성자'],
-      list: [],
+      listData: [],
       dataPerPage: 5,
       curPageNum: 1,
       allList : allList,
       search: '',
-      searchData : []
+      searchData : [],
+      elData : [],
+      resBoard: false,
+      resText : '게시판이 비어있어요'
     }
   },
 
   created () {
-    this.init()
+    this.$http.post('/board')
+      .then((res) => {
+        this.listData = res.data
+        this.resBoard = true
+      }). catch((e) => {
+        console.log(e)
+        this.resBoard = false
+      }) 
   },
 
   methods: {
-    init() {
-      this.$http.get('/board')
-        .then((res) => {
-          console.log(res.data)
-        })
-    }
+    
   },
 
   computed: {
@@ -253,15 +249,14 @@ export default {
       return (this.startOffset + this.dataPerPage)
     },
     numOfPages() {
-      return Math.ceil(this.list.length / this.dataPerPage)
+      return Math.ceil(this.searchData.length / this.dataPerPage)
     },
     CalData() {
-      // this.searchData = this.list.filter(el => {
-      //   return el.content.toLowerCase().includes(this.serach.toLowerCase())
-      // }).slice(0)
+      this.searchData = this.listData.filter(data => {
+        return (data.previous).includes(this.search)
+      }).slice(0)
 
-      return this.list.slice(this.startOffset, this.endOffset)
-      // return this.list.slice(this.startOffset, this.endOffset)
+      return this.searchData.slice(this.startOffset, this.endOffset)
     }
   }
 }
