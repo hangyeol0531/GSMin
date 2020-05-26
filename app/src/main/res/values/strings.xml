@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">GSMin</string>
-    <string name="serverUrl">10.120.74.13:3000</string>
+    <string name="serverUrl">15.164.212.158:3000</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>

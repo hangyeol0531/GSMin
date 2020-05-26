@@ -11,6 +11,7 @@
         android:layout_height="match_parent" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_marginTop="57dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -20,10 +21,12 @@
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_main"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="0dp">
+                android:layout_height="match_parent">
+
+
+
 
             </androidx.recyclerview.widget.RecyclerView>
 
