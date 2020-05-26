@@ -1,8 +1,10 @@
 <template>
   <div>
     <v-app>
-      <v-app-bar app height="70px" flat color="white">
-        <v-toolbar-title>GSMin</v-toolbar-title>
+      <v-app-bar app height="70px" flat color="white" hide-on-scroll>
+        <v-toolbar-title>
+          <v-img src="../assets/full_logo.svg" max-width="80%"></v-img>
+        </v-toolbar-title>
         <v-spacer></v-spacer>
           <v-badge
             color="#00B1EA"
@@ -124,6 +126,7 @@
                               solo
                               hide-details
                               append-icon="search"
+                              v-model="search"
                               single-line>
 
                             </v-text-field>
@@ -131,32 +134,59 @@
                         </v-col>
                       </v-row>
                     </v-card-title>
-                    <v-card-text>
-                      <v-data-table
-                        class="table"
-                        :headers="headers"
-                        :items="desserts"
-
-                        >
-                        <template v-slot:itmes="props">
-                          <td>{{props.item.name}}</td>
-                        </template>
-                      </v-data-table>
-                    </v-card-text>
+                      <v-card>
+                        <v-card-text>
+                          <div v-if="resBoard == false">
+                            {{resText}}
+                          </div>                          
+                        <v-row v-for="(listItem, index) in CalData" :key="index">
+                          <v-col>
+                            <v-chip
+                              outlined>
+                              <v-icon left>thumb_up_alt</v-icon>
+                              {{listItem.likeCount}}
+                            </v-chip>
+                          </v-col>
+                          <v-col>
+                            <v-chip>
+                              {{listItem.section}}
+                            </v-chip>
+                          </v-col>
+                          <v-col cols="6">
+                            <div class="font-weight-medium subtitle-1">
+                              {{listItem.content}}
+                            </div>
+                          </v-col>
+                          <v-col>
+                            <v-chip
+                              label
+                              color="#E8EAF6">
+                              {{listItem.writer}}
+                            </v-chip>
+                          </v-col>
+                          <v-col>
+                            <v-chip
+                              label
+                              color="#E8EAF6">
+                              {{listItem.viewer}}
+                            </v-chip>
+                          </v-col>
+                          <v-col>
+                            <v-chip
+                              label
+                              color="#E8EAF6">
+                              {{listItem.previous}}
+                            </v-chip>
+                          </v-col>
+                        </v-row>
+                        </v-card-text>
+                        <v-pagination
+                          v-model="curPageNum"
+                          :length="numOfPages">
+                        </v-pagination>                        
+                      </v-card>
                   </v-card>
                 </v-card>
-              </v-col>
-              <v-col md="2">
-                <v-card
-                  class="mx-auto fixed"
-                  style="margin-top: -300px;">
-                  <v-card flat>
-                    <v-card-title class="font-weight-bold">{{meal_section}}</v-card-title>
-                    <v-card-text>
-                      밥
-                    </v-card-text>
-                  </v-card>
-                </v-card>                
               </v-col>
             </v-row>
           </v-container>  
@@ -173,6 +203,8 @@ const curdate = date.getDate()
 const curday = date.getDay()
 const meal_all = `백미밥 유부두부된장국 제육채소 볶음 숙주미나리무침 배추김치 에그타르트 오렌지`
 
+import allList from '../list/list.json'
+
 export default {
   data () {
     return {
@@ -182,97 +214,49 @@ export default {
       meal_section : `조식`,
       meal_all : meal_all,
       items : ['제목', '작성자'],
-      like_count: 12,
-      section: '자유',
-      content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry',  
-      headers: [
-        //  {
-        //     text: 'Like',
-        //     align: 'start',
-        //     value: 'like',
-        //   },
-          { text: 'like', value: 'likeCount'},
-          { text: 'section', value: 'section' },
-          { text: 'content', value: 'content' },
-          { text: 'writer', value: 'writer' },
-          { text: 'viewer', value: 'viewer' },
-          { text: 'time', value: 'time' },
-      ],
-      desserts: []
+      listData: [],
+      dataPerPage: 5,
+      curPageNum: 1,
+      allList : allList,
+      search: '',
+      searchData : [],
+      elData : [],
+      resBoard: false,
+      resText : '게시판이 비어있어요'
     }
   },
 
   created () {
-    this.init()
+    this.$http.post('/board')
+      .then((res) => {
+        this.listData = res.data
+        this.resBoard = true
+      }). catch((e) => {
+        console.log(e)
+        this.resBoard = false
+      }) 
   },
 
   methods: {
-    init() {
-      this.desserts = [
-          {
-            like: 'Frozen Yogurt',
-            likeCount: this.like_count,
-            section: this.section,
-            content: this.content,
-            writer: 24,
-            viewer: 4.0,
-            time: '1%',
-          },
-          {
-            like: 'Frozen Yogurt',
-            likeCount: this.like_count,
-            section: this.section,
-            content: this.content,
-            writer: 24,
-            viewer: 4.0,
-            time: '1%',
-          },
-          {
-            like: 'Frozen Yogurt',
-            likeCount: this.like_count,
-            section: this.section,
-            content: this.content,
-            writer: 24,
-            viewer: 4.0,
-            time: '1%',
-          },
-          {
-            like: 'Frozen Yogurt',
-            likeCount: this.like_count,
-            section: this.section,
-            content: this.content,
-            writer: 24,
-            viewer: 4.0,
-            time: '1%',
-          },
-          {
-            like: 'Frozen Yogurt',
-            likeCount: this.like_count,
-            section: this.section,
-            content: this.content,
-            writer: 24,
-            viewer: 4.0,
-            time: '1%',
-          },
-          {
-            like: 'Frozen Yogurt',
-            likeCount: this.like_count,
-            section: this.section,
-            content: this.content,
-            writer: 24,
-            viewer: 4.0,
-            time: '1%',
-          },
-          {
-            like: 'Frozen Yogurt',
-            likeCount: this.like_count,
-            section: this.section,
-            content: this.content,
-            writer: 24,
-            viewer: 4.0,
-            time: '1%',
-          },                                                            
-      ]
+    
+  },
+
+  computed: {
+    startOffset() {
+      return ((this.curPageNum -1) * this.dataPerPage)
+    },
+    endOffset() {
+      return (this.startOffset + this.dataPerPage)
+    },
+    numOfPages() {
+      return Math.ceil(this.searchData.length / this.dataPerPage)
+    },
+    CalData() {
+      this.searchData = this.listData.filter(data => {
+        return (data.previous).includes(this.search)
+      }).slice(0)
+
+      return this.searchData.slice(this.startOffset, this.endOffset)
     }
   }
 }
