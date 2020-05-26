@@ -5,13 +5,19 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
-            android:title="@string/menu_home" />
+            android:id="@+id/navBoard"
+            android:title="게시판" />
         <item
-            android:id="@+id/nav_gallery"
-            android:title="@string/menu_gallery" />
+            android:id="@+id/navNoti"
+            android:title="알림" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:id="@+id/navMywrite"
+            android:title="내가 쓴 글" />
+        <item
+            android:id="@+id/navMychat"
+            android:title="내가 쓴 댓글" />
+        <item
+            android:id="@+id/navSetting"
+            android:title="설정" />
     </group>
 </menu>

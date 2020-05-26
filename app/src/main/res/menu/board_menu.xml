@@ -2,15 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/mainMenu"
+        android:id="@+id/newWriting"
         android:orderInCategory="100"
-        android:visible="true"
-        android:title="즐겨찾기 추가"
+        android:title="새 글 쓰기"
         app:showAsAction="never" />
+
     <item
-        android:id="@+id/mainMenu2"
-        android:visible="false"
+        android:id="@+id/bookmarkAdd"
         android:orderInCategory="100"
-        android:title="즐겨찾기 제거"
+        android:title="즐겨찾기 추가"
         app:showAsAction="never" />
 </menu>

@@ -1,7 +1,6 @@
 package com.example.gsmin.Main;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,23 +18,20 @@ import com.example.gsmin.Adapter.HomeRecyclerViewAdapter;
 import com.example.gsmin.Model.DB;
 import com.example.gsmin.R;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class BoardActivity extends AppCompatActivity {
     private static HomeRecyclerViewAdapter adapter = new HomeRecyclerViewAdapter();
     private static String[][] listData = new String[][]{
-            {"boardTitle", "boardName", "boardInfo", "0", "0"},
-            {"boardTitle", "boardName", "boardInfo", "0", "0"},
-            {"boardTitle", "boardName", "boardInfo", "0", "0"},
-            {"boardTitle", "boardName", "boardInfo", "0", "0"},
-            {"boardTitle", "boardName", "boardInfo", "0", "0"}
+            {"boardTitle1", "boardName", "boardInfo", "0", "0"},
+            {"boardTitle2", "boardName", "boardInfo", "0", "0"},
+            {"boardTitle3", "boardName", "boardInfo", "0", "0"},
+            {"boardTitle4", "boardName", "boardInfo", "0", "0"},
+            {"boardTitle5", "boardName", "boardInfo", "0", "0"}
 
     };
     private ImageView gsmin;
     private TextView mainText;
     private ImageButton back, floating;
-    private String channel = "";
+    public static String channel = "";
     private RecyclerView recyclerView;
 
     @Override
@@ -47,10 +43,6 @@ public class BoardActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         channel = intent.getExtras().getString("channel");
-
-//        Data.setData(new String[]{"channel"}, new String[]{channel});
-//        new JSONTask().execute("@string/serverUrl"+"/emailCheck");
-
 
         gsmin = findViewById(R.id.gsmin);
         mainText = findViewById(R.id.mainText);
@@ -69,15 +61,15 @@ public class BoardActivity extends AppCompatActivity {
         mainText.setVisibility(View.VISIBLE);
         mainText.setText(String.valueOf(channel));
 
-        final SwipeRefreshLayout layout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        final SwipeRefreshLayout slayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 //        layout.setOnRefreshListener();
 
-        layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        slayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 // start refresh
 //                transaction.detach(homeFragment).attach(homeFragment).commit();
-                layout.setRefreshing(false);
+                slayout.setRefreshing(false);
             }
         });
 
@@ -92,13 +84,12 @@ public class BoardActivity extends AppCompatActivity {
         floating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//                startActivity(intent);
-//                BoardActivity.this.finish();
+                Intent intent = new Intent(getApplicationContext(), WriteActivity.class);
+                intent.putExtra("channel", channel);
+                startActivity(intent);
+                BoardActivity.this.finish();
             }
         });
-
-
         getData();
     }
 

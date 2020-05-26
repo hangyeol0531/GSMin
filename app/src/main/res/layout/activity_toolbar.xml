@@ -8,7 +8,6 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:paddingLeft="-60dp"
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
@@ -42,16 +41,40 @@
                     android:text="자유"
                     android:textColor="#000000"
                     android:textSize="20dp"/>
+                <LinearLayout
+                    android:id="@+id/writeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="글쓰기"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:id="@+id/channelText"
+                        android:layout_marginTop="-2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="자유"
+                        android:textSize="13dp"
+                        android:textColor="#000000"/>
+                </LinearLayout>
 
             </FrameLayout>
 
-            <ImageView
+            <ImageButton
+                android:id="@+id/searchBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="18dp"
                 android:background="@drawable/mask"/>
 
-            <ImageView
+            <ImageButton
+                android:id="@+id/menuBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/more_vert"/>

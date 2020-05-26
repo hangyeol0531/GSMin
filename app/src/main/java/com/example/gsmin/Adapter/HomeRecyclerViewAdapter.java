@@ -1,5 +1,6 @@
 package com.example.gsmin.Adapter;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.gsmin.Main.BoardActivity;
+import com.example.gsmin.Main.WriteActivity;
 import com.example.gsmin.Model.DB;
 import com.example.gsmin.R;
 
@@ -53,7 +56,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
     class ItemViewHolder extends RecyclerView.ViewHolder {
         private TextView boardName, boardTitle, boardInfo, boardThumb, boardMsg;
         private LinearLayout mLayout;
-//
+
 //        public Map<String, Object> toMap(View view) {
 //            HashMap<String, Object> result = new HashMap<>();
 //            result.put("boardTitle", boardTitle);
@@ -77,8 +80,11 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
             mLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d("Layout_Click", "onClick: ");
-//                    Intent intent = new Intent(view.getContext(), PopupActivity.class);
+                    Log.d("Layout_Click", "onClick: "+ BoardActivity.channel + " / " + boardTitle.getText().toString());
+//                Data.setData(new String[]{"channel", "title"}, new String[]{BoardActivity.channel,  boardTitle.getText().toString()});
+//                new JSONTask().execute("@string/serverUrl"+"/emailCheck");//AsyncTask 시작시킴
+//                    Intent intent = new Intent(view.getContext(), WriteActivity.class);
+//                    intent.putExtra("title", boardTitle.getText().toString());
 //                    view.getContext().startActivity(intent);
                 }
             });

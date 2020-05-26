@@ -1,16 +1,20 @@
 package com.example.gsmin.Main;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -39,7 +43,30 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private MenuItem prevMenuItem;
     private ViewPagerAdapter adapter;
-    private ImageButton drawwr_btn;
+    private ImageButton drawwr_btn, search, menu;
+
+    private static int[] menuBtn = new int[]{
+            R.id.b1, R.id.b2, R.id.b3,
+            R.id.b4, R.id.b5, R.id.b6,
+            R.id.b7, R.id.b8, R.id.b9,
+            R.id.b10, R.id.b11};
+    //    private String[] strData = new String[]{
+//            "전체",
+//            "HOT 게시판",
+//            "Best 게시판",
+//            "자유",
+//            "홍보",
+//            "장터",
+//            "1학년",
+//            "2학년",
+//            "3학년",
+//            "졸업생",
+//            "코딩"
+//    };
+    private int IB_LEN = menuBtn.length;
+    private ImageButton[] ibArr = new ImageButton[IB_LEN];
+
+
     private boolean mSlideState = false;
     @SuppressLint("ResourceType")
     @Override
@@ -47,18 +74,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.inflateMenu(R.menu.main);
         setSupportActionBar(toolbar);
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
-//        NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-//        if (savedInstanceState == null){
-//            MainFragment mainFragment = new MainFragment();
-//            getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.mainFragment, mainFragment, "MAIN")
-//                    .commit();
+
+        search = findViewById(R.id.searchBtn);
+        search.setVisibility(View.INVISIBLE);
+
+        menu = findViewById(R.id.menuBtn);
+        menu.setBackgroundResource(R.drawable.mask);
+
+        init();
+
+//        for(int i = 0; i < IB_LEN; i++) {
+//            final int finalI = i;
+//            ibArr[i].setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                Log.d("finalData_ib", "onClick: "+finalI);
+//
+//
+//                }
+//            });
 //        }
-//        final BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation_main);
 
         drawwr_btn = findViewById(R.id.drawer_btn);
 
@@ -106,6 +144,25 @@ public class MainActivity extends AppCompatActivity {
 
         setupViewPager(viewPager);
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.mainMenu:
+                Toast.makeText(this, "첫번째", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.mainMenu2:
+                Toast.makeText(this, "두번째", Toast.LENGTH_SHORT).show();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -125,5 +182,11 @@ public class MainActivity extends AppCompatActivity {
 //        getMenuInflater().inflate(R.menu.menu_main, menu);
 //        return true;
 //    }
+
+    private void init() {
+        for(int i = 0; i<IB_LEN;i++){
+            ibArr[i] = findViewById(menuBtn[i]);
+        }
+    }
 
 }

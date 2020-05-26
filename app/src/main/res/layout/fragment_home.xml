@@ -19,6 +19,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:orientation="vertical">
+<!--            즐겨찾기-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_marginTop="20dp"
@@ -46,6 +47,7 @@
                     android:background="#E6E6E6"/>
             </LinearLayout>
 
+<!--            모아보기-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_marginTop="20dp"
@@ -59,39 +61,73 @@
                     android:textColor="#848484"
                     android:text="모아보기"
                     />
-                <TextView
-                    android:id="@+id/t1"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
-                    android:textSize="@dimen/frag_main_font"
-                    android:textColor="#000000"
-                    android:text="전체"
-                    />
-                <TextView
-                    android:id="@+id/t2"
-                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/t1"
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/frag_main_font"
+                        android:textColor="#000000"
+                        android:text="전체"
+                        />
+                    <ImageButton
+                        android:id="@+id/b1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/more_vert"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
-                    android:textSize="@dimen/frag_main_font"
-                    android:textColor="#000000"
-                    android:text="HOT 게시판"
-                    />
-                <TextView
-                    android:id="@+id/t3"
-                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/t2"
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/frag_main_font"
+                        android:textColor="#000000"
+                        android:text="HOT 게시판"
+                        />
+                    <ImageButton
+                        android:id="@+id/b2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/more_vert"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
-                    android:textSize="@dimen/frag_main_font"
-                    android:textColor="#000000"
-                    android:text="Best 게시판"
-                    />
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/t3"
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/frag_main_font"
+                        android:textColor="#000000"
+                        android:text="Best 게시판"
+                        />
+                    <ImageButton
+                        android:id="@+id/b3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/more_vert"/>
+                </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#E6E6E6"/>
             </LinearLayout>
 
+<!--            일반-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_marginTop="20dp"
@@ -105,34 +141,64 @@
                     android:textColor="#848484"
                     android:text="일반"
                     />
-                <TextView
-                    android:id="@+id/t4"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
-                    android:textSize="@dimen/frag_main_font"
-                    android:textColor="#000000"
-                    android:text="자유"
-                    />
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/t4"
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/frag_main_font"
+                        android:textColor="#000000"
+                        android:text="자유"
+                        />
+                    <ImageButton
+                        android:id="@+id/b4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/more_vert"/>
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/t5"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
-                    android:textSize="@dimen/frag_main_font"
-                    android:textColor="#000000"
-                    android:text="홍보"
-                    />
-                <TextView
-                    android:id="@+id/t6"
-                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/t5"
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/frag_main_font"
+                        android:textColor="#000000"
+                        android:text="홍보"
+                        />
+                    <ImageButton
+                        android:id="@+id/b5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/more_vert"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
-                    android:textSize="@dimen/frag_main_font"
-                    android:textColor="#000000"
-                    android:text="장터"
-                    />
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/t6"
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/frag_main_font"
+                        android:textColor="#000000"
+                        android:text="장터"
+                        />
+                    <ImageButton
+                        android:id="@+id/b6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/more_vert"/>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -140,6 +206,7 @@
                     android:background="#E6E6E6"/>
             </LinearLayout>
 
+<!--            자유-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_marginTop="20dp"
@@ -153,48 +220,89 @@
                     android:textColor="#848484"
                     android:text="학년"
                     />
-                <TextView
-                    android:id="@+id/t7"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
-                    android:textSize="@dimen/frag_main_font"
-                    android:textColor="#000000"
-                    android:text="1학년"
-                    />
-                <TextView
-                    android:id="@+id/t8"
-                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/t7"
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/frag_main_font"
+                        android:textColor="#000000"
+                        android:text="1학년"
+                        />
+                    <ImageButton
+                        android:id="@+id/b7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/more_vert"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
-                    android:textSize="@dimen/frag_main_font"
-                    android:textColor="#000000"
-                    android:text="2학년"
-                    />
-                <TextView
-                    android:id="@+id/t9"
-                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/t8"
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/frag_main_font"
+                        android:textColor="#000000"
+                        android:text="2학년"
+                        />
+                    <ImageButton
+                        android:id="@+id/b8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/more_vert"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
-                    android:textSize="@dimen/frag_main_font"
-                    android:textColor="#000000"
-                    android:text="3학년"
-                    />
-                <TextView
-                    android:id="@+id/t10"
-                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/t9"
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/frag_main_font"
+                        android:textColor="#000000"
+                        android:text="3학년"
+                        />
+                    <ImageButton
+                        android:id="@+id/b9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/more_vert"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
-                    android:textSize="@dimen/frag_main_font"
-                    android:textColor="#000000"
-                    android:text="졸업생"
-                    />
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/t10"
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/frag_main_font"
+                        android:textColor="#000000"
+                        android:text="졸업생"
+                        />
+                    <ImageButton
+                        android:id="@+id/b10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/more_vert"/>
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#E6E6E6"/>
             </LinearLayout>
 
+<!--            취미-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_marginTop="20dp"
@@ -208,15 +316,25 @@
                     android:textColor="#848484"
                     android:text="소모임"
                     />
-                <TextView
-                    android:id="@+id/t11"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
-                    android:textSize="@dimen/frag_main_font"
-                    android:textColor="#000000"
-                    android:text="코딩"
-                    />
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/t11"
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/frag_main_font"
+                        android:textColor="#000000"
+                        android:text="코딩"
+                        />
+                    <ImageButton
+                        android:id="@+id/b11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/more_vert"/>
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="1dp"

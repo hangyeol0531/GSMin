@@ -63,16 +63,14 @@ public class HomeFragment extends Fragment {
             tvArr[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d("finalData", "onClick: "+finalI);
-
-                    String channel = tvArr[finalI].getText().toString();
-
-//                    Data.setData(new String[]{"clickData"}, new String[]{String.valueOf(finalI)});
-//                    new JSONTask().execute("@string/serverUrl"+"/emailCheck");//AsyncTask 시작시킴
-                    Intent intent = new Intent(getContext(), BoardActivity.class);
-                    intent.putExtra("channel", channel);
-                    startActivity(intent);
-                    getActivity().finish();
+                Log.d("finalData", "onClick: "+finalI);
+                String channel = tvArr[finalI].getText().toString();
+//                Data.setData(new String[]{"channel"}, new String[]{String.valueOf(finalI)});
+//                new JSONTask().execute("@string/serverUrl"+"/emailCheck");//AsyncTask 시작시킴
+                Intent intent = new Intent(getContext(), BoardActivity.class);
+                intent.putExtra("channel", channel);
+                startActivity(intent);
+                getActivity().finish();
                 }
             });
         }
