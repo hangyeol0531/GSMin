@@ -140,32 +140,9 @@
                         </v-col>
                       </v-row>
                     </v-card-title>
-                      <v-card to="/" hover v-for="(listItem, index) in CalData" :key="index">
-                        <v-card-text>
-                          <div v-if="resBoard == false">
-                            {{resText}}
-                          </div>
-                          <tbody>
-                            <tr>
-                              <td class="like"><v-icon small>thumb_up_alt</v-icon>{{listItem.likeCount}}</td>
-                              <td class="section"><v-chip label>{{listItem.section}}</v-chip></td>
-                              <td class="content"><strong>{{listItem.content}}</strong></td>
-                              <td class="writer font-weight-black"><div><v-img src="../assets/one_icon.png" width="20" style="float:left"></v-img>{{listItem.writer}}</div></td>
-                              <td class="viewer">{{listItem.viewer}}</td>
-                              <td class="previous">{{listItem.previous}}</td>
-                            </tr>
-                          </tbody>
-                        </v-card-text>                       
-                      </v-card>
                       <v-card>
-                        <v-pagination
-                          v-model="curPageNum"
-                          :length="numOfPages">
-                        </v-pagination>
-                        <v-card-text align="right">
-                          <v-btn dark color="#025F94"><v-icon>create</v-icon>글쓰기</v-btn>
-                        </v-card-text>
-                      </v-card>                       
+                      
+                      </v-card>                      
                   </v-card>
                 </v-card>
               </v-col>
@@ -277,25 +254,5 @@ export default {
   color: #00B1EA;
 }
 
-.like {
-  width:7%;
-}
-.section {
-  width:10%;
-}
-.content {
-  width:60%;
-}
-.writer {
-  width:9%;
-}
-
-.viewer{
-  width:3%;
-}
-
-.previous{
-  width:5%;
-}
 
 </style>

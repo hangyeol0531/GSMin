@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../components/Home'
+import Write from '../components/Write'
 
 
 Vue.use(VueRouter)
@@ -10,6 +11,11 @@ const routes = [
     path: '/home',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/write',
+    name: 'Write',
+    component: Write
   },
   {
     path: '/',
