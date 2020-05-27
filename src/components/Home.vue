@@ -113,6 +113,9 @@
                             class="d-flex"
                             sm="6"
                             :items="items"
+                            item-value="value"
+                            v-model="select"
+                            return-object
                             solo
                             label="제목">
 
@@ -125,66 +128,68 @@
                             <v-text-field
                               solo
                               hide-details
+                              v-on:keyup.enter="submit"
                               append-icon="search"
                               v-model="search"
                               single-line>
-
                             </v-text-field>
+                              <!-- <v-btn text>
+                                <v-icon>search</v-icon>
+                              </v-btn>                             -->
                           </v-toolbar>
                         </v-col>
                       </v-row>
                     </v-card-title>
-                      <v-card>
+                      <v-card to="/" hover v-for="(listItem, index) in CalData" :key="index">
                         <v-card-text>
                           <div v-if="resBoard == false">
                             {{resText}}
-                          </div>                          
-                        <v-row v-for="(listItem, index) in CalData" :key="index">
-                          <v-col>
-                            <v-chip
-                              outlined>
-                              <v-icon left>thumb_up_alt</v-icon>
-                              {{listItem.likeCount}}
-                            </v-chip>
+                          </div>
+                          <tbody>
+                            <tr>
+                              <td class="like"><v-icon small>thumb_up_alt</v-icon>{{listItem.likeCount}}</td>
+                              <td class="section"><v-chip label>{{listItem.section}}</v-chip></td>
+                              <td class="content"><strong>{{listItem.content}}</strong></td>
+                              <td class="writer font-weight-black"><div><v-img src="../assets/one_icon.png" width="20" style="float:left"></v-img>{{listItem.writer}}</div></td>
+                              <td class="viewer">{{listItem.viewer}}</td>
+                              <td class="previous">{{listItem.previous}}</td>
+                            </tr>
+                          </tbody>
+                        <!-- <v-row>
+                          <v-col cols="1">
+                            <v-icon left>thumb_up_alt</v-icon>
+                            {{listItem.likeCount}}
                           </v-col>
-                          <v-col>
-                            <v-chip>
+                          <v-col cols="1">
+                            <v-chip
+                              label>
                               {{listItem.section}}
                             </v-chip>
                           </v-col>
-                          <v-col cols="6">
-                            <div class="font-weight-medium subtitle-1">
+                          <v-col cols="7" >
                               {{listItem.content}}
-                            </div>
                           </v-col>
-                          <v-col>
-                            <v-chip
-                              label
-                              color="#E8EAF6">
+                          <v-col cols="1">
                               {{listItem.writer}}
-                            </v-chip>
                           </v-col>
                           <v-col>
-                            <v-chip
-                              label
-                              color="#E8EAF6">
                               {{listItem.viewer}}
-                            </v-chip>
                           </v-col>
-                          <v-col>
-                            <v-chip
-                              label
-                              color="#E8EAF6">
+                          <v-col cols="1">
                               {{listItem.previous}}
-                            </v-chip>
                           </v-col>
-                        </v-row>
-                        </v-card-text>
+                        </v-row> -->
+                        </v-card-text>                       
+                      </v-card>
+                      <v-card>
                         <v-pagination
                           v-model="curPageNum"
                           :length="numOfPages">
-                        </v-pagination>                        
-                      </v-card>
+                        </v-pagination>
+                        <v-card-text>
+                          <v-btn dark color="#025F94"><v-icon>create</v-icon>글쓰기</v-btn>
+                        </v-card-text>
+                      </v-card>                       
                   </v-card>
                 </v-card>
               </v-col>
@@ -213,12 +218,27 @@ export default {
       today : `${curmonth+1}월 ${curdate}일 ${week[curday]}요일`,
       meal_section : `조식`,
       meal_all : meal_all,
-      items : ['제목', '작성자'],
+      items : 
+      [
+        {
+          text: '제목',
+          value : 'likeCount'
+        },
+        {
+          text: '이전',
+          value : 'previous'
+        }
+      ],
+      select: {
+        text: '제목',
+        value: 'title'
+      },
       listData: [],
-      dataPerPage: 5,
+      dataPerPage: 10,
       curPageNum: 1,
       allList : allList,
       search: '',
+      category: '',
       searchData : [],
       elData : [],
       resBoard: false,
@@ -238,7 +258,21 @@ export default {
   },
 
   methods: {
-    
+    submit() {
+      let gory = this.category
+      this.searchData = this.listData.filter(data => {
+        return (data[gory]).includes(this.search)
+      })
+      
+      return this.listData = this.searchData
+      
+    }
+  },
+  
+  watch: {
+    select: function (value) {
+      this.category = value.value
+    }
   },
 
   computed: {
@@ -249,14 +283,10 @@ export default {
       return (this.startOffset + this.dataPerPage)
     },
     numOfPages() {
-      return Math.ceil(this.searchData.length / this.dataPerPage)
+      return Math.ceil(this.listData.length / this.dataPerPage)
     },
     CalData() {
-      this.searchData = this.listData.filter(data => {
-        return (data.previous).includes(this.search)
-      }).slice(0)
-
-      return this.searchData.slice(this.startOffset, this.endOffset)
+      return this.listData.slice(this.startOffset, this.endOffset)
     }
   }
 }
@@ -274,6 +304,27 @@ export default {
 .table{
   overflow:hidden !important;
   text-overflow: ellipsis !important;
+}
+
+.like {
+  width:7%;
+}
+.section {
+  width:10%;
+}
+.content {
+  width:60%;
+}
+.writer {
+  width:9%;
+}
+
+.viewer{
+  width:3%;
+}
+
+.previous{
+  width:5%;
 }
 
 </style>
