@@ -3,7 +3,10 @@ package com.example.gsmin.Main;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Gravity;
@@ -11,8 +14,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +37,8 @@ import com.example.gsmin.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.concurrent.BlockingDeque;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -44,12 +51,10 @@ public class MainActivity extends AppCompatActivity {
     private MenuItem prevMenuItem;
     private ViewPagerAdapter adapter;
     private ImageButton drawwr_btn, search, menu;
+    private ImageView gsmin;
 
-    private static int[] menuBtn = new int[]{
-            R.id.b1, R.id.b2, R.id.b3,
-            R.id.b4, R.id.b5, R.id.b6,
-            R.id.b7, R.id.b8, R.id.b9,
-            R.id.b10, R.id.b11};
+
+
     //    private String[] strData = new String[]{
 //            "전체",
 //            "HOT 게시판",
@@ -63,11 +68,12 @@ public class MainActivity extends AppCompatActivity {
 //            "졸업생",
 //            "코딩"
 //    };
-    private int IB_LEN = menuBtn.length;
-    private ImageButton[] ibArr = new ImageButton[IB_LEN];
 
 
-    private boolean mSlideState = false;
+
+    private boolean mSlideState = false, searchActivity= true;
+    private EditText mainEdit;
+
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,11 +86,12 @@ public class MainActivity extends AppCompatActivity {
 
         search = findViewById(R.id.searchBtn);
         search.setVisibility(View.INVISIBLE);
+        gsmin = findViewById(R.id.gsmin);
+
+        mainEdit = findViewById(R.id.mainEdit);
 
         menu = findViewById(R.id.menuBtn);
         menu.setBackgroundResource(R.drawable.mask);
-
-        init();
 
 //        for(int i = 0; i < IB_LEN; i++) {
 //            final int finalI = i;
@@ -98,11 +105,57 @@ public class MainActivity extends AppCompatActivity {
 //            });
 //        }
 
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            if(searchActivity){
+                isTextChange();
+                gsmin.setVisibility(View.GONE);
+                mainEdit.setVisibility(View.VISIBLE);
+                searchActivity=false;
+            }else {
+                isTextChange();
+                gsmin.setVisibility(View.VISIBLE);
+                mainEdit.setVisibility(View.GONE);
+                searchActivity=true;
+            }
+            }
+        });
+
+        mainEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                isTextChange();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+//        mainEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//                if(!b) {
+//                    mainEdit.setText("");
+//                    isTextChange();
+//                    gsmin.setVisibility(View.VISIBLE);
+//                    mainEdit.setVisibility(View.GONE);
+//                }
+//            }
+//        });
+
         drawwr_btn = findViewById(R.id.drawer_btn);
 
         drawwr_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("t", "onClick: ");
                 if(mSlideState){
                     drawer.closeDrawer(Gravity.LEFT);
                     mSlideState = false;
@@ -144,25 +197,38 @@ public class MainActivity extends AppCompatActivity {
 
         setupViewPager(viewPager);
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main,menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.mainMenu:
-                Toast.makeText(this, "첫번째", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.mainMenu2:
-                Toast.makeText(this, "두번째", Toast.LENGTH_SHORT).show();
-                return true;
+    private void isTextChange() {
+        for(int j = 0; j < HomeFragment.TV_LEN; j++) {
+            final int finalI = j;
+            if (!(HomeFragment.tvArr[finalI].getText().toString()).contains(mainEdit.getText().toString())) {
+                HomeFragment.slArr[0].setVisibility(View.GONE);
+                HomeFragment.slArr[finalI + 1].setVisibility(View.GONE);
+            }else{
+                HomeFragment.slArr[0].setVisibility(View.VISIBLE);
+                HomeFragment.slArr[finalI + 1].setVisibility(View.VISIBLE);
+            }
         }
-        return super.onOptionsItemSelected(item);
     }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.main,menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch(item.getItemId()){
+//            case R.id.mainMenu:
+//                Toast.makeText(this, "첫번째", Toast.LENGTH_SHORT).show();
+//                return true;
+//            case R.id.mainMenu2:
+//                Toast.makeText(this, "두번째", Toast.LENGTH_SHORT).show();
+//                return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -183,10 +249,8 @@ public class MainActivity extends AppCompatActivity {
 //        return true;
 //    }
 
-    private void init() {
-        for(int i = 0; i<IB_LEN;i++){
-            ibArr[i] = findViewById(menuBtn[i]);
-        }
-    }
+//    private void init() {
+//
+//    }
 
 }

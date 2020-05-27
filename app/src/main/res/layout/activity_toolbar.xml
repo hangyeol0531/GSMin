@@ -23,15 +23,27 @@
                 android:background="@drawable/drawer"/>
 
             <FrameLayout
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="100dp">
+                android:layout_width="264dp"
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/gsmin"
                     android:layout_width="61dp"
                     android:layout_height="19dp"
                     android:background="@drawable/gsmin"/>
+
+                <EditText
+                    android:id="@+id/mainEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:visibility="gone"
+                    android:backgroundTint="#41AFE5"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:hint="검색할 키워드 입력"
+                    android:textColorHint="#e4e4e4"
+                    android:textSize="20dp"
+                    android:textColor="#000000"/>
 
                 <TextView
                     android:id="@+id/mainText"
@@ -78,8 +90,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/more_vert"/>
-
-
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
