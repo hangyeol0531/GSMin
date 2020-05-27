@@ -48,7 +48,9 @@ public class BoardActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
-        channel = intent.getExtras().getString("channel");
+        if (getIntent()!=null && intent.getExtras()!= null) {
+            channel = intent.getExtras().getString("channel");
+        }
 
         gsmin = findViewById(R.id.gsmin);
         mainText = findViewById(R.id.mainText);
@@ -84,9 +86,7 @@ public class BoardActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                BoardActivity.this.finish();
+                onBackPressed();
             }
         });
         floating.setOnClickListener(new View.OnClickListener() {
@@ -162,5 +162,12 @@ public class BoardActivity extends AppCompatActivity {
             }
         }
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+        BoardActivity.this.finish();
     }
 }

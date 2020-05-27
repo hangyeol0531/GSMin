@@ -40,10 +40,7 @@ public class WriteActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), BoardActivity.class);
-                intent.putExtra("channel", BoardActivity.channel);
-                startActivity(intent);
-                WriteActivity.this.finish();
+                onBackPressed();
             }
         });
 
@@ -63,5 +60,11 @@ public class WriteActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String title = intent.getExtras().getString("title");
 
+    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), BoardActivity.class);
+        startActivity(intent);
+        WriteActivity.this.finish();
     }
 }
