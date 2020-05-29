@@ -7,7 +7,7 @@ const Discord = require('discord.js');
 const nodemailer = require('nodemailer');
 const client = new Discord.Client();
 const config = require('../config.json');
-var port = 3005;
+var port = 3000;
 
 const axios = require('axios');
 const mysql = require('mysql');
