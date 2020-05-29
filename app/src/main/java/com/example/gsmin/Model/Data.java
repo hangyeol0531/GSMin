@@ -2,6 +2,7 @@ package com.example.gsmin.Model;
 
 public class Data {
     private static String[] jsonData, jsonId;
+    public static String url = "http://15.164.212.158:3000";
 
     public void init(){
         jsonData = null;

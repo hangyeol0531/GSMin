@@ -6,7 +6,10 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Gravity;
@@ -14,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -53,24 +57,6 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton drawwr_btn, search, menu;
     private ImageView gsmin;
 
-
-
-    //    private String[] strData = new String[]{
-//            "전체",
-//            "HOT 게시판",
-//            "Best 게시판",
-//            "자유",
-//            "홍보",
-//            "장터",
-//            "1학년",
-//            "2학년",
-//            "3학년",
-//            "졸업생",
-//            "코딩"
-//    };
-
-
-
     private boolean mSlideState = false, searchActivity= true;
     private EditText mainEdit;
 
@@ -81,7 +67,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.main);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setSupportActionBar(toolbar);
+
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         search = findViewById(R.id.searchBtn);
@@ -93,17 +82,7 @@ public class MainActivity extends AppCompatActivity {
         menu = findViewById(R.id.menuBtn);
         menu.setBackgroundResource(R.drawable.mask);
 
-//        for(int i = 0; i < IB_LEN; i++) {
-//            final int finalI = i;
-//            ibArr[i].setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                Log.d("finalData_ib", "onClick: "+finalI);
-//
-//
-//                }
-//            });
-//        }
+
 
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -229,6 +208,25 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //        return super.onOptionsItemSelected(item);
 //    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu,
+                                    View v,
+                                    ContextMenu.ContextMenuInfo menuInfo)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+    }
+    public boolean onContextItemSelected(MenuItem item)
+    {
+        switch(item.getItemId())
+        {
+            case R.id.mainMenu:
+                Log.d("add", "onContextItemSelected: ");
+        }
+
+        return super.onContextItemSelected(item);
+    }
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());

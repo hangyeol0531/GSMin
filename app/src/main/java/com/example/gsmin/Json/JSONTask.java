@@ -5,6 +5,7 @@ import android.util.JsonReader;
 import android.util.Log;
 
 //import com.example.gsmin.Fragment.HomeFragment;
+import com.example.gsmin.Main.TitleActivity;
 import com.example.gsmin.Model.Data;
 
 import org.json.JSONException;
@@ -37,7 +38,6 @@ public class JSONTask extends AsyncTask<String, String, String> {
 
             HttpURLConnection con = null;
             BufferedReader reader = null;
-
             Log.d("JSON_ON", jsonObject.toString());
             try{
                 URL url = new URL(urls[0]);
@@ -109,22 +109,24 @@ public class JSONTask extends AsyncTask<String, String, String> {
         try {
             JSONObject jo = new JSONObject(result);
             String kind = jo.getString("kind");
-            if(kind == "emailCheck"){
-                Log.d("이메일", "onPostExecute: "+kind);
-
-            }else if(kind == "gsmschoolfood"){
-                Log.d("급식", "onPostExecute: "+kind);
-//                HomeFragment.rice_list = jo.getString("meal");
+            if(kind == "emailCheck") {
+                Log.d("kind", "onPostExecute: " + kind);
+                if (jo.getString("isChecked") == "t"){
+                    TitleActivity.emailCheck = true;
+                }
+            }else if(kind == "BoardData"){
+                Log.d("kind", "onPostExecute: " + kind);
             }
+//            else if(kind == "gsmschoolfood"){
+//                Log.d("급식", "onPostExecute: "+kind);
+////                HomeFragment.rice_list = jo.getString("meal");
+//            }
 
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
 //        String dataKey = "";
-
         Log.d("test node", "onPostExecute: "+result);
     }
 }
