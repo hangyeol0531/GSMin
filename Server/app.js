@@ -7,7 +7,7 @@ const Discord = require('discord.js');
 const nodemailer = require('nodemailer');
 const client = new Discord.Client();
 const config = require('../config.json');
-var port = 3000;
+var port = 3005;
 
 const axios = require('axios');
 const mysql = require('mysql');
@@ -37,6 +37,9 @@ const console_all = async (pr_content) => {
         }
     )
 }
+
+var ip = require('ip');
+console_all ( `${ip.address()} 님이 서버를 접속하셨습니다.` );
 
 app.post('/gsmschoolfood', async (req, res) =>{
     console_all("gsmschoolfood 접속")
