@@ -15,11 +15,17 @@ const cors = require('cors');
 
 const School = require('node-school-kr');
 const school = new School()
+var ip = require('ip');
 school.init(School.Type.HIGH, School.Region.GWANGJU, 'F100000120');
 
 app.use(cors()); 
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
+
+app.use((req, res, next) => {
+    console_all ( `${ip.address()} 님이 서버를 접속하셨습니다.` );
+    next()
+})
 
 var db = mysql.createConnection({
     host: "localhost",
@@ -38,8 +44,7 @@ const console_all = async (pr_content) => {
     )
 }
 
-var ip = require('ip');
-console_all ( `${ip.address()} 님이 서버를 접속하셨습니다.` );
+
 
 app.post('/gsmschoolfood', async (req, res) =>{
     console_all("gsmschoolfood 접속")
@@ -72,7 +77,7 @@ app.post('/emailCheck', async (req,res)=>{
             service: "Gmail",
             auth: {
                 user: config.send_email,
-                pass: config.password
+                pass: config.password저
             },
             tls: {
                 rejectUnauthorized: false
