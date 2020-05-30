@@ -2,7 +2,6 @@ var express = require('express'); //express 모듈 로드
 var bodyParser = require('body-parser');
 var app = express(); // express app 생성
 
-
 const Discord = require('discord.js');
 const nodemailer = require('nodemailer');
 const client = new Discord.Client();
@@ -43,8 +42,6 @@ const console_all = async (pr_content) => {
         }
     )
 }
-
-
 
 app.post('/gsmschoolfood', async (req, res) =>{
     console_all("gsmschoolfood 접속")
