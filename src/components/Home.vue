@@ -25,7 +25,7 @@
             fluid
           >
             <v-row>
-              <v-col md="1"></v-col>
+              <v-col md="2"></v-col>
 
               <v-col md="2">
                 <v-card
@@ -37,7 +37,7 @@
                 width="700"
                 style="margin-top: -372px;"
                 >
-                <v-card-title class="display-1">
+                <v-card-title class="display-1 font-weight-medium">
                   {{today}}
                 </v-card-title>
                 </v-card>
@@ -133,9 +133,6 @@
                               v-model="search"
                               single-line>
                             </v-text-field>
-                              <!-- <v-btn text>
-                                <v-icon>search</v-icon>
-                              </v-btn>                             -->
                           </v-toolbar>
                         </v-col>
                       </v-row>
@@ -150,7 +147,7 @@
                               <td class="like"><v-icon small>thumb_up_alt</v-icon>{{listItem.likeCount}}</td>
                               <td class="section"><v-chip label>{{listItem.section}}</v-chip></td>
                               <td class="content"><strong>{{listItem.content}}</strong></td>
-                              <td class="writer font-weight-black"><div><v-img src="../assets/one_icon.png" width="20" style="float:left"></v-img>{{listItem.writer}}</div></td>
+                              <td class="writer font-weight-bold"><div><v-img src="../assets/one_icon.png" width="20" style="float:left"></v-img>{{listItem.writer}}</div></td>
                               <td class="viewer">{{listItem.viewer}}</td>
                               <td class="previous">{{listItem.previous}}</td>
                             </tr>
@@ -163,7 +160,7 @@
                           :length="numOfPages">
                         </v-pagination>
                         <v-card-text align="right">
-                          <v-btn dark color="#025F94"><v-icon>create</v-icon>글쓰기</v-btn>
+                          <v-btn dark color="#025F94" @click="Write"><v-icon>create</v-icon>글쓰기</v-btn>
                         </v-card-text>
                       </v-card>                       
                   </v-card>
@@ -183,8 +180,6 @@ const curmonth = date.getMonth()
 const curdate = date.getDate()
 const curday = date.getDay()
 const meal_all = `백미밥 유부두부된장국 제육채소 볶음 숙주미나리무침 배추김치 에그타르트 오렌지`
-
-import allList from '../list/list.json'
 
 export default {
   data () {
@@ -212,11 +207,9 @@ export default {
       listData: [],
       dataPerPage: 10,
       curPageNum: 1,
-      allList : allList,
       search: '',
       category: '',
       searchData : [],
-      elData : [],
       resBoard: false,
       resText : '게시판이 비어있어요'
     }
@@ -241,7 +234,10 @@ export default {
       })
       
       return this.listData = this.searchData
-      
+    },
+
+    Write() {
+      this.$router.push({name : 'Write'})
     }
   },
   

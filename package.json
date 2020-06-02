@@ -8,8 +8,10 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@toast-ui/vue-editor": "^2.1.2",
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
+    "tui-editor": "^1.4.10",
     "vee-validate": "^3.3.0",
     "vue": "^2.6.11",
     "vue-router": "^3.1.6",

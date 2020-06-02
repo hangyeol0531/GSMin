@@ -25,7 +25,7 @@
             fluid
           >
             <v-row>
-              <v-col md="1"></v-col>
+              <v-col md="2"></v-col>
 
               <v-col md="2">
                 <v-card
@@ -104,45 +104,70 @@
                   style="margin-top: -300px;">
                   <v-card flat>
                     <v-card-title class="headline font-weight-bold">
-                      <v-row>
-                        <v-col cols="7">
-                          전체
+                        <v-col cols="10">
+                            글쓰기
                         </v-col>
-                        <v-col cols="5" class="pa-0 d-flex">
+                    </v-card-title>
+                    <v-card-title>
+                        <v-col cols="2" class="pb-0">
                           <v-select
                             class="d-flex"
-                            sm="6"
+                            sm="4"
+                            return-object
+                            hide-details
+                            solo
+                            label="일반">
+                          </v-select>
+                        </v-col>
+                        <v-col cols="3" class="pb-0">
+                          <v-select
+                            class="d-flex"
+                            sm="4"
                             :items="items"
                             item-value="value"
                             v-model="select"
                             return-object
+                            hide-details
                             solo
                             label="제목">
-
                           </v-select>
-                          <v-toolbar
-                            flat
-                            dense
-                            floating
-                          >
+                        </v-col>                        
+                    </v-card-title>
+                    <v-card-title>
+                        <v-col cols="12" class="pt-0">
                             <v-text-field
-                              solo
-                              hide-details
-                              v-on:keyup.enter="submit"
-                              append-icon="search"
-                              v-model="search"
-                              single-line>
+                                label="제목"
+                                outlined
+                                solo
+                                flat>
                             </v-text-field>
-                              <!-- <v-btn text>
-                                <v-icon>search</v-icon>
-                              </v-btn>                             -->
-                          </v-toolbar>
                         </v-col>
-                      </v-row>
                     </v-card-title>
                       <v-card>
-                      
-                      </v-card>                      
+                          <v-card-text>
+                            <viewer :initialValue="editorText" height="500px" />
+                            <editor
+                            ref="editorText"
+                            height="500px"
+                            mode="wysiwyg"/>
+                          </v-card-text>
+                          <v-card-text>
+                              <v-row>
+                                  <v-col>
+                                      <v-btn><v-icon left>delete_forever</v-icon>취소</v-btn>
+                                  </v-col>
+                                  <v-col class="text-right">
+                                      <v-btn 
+                                        :loading="loading"
+                                        dark
+                                        color="#025F94"
+                                        @click="loader = 'loading'">게시<v-icon right>send</v-icon></v-btn>
+                                  </v-col>
+                              </v-row>
+                          </v-card-text>
+                      </v-card>
+                      <v-card>
+                      </v-card>
                   </v-card>
                 </v-card>
               </v-col>
@@ -160,8 +185,7 @@ const curmonth = date.getMonth()
 const curdate = date.getDate()
 const curday = date.getDay()
 const meal_all = `백미밥 유부두부된장국 제육채소 볶음 숙주미나리무침 배추김치 에그타르트 오렌지`
-
-import allList from '../list/list.json'
+import { Editor, Viewer } from '@toast-ui/vue-editor'
 
 export default {
   data () {
@@ -186,61 +210,51 @@ export default {
         text: '제목',
         value: 'title'
       },
-      listData: [],
       dataPerPage: 10,
       curPageNum: 1,
-      allList : allList,
       search: '',
       category: '',
-      searchData : [],
-      elData : [],
-      resBoard: false,
-      resText : '게시판이 비어있어요'
+      resText : '게시판이 비어있어요',
+      editorText: '',
+      // 게시물 저장 로딩
+      loader: null,
+      loading: false
+      //
     }
+  },
+
+  components : {
+    'editor' : Editor,
+    'viewer' : Viewer
   },
 
   created () {
-    this.$http.post('/board')
-      .then((res) => {
-        this.listData = res.data
-        this.resBoard = true
-      }). catch((e) => {
-        console.log(e)
-        this.resBoard = false
-      }) 
+ 
   },
 
   methods: {
-    submit() {
-      let gory = this.category
-      this.searchData = this.listData.filter(data => {
-        return (data[gory]).includes(this.search)
-      })
-      
-      return this.listData = this.searchData
-      
-    }
+
   },
   
   watch: {
     select: function (value) {
       this.category = value.value
+    },
+    
+    loader () {
+      const l = this.loader
+      this[l] = !this[l]
+      setTimeout(() => {
+        this[l] = false
+        this.$router.push({name : 'Home'})
+      }, 3000)
+      this.loader = null
+      console.log(this.$refs.editorText.invoke("getMarkdown"))
     }
   },
 
   computed: {
-    startOffset() {
-      return ((this.curPageNum -1) * this.dataPerPage)
-    },
-    endOffset() {
-      return (this.startOffset + this.dataPerPage)
-    },
-    numOfPages() {
-      return Math.ceil(this.listData.length / this.dataPerPage)
-    },
-    CalData() {
-      return this.listData.slice(this.startOffset, this.endOffset)
-    }
+
   }
 }
 </script>
