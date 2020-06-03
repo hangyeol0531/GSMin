@@ -26,6 +26,12 @@ import com.example.gsmin.Main.BoardActivity;
 import com.example.gsmin.Model.Data;
 import com.example.gsmin.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.concurrent.ExecutionException;
+
 public class HomeFragment extends Fragment {
     private ImageView gsmin;
     private TextView mainText;
@@ -47,6 +53,10 @@ public class HomeFragment extends Fragment {
             R.id.t4, R.id.t5, R.id.t6,
             R.id.t7, R.id.t8, R.id.t9,
             R.id.t10, R.id.t11};
+    public static String[][] listData = new String[][]{
+            {"boardTitle1", "boardName", "boardInfo", "0", "0"}
+    };
+
 
     public static int IB_LEN = menuBtn.length, SL_LEN =  searchLay.length, TV_LEN = r.length;
     public static TextView[] tvArr = new TextView[TV_LEN];
@@ -63,6 +73,7 @@ public class HomeFragment extends Fragment {
 //        gsmin.setVisibility(View.VISIBLE);
 //        mainText.setVisibility(View.GONE);
         init(view);
+        
         // setOnClickListener
         for(int i = 0; i < TV_LEN; i++) {
             final int finalI = i;
@@ -73,7 +84,34 @@ public class HomeFragment extends Fragment {
                 String channel = tvArr[finalI].getText().toString();
 
                 Data.setData(new String[]{"channel"}, new String[]{channel});
-                new JSONTask().execute(Data.url+"/BoardData"); // channel
+
+                listData[0] = new String[]{"boardTitle10", "boardName", "boardInfo", "0", "0"};
+
+
+                try {
+                    String result = new JSONTask().execute(Data.url+"/board").get(); // channel
+                    JSONArray ja = new JSONArray(result);
+
+//                        // {"boardTitle1", "boardName", "boardInfo", "0", "0"}
+////                        "likeCount":"06",
+////                        "section":"자유",
+////                        "content":"Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.",
+////                        "writer":"양현승",
+////                        "viewer":32,
+////                        "previous":"0초 전"
+
+
+//                    for (int i = 0; i < ja.length(); i++){
+//                        JSONObject jo = ja.getJSONObject(i);
+//                        listData[i][0] = jo.getString("title");
+//                        listData[i][1] = jo.getString("writer");
+//                        listData[i][2] = jo.getString("previous")+ " ・ 조회수 "+jo.getString("viewer");
+//                        listData[i][3] = jo.getString("likeCount");
+//                        listData[i][4] = jo.getString("chatCount");
+//                    }
+                } catch (ExecutionException | InterruptedException | JSONException e) {
+                    e.printStackTrace();
+                }
 
                 Intent intent = new Intent(getContext(), BoardActivity.class);
                 intent.putExtra("channel", channel);

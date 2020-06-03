@@ -1,13 +1,17 @@
 package com.example.gsmin.Json;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.JsonReader;
+import android.util.JsonToken;
 import android.util.Log;
 
 //import com.example.gsmin.Fragment.HomeFragment;
+import com.example.gsmin.Main.InfoActivity;
 import com.example.gsmin.Main.TitleActivity;
 import com.example.gsmin.Model.Data;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -100,33 +104,14 @@ public class JSONTask extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        super.onPostExecute(result);
         if (result == null){
             Log.d("null", "onPostExecute: "+result);
             return;
         }
-
-        try {
-            JSONObject jo = new JSONObject(result);
-            String kind = jo.getString("kind");
-            if(kind == "emailCheck") {
-                Log.d("kind", "onPostExecute: " + kind);
-                if (jo.getString("isChecked") == "t"){
-                    TitleActivity.emailCheck = true;
-                }
-            }else if(kind == "BoardData"){
-                Log.d("kind", "onPostExecute: " + kind);
-            }
-//            else if(kind == "gsmschoolfood"){
-//                Log.d("급식", "onPostExecute: "+kind);
-////                HomeFragment.rice_list = jo.getString("meal");
-//            }
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 //        String dataKey = "";
         Log.d("test node", "onPostExecute: "+result);
+
+        // test / anything to pass
+
     }
 }

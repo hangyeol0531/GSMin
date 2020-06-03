@@ -27,12 +27,7 @@ public class BoardActivity extends AppCompatActivity {
     private static HomeRecyclerViewAdapter adapter = new HomeRecyclerViewAdapter();
 
     private static String[][] listData = new String[][]{
-            {"boardTitle1", "boardName", "boardInfo", "0", "0"},
-            {"boardTitle2", "boardName", "boardInfo", "0", "0"},
-            {"boardTitle3", "boardName", "boardInfo", "0", "0"},
-            {"boardTitle4", "boardName", "boardInfo", "0", "0"},
-            {"boardTitle5", "boardName", "boardInfo", "0", "0"}
-
+            {"boardTitle1", "boardName", "boardInfo", "0", "0"}
     };
     private ImageView gsmin;
     private TextView mainText;
@@ -55,6 +50,7 @@ public class BoardActivity extends AppCompatActivity {
         if (getIntent()!=null && intent.getExtras()!= null) {
             channel = intent.getExtras().getString("channel");
         }
+        listData = HomeFragment.listData;
 
         gsmin = findViewById(R.id.gsmin);
         mainText = findViewById(R.id.mainText);
