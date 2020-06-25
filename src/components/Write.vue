@@ -216,6 +216,7 @@ export default {
       category: '',
       resText : '게시판이 비어있어요',
       editorText: '',
+      content: '',
       // 게시물 저장 로딩
       loader: null,
       loading: false
@@ -246,10 +247,11 @@ export default {
       this[l] = !this[l]
       setTimeout(() => {
         this[l] = false
+        localStorage.setItem("content", this.content)
         this.$router.push({name : 'Home'})
       }, 3000)
       this.loader = null
-      console.log(this.$refs.editorText.invoke("getMarkdown"))
+      this.content = this.$refs.editorText.invoke("getMarkdown")
     }
   },
 

@@ -161,6 +161,7 @@
                         </v-pagination>
                         <v-card-text align="right">
                           <v-btn dark color="#025F94" @click="Write"><v-icon>create</v-icon>글쓰기</v-btn>
+                          <v-btn dark color="#025F94" @click="Viewer"><v-icon>create</v-icon>뷰어테스트</v-btn>
                         </v-card-text>
                       </v-card>                       
                   </v-card>
@@ -238,7 +239,11 @@ export default {
 
     Write() {
       this.$router.push({name : 'Write'})
-    }
+    },
+
+    Viewer() {
+      this.$router.push({name : 'Viewer'})
+    }    
   },
   
   watch: {

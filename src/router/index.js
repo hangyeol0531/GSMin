@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../components/Home'
 import Write from '../components/Write'
+import Viewer from '../components/Viewer'
 
 
 Vue.use(VueRouter)
@@ -16,6 +17,11 @@ const routes = [
     path: '/write',
     name: 'Write',
     component: Write
+  },
+  {
+    path: '/viewer',
+    name: 'Viewer',
+    component: Viewer
   },
   {
     path: '/',
