@@ -148,6 +148,10 @@
                                 <v-card-title class="font-weight-black title">
                                     취업처 기업 규모
                                 </v-card-title>
+                                <v-card-text>
+                                    <line-chart :chart-data="datacollection"></line-chart>
+                                    <v-btn @click="fillData()">random</v-btn>
+                                </v-card-text>
                             </v-card>
                         </v-col>
                         <v-col class="ml-6 mr-4">
@@ -175,7 +179,8 @@ const curmonth = date.getMonth()
 const curdate = date.getDate()
 const curday = date.getDay()
 const meal_all = `백미밥 유부두부된장국 제육채소 볶음 숙주미나리무침 배추김치 에그타르트 오렌지`
-import { Editor, Viewer } from '@toast-ui/vue-editor'
+
+import LineChart from './LineChart.js'
 
 export default {
   data () {
@@ -186,29 +191,64 @@ export default {
       meal_section : `조식`,
       meal_all : meal_all,
       getJobPercent: '75%',
-      getJobText:'1기 80명 중 60명'
+      getJobText:'1기 80명 중 60명',
+      datacollection: null,
     }
   },
 
   components : {
-
+      LineChart
   },
 
   created () {
- 
-  },
-
-  methods: {
-
+      this.fillData()
+      
   },
   
+  methods: {
+      fillData () {
+        this.datacollection = {
+          labels: [
+            '공기업 공공기관', '공무원', '그룹 및 200인 이상',
+            '20인 이상 200인 이하', '20인 이하', '기타'
+            ],
+          datasets: [
+            {
+              label: '공기업 공공기관',
+              backgroundColor: '#f87979',
+              data: [this.getRandomInt()]
+            },, {
+              label: '공무원',
+              backgroundColor: '#f87979',
+              data: [this.getRandomInt()]
+            }, {
+              label: '그룹 및 200인 이상',
+              backgroundColor: '#f87979',
+              data: [this.getRandomInt(), this.getRandomInt()]
+            }, {
+              label: '20인 이상 200인 이하',
+              backgroundColor: '#f87979',
+              data: [this.getRandomInt(), this.getRandomInt()]
+            }, {
+              label: '20인 이하',
+              backgroundColor: '#f87979',
+              data: [this.getRandomInt(), this.getRandomInt()]
+            }, {
+              label: '기타',
+              backgroundColor: '#f87979',
+              data: [this.getRandomInt(), this.getRandomInt()]
+            }
+          ]
+        }
+      },
+      getRandomInt () {
+        return Math.floor(Math.random() * (50 - 5 + 1)) + 5
+      }
+    },
+
   watch: {
 
   },
-
-  computed: {
-
-  }
 }
 </script>
 
