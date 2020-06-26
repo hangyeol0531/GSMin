@@ -37,7 +37,7 @@
                 width="700"
                 style="margin-top: -372px;"
                 >
-                <v-card-title class="display-1 font-weight-medium">
+                <v-card-title class="display-1">
                   {{today}}
                 </v-card-title>
                 </v-card>
@@ -53,17 +53,14 @@
                         </v-card-subtitle>                    
                         <v-card-text>
                           <v-btn text block class="subtitle-1">전체</v-btn>
-                          <v-btn text block class="subtitle-1">HOT 게시판</v-btn>
-                          <v-btn text block class="subtitle-1">BEST 게시판</v-btn>
                         </v-card-text>
                       <v-divider></v-divider>
                         <v-card-subtitle class="pa-1 pl-3">
                           정보
                         </v-card-subtitle>                    
                         <v-card-text>
-                          <v-btn text block class="subtitle-1">학교 소식</v-btn>
-                          <v-btn text block class="subtitle-1">채용 정보</v-btn>
-                          <v-btn text block class="subtitle-1">꿀팁</v-btn>
+                          <v-btn text block class="subtitle-1">채용 공고</v-btn>
+                          <v-btn text block class="subtitle-1">취업 현황</v-btn>
                         </v-card-text>
                       <v-divider></v-divider>
                         <v-card-subtitle class="pa-1 pl-3">
@@ -71,8 +68,8 @@
                         </v-card-subtitle>                    
                         <v-card-text>
                           <v-btn text block class="subtitle-1">자유</v-btn>
-                          <v-btn text block class="subtitle-1">홍보</v-btn>
-                          <v-btn text block class="subtitle-1">장터</v-btn>
+                          <v-btn text block class="subtitle-1">질문</v-btn>
+                          <v-btn text block class="subtitle-1">꿀팁</v-btn>
                         </v-card-text> 
                       <v-divider></v-divider>
                         <v-card-subtitle class="pa-1 pl-3">
@@ -83,20 +80,10 @@
                           <v-btn text block class="subtitle-1">2학년</v-btn>
                           <v-btn text block class="subtitle-1">3학년</v-btn>
                           <v-btn text block class="subtitle-1">졸업생</v-btn>
-                        </v-card-text> 
-                      <v-divider></v-divider>
-                        <v-card-subtitle class="pa-1 pl-3">
-                          소모임
-                        </v-card-subtitle>                    
-                        <v-card-text>
-                          <v-btn text block class="subtitle-1">코딩</v-btn>
-                          <v-btn text block class="subtitle-1">공기업</v-btn>
-                          <v-btn text block class="subtitle-1">공무원시험</v-btn>
-                          <v-btn text block class="subtitle-2 text--grey">+ 소모임 개설</v-btn>
-                        </v-card-text>                                                                                                
-                  </v-card>
-                </v-card>
-              </v-col>
+                        </v-card-text>
+                    </v-card>
+                    </v-card>
+                </v-col>
 
               <v-col md="6">               
                 <v-card
@@ -104,66 +91,73 @@
                   style="margin-top: -300px;">
                   <v-card flat>
                     <v-card-title class="headline font-weight-bold">
-                      <v-row>
-                        <v-col cols="7">
-                          전체
+                        <v-col cols="10">
+                            홈
                         </v-col>
-                        <v-col cols="5" class="pa-0 d-flex">
-                          <v-select
-                            class="d-flex"
-                            sm="6"
-                            :items="items"
-                            item-value="value"
-                            v-model="select"
-                            return-object
-                            solo
-                            label="제목">
-
-                          </v-select>
-                          <v-toolbar
-                            flat
-                            dense
-                            floating
-                          >
-                            <v-text-field
-                              solo
-                              hide-details
-                              v-on:keyup.enter="submit"
-                              append-icon="search"
-                              v-model="search"
-                              single-line>
-                            </v-text-field>
-                          </v-toolbar>
-                        </v-col>
-                      </v-row>
                     </v-card-title>
-                      <v-card to="/" hover v-for="(listItem, index) in CalData" :key="index">
-                        <v-card-text>
-                          <div v-if="resBoard == false">
-                            {{resText}}
-                          </div>
-                          <tbody>
-                            <tr>
-                              <td class="like"><v-icon small>thumb_up_alt</v-icon>{{listItem.likeCount}}</td>
-                              <td class="section"><v-chip label>{{listItem.section}}</v-chip></td>
-                              <td class="content"><strong>{{listItem.content}}</strong></td>
-                              <td class="writer font-weight-bold"><div><v-img src="../assets/one_icon.png" width="20" style="float:left"></v-img>{{listItem.writer}}</div></td>
-                              <td class="viewer">{{listItem.viewer}}</td>
-                              <td class="previous">{{listItem.previous}}</td>
-                            </tr>
-                          </tbody>
-                        </v-card-text>                       
-                      </v-card>
-                      <v-card>
-                        <v-pagination
-                          v-model="curPageNum"
-                          :length="numOfPages">
-                        </v-pagination>
-                        <v-card-text align="right">
-                          <v-btn dark color="#025F94" @click="Write"><v-icon>create</v-icon>글쓰기</v-btn>
-                          <v-btn dark color="#025F94" @click="Viewer"><v-icon>create</v-icon>뷰어테스트</v-btn>
-                        </v-card-text>
-                      </v-card>                       
+                    <v-row class="ma-3" align="center" justify="center">
+                        <v-col align="center">
+                            <v-card width="250" outlined>
+                                <v-card-title class="font-weight-black title">
+                                    졸업생 취업률
+                                    <v-spacer></v-spacer>
+                                    <v-icon color="#025F94">school</v-icon>
+                                </v-card-title>
+                                <v-card-title class="display-3 font-weight-bold light-blue--text text--darken-4 pt-0">
+                                    {{getJobPercent}}
+                                </v-card-title>
+                                <v-card-text class="grey--text caption" align="left">
+                                    {{getJobText}}
+                                </v-card-text>
+                            </v-card>
+                        </v-col>
+                        <v-col align="center">
+                            <v-card width="250" outlined>
+                                <v-card-title class="font-weight-black title">
+                                    재학생 취업률
+                                    <v-spacer></v-spacer>
+                                    <v-icon color="#41AFE5">edit</v-icon>
+                                    </v-card-title>
+                                    <v-card-title class="display-3 font-weight-bold blue--text text--lighten-1 pt-0">
+                                        {{getJobPercent}}
+                                    </v-card-title>
+                                    <v-card-text class="grey--text caption" align="left">
+                                        {{getJobText}}
+                                    </v-card-text>                                    
+                            </v-card>
+                        </v-col>
+                        <v-col align="center">
+                            <v-card width="250" outlined>
+                                <v-card-title class="font-weight-black title">
+                                    평균 연봉
+                                    <v-spacer></v-spacer>
+                                    <v-icon color="#DDE546">monetization_on</v-icon>
+                                    </v-card-title>
+                                    <v-card-title class="display-3 font-weight-bold lime--text text--lighten-1 pt-0">
+                                        2900<div class=" font-weight-bold headline mt-5">만원</div>
+                                    </v-card-title>
+                                    <v-card-text class="grey--text caption" align="left">
+                                        {{getJobText}}
+                                    </v-card-text>                                    
+                            </v-card>
+                        </v-col>                        
+                    </v-row>
+                    <v-row class="ma-2" align="center" justify="center">
+                        <v-col class="ml-4">
+                            <v-card width="554" outlined>
+                                <v-card-title class="font-weight-black title">
+                                    취업처 기업 규모
+                                </v-card-title>
+                            </v-card>
+                        </v-col>
+                        <v-col class="ml-6 mr-4">
+                            <v-card outlined>
+                                <v-card-title class="font-weight-black title">
+                                    근무지
+                                </v-card-title>
+                            </v-card>
+                        </v-col>                        
+                    </v-row>
                   </v-card>
                 </v-card>
               </v-col>
@@ -181,6 +175,7 @@ const curmonth = date.getMonth()
 const curdate = date.getDate()
 const curday = date.getDay()
 const meal_all = `백미밥 유부두부된장국 제육채소 볶음 숙주미나리무침 배추김치 에그타르트 오렌지`
+import { Editor, Viewer } from '@toast-ui/vue-editor'
 
 export default {
   data () {
@@ -190,81 +185,29 @@ export default {
       today : `${curmonth+1}월 ${curdate}일 ${week[curday]}요일`,
       meal_section : `조식`,
       meal_all : meal_all,
-      items : 
-      [
-        {
-          text: '제목',
-          value : 'likeCount'
-        },
-        {
-          text: '이전',
-          value : 'previous'
-        }
-      ],
-      select: {
-        text: '제목',
-        value: 'title'
-      },
-      listData: [],
-      dataPerPage: 10,
-      curPageNum: 1,
-      search: '',
-      category: '',
-      searchData : [],
-      resBoard: false,
-      resText : '게시판이 비어있어요'
+      getJobPercent: '75%',
+      getJobText:'1기 80명 중 60명'
     }
+  },
+
+  components : {
+
   },
 
   created () {
-    this.$http.post('/board')
-      .then((res) => {
-        this.listData = res.data
-        this.resBoard = true
-      }). catch((e) => {
-        console.log(e)
-        this.resBoard = false
-      }) 
+ 
   },
 
   methods: {
-    submit() {
-      let gory = this.category
-      this.searchData = this.listData.filter(data => {
-        return (data[gory]).includes(this.search)
-      })
-      
-      return this.listData = this.searchData
-    },
 
-    Write() {
-      this.$router.push({name : 'Write'})
-    },
-
-    Viewer() {
-      this.$router.push({name : 'Viewer'})
-    }    
   },
   
   watch: {
-    select: function (value) {
-      this.category = value.value
-    }
+
   },
 
   computed: {
-    startOffset() {
-      return ((this.curPageNum -1) * this.dataPerPage)
-    },
-    endOffset() {
-      return (this.startOffset + this.dataPerPage)
-    },
-    numOfPages() {
-      return Math.ceil(this.listData.length / this.dataPerPage)
-    },
-    CalData() {
-      return this.listData.slice(this.startOffset, this.endOffset)
-    }
+
   }
 }
 </script>
@@ -278,25 +221,5 @@ export default {
   color: #00B1EA;
 }
 
-.like {
-  width:7%;
-}
-.section {
-  width:10%;
-}
-.content {
-  width:60%;
-}
-.writer {
-  width:9%;
-}
-
-.viewer{
-  width:3%;
-}
-
-.previous{
-  width:5%;
-}
 
 </style>

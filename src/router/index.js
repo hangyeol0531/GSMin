@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../components/Home'
+import Board from '../components/Board'
 import Write from '../components/Write'
 import Viewer from '../components/Viewer'
 
@@ -12,6 +13,11 @@ const routes = [
     path: '/home',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/board',
+    name: 'Board',
+    component: Board
   },
   {
     path: '/write',
