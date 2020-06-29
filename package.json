@@ -12,6 +12,8 @@
     "axios": "^0.19.2",
     "chart.js": "^2.9.3",
     "core-js": "^3.6.4",
+    "stylus": "^0.54.7",
+    "stylus-loader": "^3.0.2",
     "tui-editor": "^1.4.10",
     "vee-validate": "^3.3.0",
     "vue": "^2.6.11",

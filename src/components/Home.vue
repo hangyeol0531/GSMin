@@ -2,10 +2,11 @@
   <div>
     <v-app>
       <v-app-bar app height="70px" flat color="white" hide-on-scroll>
-        <v-toolbar-title>
-          <v-img src="../assets/full_logo.svg" max-width="80%"></v-img>
-        </v-toolbar-title>
         <v-spacer></v-spacer>
+        <v-toolbar-title>
+          <v-img src="../assets/fixlogo.svg" max-width="100%"></v-img>
+        </v-toolbar-title>
+        <v-spacer/><v-spacer/><v-spacer/>
           <v-badge
             color="#00B1EA"
             content="6"
@@ -15,7 +16,8 @@
             overlap>
             <v-btn icon><v-icon large>notifications</v-icon></v-btn>
           </v-badge>
-            <v-btn icon><v-icon large>mdi-account</v-icon></v-btn>
+            <v-btn icon><v-icon>settings</v-icon></v-btn>
+            <v-spacer></v-spacer>
       </v-app-bar>
         <v-content>
           <v-toolbar prominent height="374px" src="../assets/school_img.jpg">
@@ -45,8 +47,9 @@
                   app
                   class="mx-auto">
                   <v-card app fixed flat>
-                    <v-card-title class="headline"><strong>라이언</strong></v-card-title>
-                      <v-card-subtitle>글<a class="color">{{text}}</a> 댓글<a class="color">{{riple}}</a></v-card-subtitle>
+                    <v-card-title class="headline">
+                      <v-img src="../assets/one_icon.png" max-width="8%"></v-img><strong>라이언</strong></v-card-title>
+                      <v-card-subtitle class="font-weight-bold">{{company}}</v-card-subtitle>
                       <v-divider></v-divider>
                         <v-card-subtitle class="pa-1 pl-3">
                           모아보기
@@ -92,14 +95,14 @@
                   <v-card flat>
                     <v-card-title class="headline font-weight-bold">
                         <v-col cols="10">
-                            홈
+                            통계
                         </v-col>
                     </v-card-title>
                     <v-row class="ma-3" align="center" justify="center">
                         <v-col align="center">
-                            <v-card width="250" outlined>
+                            <v-card width="250">
                                 <v-card-title class="font-weight-black title">
-                                    졸업생 취업률
+                                    <div class="font">졸업생 취업률</div>
                                     <v-spacer></v-spacer>
                                     <v-icon color="#025F94">school</v-icon>
                                 </v-card-title>
@@ -112,9 +115,9 @@
                             </v-card>
                         </v-col>
                         <v-col align="center">
-                            <v-card width="250" outlined>
+                            <v-card width="250">
                                 <v-card-title class="font-weight-black title">
-                                    재학생 취업률
+                                    <div class="font">재학생 취업률</div>
                                     <v-spacer></v-spacer>
                                     <v-icon color="#41AFE5">edit</v-icon>
                                     </v-card-title>
@@ -127,9 +130,9 @@
                             </v-card>
                         </v-col>
                         <v-col align="center">
-                            <v-card width="250" outlined>
+                            <v-card width="250">
                                 <v-card-title class="font-weight-black title">
-                                    평균 연봉
+                                    <div class="font">평균 연봉</div>
                                     <v-spacer></v-spacer>
                                     <v-icon color="#DDE546">monetization_on</v-icon>
                                     </v-card-title>
@@ -144,13 +147,15 @@
                     </v-row>
                     <v-row class="ma-2" align="center" justify="center">
                         <v-col class="ml-4">
-                            <v-card width="554" outlined>
+                            <v-card width="554">
                                 <v-card-title class="font-weight-black title">
-                                    취업처 기업 규모
+                                    <div class="font">취업처 기업 규모</div>
                                 </v-card-title>
                                 <v-card-text>
+                                  <div class="chart">
                                     <line-chart :chart-data="datacollection"></line-chart>
-                                    <v-btn @click="fillData()">random</v-btn>
+                                    <v-btn @click="fillData()">생성</v-btn>
+                                  </div>                                    
                                 </v-card-text>
                             </v-card>
                         </v-col>
@@ -185,8 +190,7 @@ import LineChart from './LineChart.js'
 export default {
   data () {
     return {
-      text: 5,
-      riple : 35,
+      company : '마이다스 아이티',
       today : `${curmonth+1}월 ${curdate}일 ${week[curday]}요일`,
       meal_section : `조식`,
       meal_all : meal_all,
@@ -214,31 +218,13 @@ export default {
             ],
           datasets: [
             {
-              label: '공기업 공공기관',
-              backgroundColor: '#f87979',
-              data: [this.getRandomInt()]
-            },, {
-              label: '공무원',
-              backgroundColor: '#f87979',
-              data: [this.getRandomInt()]
-            }, {
-              label: '그룹 및 200인 이상',
-              backgroundColor: '#f87979',
-              data: [this.getRandomInt(), this.getRandomInt()]
-            }, {
-              label: '20인 이상 200인 이하',
-              backgroundColor: '#f87979',
-              data: [this.getRandomInt(), this.getRandomInt()]
-            }, {
-              label: '20인 이하',
-              backgroundColor: '#f87979',
-              data: [this.getRandomInt(), this.getRandomInt()]
-            }, {
-              label: '기타',
-              backgroundColor: '#f87979',
-              data: [this.getRandomInt(), this.getRandomInt()]
-            }
-          ]
+              label: '인원 수',
+              backgroundColor: '#41AFE5',
+              data: [this.getRandomInt(), this.getRandomInt(), 
+              this.getRandomInt(), this.getRandomInt(),
+              this.getRandomInt(), this.getRandomInt()]
+            },
+          ],
         }
       },
       getRandomInt () {
@@ -253,6 +239,8 @@ export default {
 </script>
 
 <style>
+* { font-family: 'SpoqaHanSans-Regular', sans-serif}
+
 .bg{
   background-color:#ECEDEE !important; 
 }
@@ -261,5 +249,8 @@ export default {
   color: #00B1EA;
 }
 
+.chart{
+  max-width: 100%;
+}
 
 </style>
