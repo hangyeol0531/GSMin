@@ -11,6 +11,7 @@ var port = 3000;
 const axios = require('axios');
 const mysql = require('mysql');
 const cors = require('cors');
+const shortId = require('shortId')
 
 const School = require('node-school-kr');
 const school = new School()
@@ -68,13 +69,15 @@ app.post('/gsmschoolfood', async (req, res) =>{
 app.post('/emailCheck', async (req,res)=>{
     await console_all(`${req.body.email} : emailCheck 접속`);
     console.log("이메일 : " + req.body.email);
-    
+    const certification_code_str = shortId.generate();
+    console_all(certification_code_str)
+
     try{
         const smtpTransport = nodemailer.createTransport({
             service: "Gmail",
             auth: {
                 user: config.send_email,
-                pass: config.password저
+                pass: config.password
             },
             tls: {
                 rejectUnauthorized: false
@@ -105,22 +108,21 @@ app.post('/emailCheck', async (req,res)=>{
             <body>
                 <h2>GSMin 가입 철차 확인 이메일입니다.</h2>
                 <hr width = "30%"><br><br>
-                 본 이메일 인증은 GSMin 회원가입을 위한<br><br>
-                 필수 사항입니다. 본인이 맞다면 아래의 링크를 클릭해주세요<br>
-
+                 본 이메일 인증은 GSMin 회원가입을 위한 필수 사항입니다. <br><br>
+                 본인이 맞으시다면 GSMIN ${certification_code_str}를 입력해주세요
             </body>
             </html>
             `
         };
-        
-        // await smtpTransport.sendMail(mailOptions, (error, responses) =>{
-        //     if(error){
-        //         res.json({msg:'err'});
-        //     }else{
-        //         res.json({msg:'success'});
-        //     }
-        //     smtpTransport.close();
-        // });
+
+         await smtpTransport.sendMail(mailOptions, (error, responses) =>{
+            if(error){
+                res.json({msg:'err'});
+            }else{
+                res.json({msg:'success'});
+            }
+            smtpTransport.close();
+        });
     }catch(e){
         console.log(e);
     }
