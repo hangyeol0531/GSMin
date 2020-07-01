@@ -6,18 +6,23 @@ const Discord = require('discord.js');
 const nodemailer = require('nodemailer');
 const client = new Discord.Client();
 const config = require('../config.json');
-var port = 3000;
+var port = 80;
 
 const axios = require('axios');
 const mysql = require('mysql');
 const cors = require('cors');
 const shortId = require('shortId')
+const crypto = require('crypto'); 
+const logger = require('morgan');
+const jwt = require('jsonwebtoken');
 
 const School = require('node-school-kr');
 const school = new School()
 var ip = require('ip');
+
 school.init(School.Type.HIGH, School.Region.GWANGJU, 'F100000120');
 
+app.use(logger("short"));
 app.use(cors()); 
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
@@ -29,9 +34,9 @@ app.use((req, res, next) => {
 
 var db = mysql.createConnection({
     host: "localhost",
-    database: config.sqlpassword,
+    database: config.dbname,
     user: "root",
-    password: config.dbname
+    password: config.sqlpassword
   })
 
 const console_all = async (pr_content) => {
@@ -43,6 +48,23 @@ const console_all = async (pr_content) => {
         }
     )
 }
+
+app.post('/token', (req, res) =>{
+    const payload = {
+        idx : req.body.idx,
+        email : req.body.email,
+        nickname : req.body.nickname
+    }
+    var token = jwt.sign(payload, config.secret_key); //첫번째 인자 : playlaod 2번째 인자 비밀키 값
+    console.log(token);
+    try{
+        decoded_token = jwt.verify(token, config.secret_key)
+        res.end('token is ggul dda ri')
+    }catch{
+        res.end('token is invalid')
+    }
+    
+})
 
 app.post('/gsmschoolfood', async (req, res) =>{
     console_all("gsmschoolfood 접속")
@@ -89,7 +111,7 @@ app.post('/emailCheck', async (req,res)=>{
             from: config.send_email,
             to: req.body.email,
             subject: "광주소프트웨어마이스터고등학교 GSMin 가입 인증 코드입니다.",
-            text: `
+            html: `
             <!DOCTYPE html>
             <html lang="en">
             <head>
@@ -107,27 +129,72 @@ app.post('/emailCheck', async (req,res)=>{
             </head>
             <body>
                 <h2>GSMin 가입 철차 확인 이메일입니다.</h2>
-                <hr width = "30%"><br><br>
+                <hr width = "100%"><br><br>
                  본 이메일 인증은 GSMin 회원가입을 위한 필수 사항입니다. <br><br>
-                 본인이 맞으시다면 GSMIN ${certification_code_str}를 입력해주세요
+                 본인이 맞으시다면 GSMIN 확인창에  ${certification_code_str}  를 입력해주세요
             </body>
             </html>
             `
         };
 
-         await smtpTransport.sendMail(mailOptions, (error, responses) =>{
-            if(error){
-                res.json({msg:'err'});
-            }else{
-                res.json({msg:'success'});
-            }
-            smtpTransport.close();
-        });
+        //  await smtpTransport.sendMail(mailOptions, (error, responses) =>{
+        //     if(error){
+        //         console.log(error)
+        //     }else{
+        //         console.log("이메일 전송 완료")
+        //     }
+        //     smtpTransport.close();
+        // });
     }catch(e){
         console.log(e);
     }
-    res.send("connect");
+    res.end(certification_code_str);
 });
+
+app.post('/insert_user_information', (req, res) =>{
+    const email = req.body.email;
+    const crytopassword = crypto.createHash('sha512').update(req.body.pw).digest('base64');
+    const nickname = req.body.nickname;
+    console.log(email)
+    console.log(crytopassword)
+    console.log(nickname)
+    var sql = "insert into User_Information(user_email, password, nickname) VALUES(?, ?, ?)";
+    db.query(sql, [email, crytopassword, nickname], function(err, rows){
+        if(!err) {
+            console.log("입력 성공");
+            res.end(config.success)
+        }else{
+            console.log(err);
+            res.end(config.failed)
+        }   
+    })
+
+})
+
+app.post('/req_hire_list', (req, res) =>{
+    
+})
+
+app.post('/login_check', (req, res) =>{
+    email = req.body.email;
+    crytopassword = crypto.createHash('sha512').update(req.body.pw).digest('base64');
+    console.log(email, crytopassword)
+    var sql = `SELECT * FROM User_Information WHERE user_email = '${email}'`
+    db.query(sql, function(err, rows){
+        console.log(rows)
+        if(err) {
+            throw err;
+        }else if(JSON.stringify(rows) == '[]'){
+            res.end('null');
+        }else{
+            if(rows[0].password == crytopassword){
+                res.end(config.success)
+            }else{
+                res.end(cofng.failed)
+            }
+        }
+    })
+})
 
 app.post('/board', async (req,res) =>{
     console_all("board 접속");
@@ -147,6 +214,7 @@ app.post('/board', async (req,res) =>{
     console.log(JSON.stringify(aJsonArray))
     res.end(JSON.stringify(aJsonArray))
 })
+
 app.listen(port, function(){
     console.log(`${port}포트로 서버 실행`);
 });
