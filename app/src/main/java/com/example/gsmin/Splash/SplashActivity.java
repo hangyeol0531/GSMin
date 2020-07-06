@@ -2,17 +2,28 @@ package com.example.gsmin.Splash;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.WindowManager;
 
+import com.example.gsmin.Fragment.NoticeFragment;
+import com.example.gsmin.Json.JSONTask;
+import com.example.gsmin.Main.InfoActivity;
+import com.example.gsmin.Main.LoginActivity;
 import com.example.gsmin.Main.MainActivity;
 import com.example.gsmin.Main.StartActivity;
 import com.example.gsmin.Main.TitleActivity;
+import com.example.gsmin.Model.Data;
 import com.example.gsmin.R;
+import com.example.gsmin.Util.Login;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class SplashActivity extends Activity {
-
+    public String jsonResult = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,11 +39,17 @@ public class SplashActivity extends Activity {
 
     private class splashhandler implements Runnable {
         public void run() {
-//            startActivity(new Intent(getApplication(), TitleActivity.class));
-            startActivity(new Intent(getApplication(), MainActivity.class));
-//            startActivity(new Intent(getApplication(), StartActivity.class));
+            SharedPreferences userLogin = getSharedPreferences("login_data",MODE_PRIVATE);
+            String email = userLogin.getString("email","");
+            String pw = userLogin.getString("pw","");
+            if (!email.equals("") && !pw.equals("")){
 
-        SplashActivity.this.finish();
+                Login l = new Login();
+                l.login_user(email, pw);
+
+                startActivity(new Intent(getApplication(), MainActivity.class));
+            }else{ startActivity(new Intent(getApplication(), StartActivity.class)); }
+            SplashActivity.this.finish();
         }
     }
 

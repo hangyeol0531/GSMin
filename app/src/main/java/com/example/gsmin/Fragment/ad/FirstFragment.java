@@ -1,4 +1,4 @@
-package com.example.gsmin.Fragment;
+package com.example.gsmin.Fragment.ad;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;

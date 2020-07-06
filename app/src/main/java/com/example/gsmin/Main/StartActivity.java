@@ -1,10 +1,13 @@
 package com.example.gsmin.Main;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -12,9 +15,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.gsmin.Fragment.FirstFragment;
-import com.example.gsmin.Fragment.SecondFragment;
-import com.example.gsmin.Fragment.ThirdFragment;
+import com.example.gsmin.Fragment.ad.FirstFragment;
+import com.example.gsmin.Fragment.ad.SecondFragment;
+import com.example.gsmin.Fragment.ad.ThirdFragment;
+import com.example.gsmin.Model.Data;
 import com.example.gsmin.R;
 
 import me.relex.circleindicator.CircleIndicator;
@@ -22,6 +26,7 @@ import me.relex.circleindicator.CircleIndicator;
 public class StartActivity extends AppCompatActivity {
     FragmentPagerAdapter adapterViewPager;
     ImageButton ib;
+    TextView go_login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +39,14 @@ public class StartActivity extends AppCompatActivity {
         CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(vpPager);
 
+        go_login = findViewById(R.id.go_to_login);
+        go_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplication(), LoginActivity.class));
+                StartActivity.this.finish();
+            }
+        });
         ib = findViewById(R.id.start_btn);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);

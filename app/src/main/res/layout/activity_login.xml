@@ -25,20 +25,23 @@
         android:layout_height="wrap_content"
 
         android:layout_marginTop="44dp"
-        android:background="@drawable/title"
+        android:background="@drawable/ic_logintitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.098"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/back_btn"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <TextView
         android:id="@+id/imageView4"
-        android:layout_width="41dp"
-        android:layout_height="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
+        android:text="이메일"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        android:textStyle="bold"
         android:layout_marginTop="88dp"
-        android:background="@drawable/ic_emil_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.097"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,26 +63,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView4"
         tools:ignore="MissingConstraints" />
 
-    <EditText
-        android:id="@+id/checkNum"
-        android:layout_width="358dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="104dp"
-        android:backgroundTint="#41AFE5"
-        android:hint="인증번호"
-
-        android:textColor="#000000"
-        android:visibility="gone"
-        android:textColorHint="#BDBDBD"
-        android:textSize="21dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3"
-        tools:ignore="MissingConstraints" />
-
     <TextView
-        android:id="@+id/tv_email"
         android:layout_width="115dp"
         android:layout_height="21dp"
 
@@ -97,37 +81,58 @@
         android:layout_width="222dp"
         android:layout_height="51dp"
 
-        android:layout_marginTop="172dp"
-        android:background="@drawable/email_chk"
+        android:layout_marginTop="28dp"
         android:visibility="gone"
+        android:background="@drawable/email_chk"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.148"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email_url"
+        tools:ignore="MissingConstraints" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="184dp"
+        android:text="비밀번호"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.101"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/pwd"
+        android:layout_width="338dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="92dp"
+        android:backgroundTint="#41AFE5"
+
+        android:textColor="#000000"
+        android:textColorHint="#BDBDBD"
+        android:textSize="21dp"
+        android:hint="password"
+        android:password="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.383"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4"
         tools:ignore="MissingConstraints" />
 
     <ImageButton
         android:id="@+id/check_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="144dp"
         android:background="@drawable/check_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email_url"
-        tools:ignore="MissingConstraints" />
-
-    <ImageButton
-        android:id="@+id/check_btn2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="264dp"
-        android:background="@drawable/check_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3"
         tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

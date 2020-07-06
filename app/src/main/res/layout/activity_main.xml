@@ -11,9 +11,18 @@
         layout="@layout/activity_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="57dp"
+        tools:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="220dp"
+        android:layout_marginTop="-5dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
@@ -22,10 +31,4 @@
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewpager_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="57dp"
-        tools:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 </androidx.drawerlayout.widget.DrawerLayout>

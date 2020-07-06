@@ -24,13 +24,39 @@
 
     <ImageButton
         android:id="@+id/start_btn"
-        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
-        android:background="@drawable/start_button"
-        />
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/start_button" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="가입한 적이 있나요? "
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+
+            />
+        <TextView
+            android:id="@+id/go_to_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="로그인"
+            android:backgroundTint="#41AFE5"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textSize="16dp"
+
+            />
+
+    </LinearLayout>
 
 </LinearLayout>

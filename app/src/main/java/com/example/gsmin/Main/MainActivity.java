@@ -2,9 +2,11 @@ package com.example.gsmin.Main;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
@@ -37,7 +39,10 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.gsmin.Adapter.ViewPagerAdapter;
 //import com.example.gsmin.Fragment.HomeFragment;
 import com.example.gsmin.Fragment.HomeFragment;
+import com.example.gsmin.Fragment.NoticeFragment;
+import com.example.gsmin.Model.Data;
 import com.example.gsmin.R;
+import com.example.gsmin.Splash.SplashActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -48,15 +53,15 @@ public class MainActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager = getSupportFragmentManager();
     public static HomeFragment homeFragment;
-//    public static BookmarkFragment bookmarkFragment;
-//    private ProfileFragment profileFragment;
-//    public static FragmentTransaction transaction;
+    public static NoticeFragment noticeFragment;
+    public static FragmentTransaction transaction;
+
     private ViewPager viewPager;
     private MenuItem prevMenuItem;
     private ViewPagerAdapter adapter;
     private ImageButton drawwr_btn, search, menu;
-    private ImageView gsmin;
-
+    private ImageView gsmin, navImg;
+    private TextView navName, navEmail;
     private boolean mSlideState = false, searchActivity= true;
     private EditText mainEdit;
 
@@ -70,8 +75,49 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setSupportActionBar(toolbar);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View hView =  navigationView.getHeaderView(0);
+        navImg = hView.findViewById(R.id.navImg);
+        navName = hView.findViewById(R.id.navName);
+        navEmail = hView.findViewById(R.id.navEmail);
 
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        final NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
+        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                transaction = fragmentManager.beginTransaction();
+                switch (menuItem.getItemId()) {
+                    case R.id.navBoard:
+                        viewPager.setCurrentItem(0);
+                        transaction.detach(homeFragment).attach(homeFragment).commit();
+                        drawer.closeDrawer(Gravity.LEFT);
+                        mSlideState = false;
+                        break;
+                    case R.id.navNoti:
+                        viewPager.setCurrentItem(1);
+                        transaction.detach(noticeFragment).attach(noticeFragment).commit();
+                        drawer.closeDrawer(Gravity.LEFT);
+                        mSlideState = false;
+                        break;
+                    case R.id.logout:
+                        SharedPreferences sharedPreferences = getSharedPreferences("login_data",MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("email", "");
+                        editor.putString("pw", "");
+                        editor.commit();
+
+                        Toast.makeText(getApplicationContext(), Data.UserName+"님! 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+
+                        Data.clear();
+
+                        startActivity(new Intent(getApplication(), LoginActivity.class));
+                        MainActivity.this.finish();
+                        break;
+                }
+                return false;
+            }
+        });
 
         search = findViewById(R.id.searchBtn);
         search.setVisibility(View.INVISIBLE);
@@ -130,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
         drawwr_btn = findViewById(R.id.drawer_btn);
-
         drawwr_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -149,23 +194,23 @@ public class MainActivity extends AppCompatActivity {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                return;
             }
             @Override
             public void onPageSelected(int position) {
-//                if (prevMenuItem != null) {
-//                    prevMenuItem.setChecked(false);
-//                } else {
-//                    bottomNavigationView.getMenu().getItem(0).setChecked(false);
+                if (prevMenuItem != null) {
+                    prevMenuItem.setChecked(false);
+                } else {
+                    nav_view.getMenu().getItem(0).setChecked(false);
+                }
+                adapter.notifyDataSetChanged();
+                Log.d("page", "onPageSelected: " + position);
+//                if (position == 1){
+//                    transaction = fragmentManager.beginTransaction();
+//                    transaction.detach(bookmarkFragment).attach(bookmarkFragment).commit();
 //                }
-////                adapter.notifyDataSetChanged();
-//                Log.d("page", "onPageSelected: " + position);
-////                if (position == 1){
-////                    transaction = fragmentManager.beginTransaction();
-////                    transaction.detach(bookmarkFragment).attach(bookmarkFragment).commit();
-////                }
-//                bottomNavigationView.getMenu().getItem(position).setChecked(true);
-//                prevMenuItem = bottomNavigationView.getMenu().getItem(position);
+                nav_view.getMenu().getItem(position).setChecked(true);
+                prevMenuItem = nav_view.getMenu().getItem(position);
              }
 
             @Override
@@ -174,6 +219,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Handler hd = new Handler();
+        hd.postDelayed(new MainActivity.splashhandler(), 1800);
         setupViewPager(viewPager);
     }
 
@@ -223,6 +270,7 @@ public class MainActivity extends AppCompatActivity {
         {
             case R.id.mainMenu:
                 Log.d("add", "onContextItemSelected: ");
+
         }
 
         return super.onContextItemSelected(item);
@@ -230,20 +278,34 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
         homeFragment = new HomeFragment();
-//        bookmarkFragment = new BookmarkFragment();
+        noticeFragment = new NoticeFragment();
 //        profileFragment = new ProfileFragment();
 
         adapter.addFragment(homeFragment);
-//        adapter.addFragment(bookmarkFragment);
+        adapter.addFragment(noticeFragment);
 //        adapter.addFragment(profileFragment);
         viewPager.setAdapter(adapter);
+    }
+
+    public class splashhandler implements Runnable {
+        public void run(){
+            switch (Data.UserGrade){
+                case 1 : navImg.setImageResource(R.drawable.one_icon);break;
+                case 2 :navImg.setImageResource(R.drawable.two_icon);break;
+                case 3 :navImg.setImageResource(R.drawable.three_icon);break;
+                default: navImg.setImageResource(R.drawable.grad_icon);break;
+            }
+            navName.setText(Data.UserName);
+            navEmail.setText(Data.UserEmail);
+        }
     }
 
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        getMenuInflater().inflate(R.menu.activity_main_drawer, menu);
 //        return true;
 //    }
 

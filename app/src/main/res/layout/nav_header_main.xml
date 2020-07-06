@@ -1,40 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/nav_header_height"
-    android:background="@drawable/ic_backg"
-    android:gravity="bottom"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin">
-
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
     <ImageView
-        android:id="@+id/navImg"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:contentDescription="@string/nav_header_desc"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@mipmap/ic_launcher_round" />
-
-    <TextView
-        android:id="@+id/navName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="23dp"
-        android:textColor="#ffffff"
-        android:textStyle="bold"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="라이언" />
-
-    <TextView
-        android:id="@+id/navEmail"
+        android:layout_height="match_parent"
+        android:paddingRight="-3dp"
+        android:src="@drawable/ic_backg"/>
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16dp"
-        android:textColor="#ffffff"
-        android:text="s18031@gsm.hs.kr" />
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:gravity="bottom"
+        android:layout_height="176dp"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <ImageView
+            android:id="@+id/navImg"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@string/nav_header_desc"
+            android:paddingTop="@dimen/nav_header_vertical_spacing"
+            app:srcCompat="@mipmap/ic_launcher_round" />
+
+        <TextView
+            android:id="@+id/navName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="23dp"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:paddingTop="@dimen/nav_header_vertical_spacing"
+            android:text="라이언" />
+
+        <TextView
+            android:id="@+id/navEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:textColor="#ffffff"
+            android:text="s18031@gsm.hs.kr" />
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -3,6 +3,7 @@ package com.example.gsmin.Main;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -11,15 +12,20 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.gsmin.Json.JSONTask;
+import com.example.gsmin.Model.Data;
 import com.example.gsmin.R;
+import com.example.gsmin.Splash.SplashActivity;
+
+import java.util.concurrent.ExecutionException;
 
 public class InfoActivity extends AppCompatActivity {
-
+    public String jsonResult = "";
     ImageButton check_btn, back_btn;
-    private String email;
     EditText pw1, pw2, name;
     TextView ck1, ck2, ck3;
     @Override
@@ -52,8 +58,13 @@ public class InfoActivity extends AppCompatActivity {
         check_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplication(), MainActivity.class));
-                InfoActivity.this.finish();
+                Data.setData(new String[]{"email","pw", "nickname"}, new String[]{Data.UserEmail, pw1.getText().toString(), name.getText().toString()});
+                JSONTask jt = new JSONTask();
+                jt.execute(Data.url + "/insert_user_information");
+                jsonResult = jt.jsonReturn();
+
+                Handler hd = new Handler();
+                hd.postDelayed(new InfoActivity.splashhandler(), 1000);
             }
         });
 
@@ -80,4 +91,18 @@ public class InfoActivity extends AppCompatActivity {
             }
         });
         }
+
+    private class splashhandler implements Runnable {
+        public void run() {
+            Log.d("","\nckcode: " + "success"+"\nresult: " + jsonResult);
+
+            if (jsonResult.trim().equals("success")){
+                startActivity(new Intent(getApplication(), MainActivity.class));
+                InfoActivity.this.finish();
+            }else{
+                Toast.makeText(getApplicationContext(), "INSERT_ERROR", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+    }
 }

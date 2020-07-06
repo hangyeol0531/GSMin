@@ -69,7 +69,6 @@
             android:id="@+id/check_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="사용"
             android:textColor="#09AA4A"
             android:textSize="17dp"
             android:textStyle="bold" />
@@ -111,7 +110,6 @@
             android:id="@+id/check_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="사용"
             android:textColor="#09AA4A"
             android:textSize="17dp"
             android:textStyle="bold" />
@@ -144,14 +142,12 @@
 
             android:textColor="#000000"
             android:textColorHint="#BDBDBD"
-            android:textSize="21dp"
-            tools:ignore="MissingConstraints" />
+            android:textSize="21dp"/>
 
         <TextView
             android:id="@+id/check_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="사용"
             android:textColor="#09AA4A"
             android:textSize="17dp"
             android:textStyle="bold" />

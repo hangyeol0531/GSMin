@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment {
 //        gsmin.setVisibility(View.VISIBLE);
 //        mainText.setVisibility(View.GONE);
         init(view);
-        
+
         // setOnClickListener
         for(int i = 0; i < TV_LEN; i++) {
             final int finalI = i;
@@ -83,35 +83,31 @@ public class HomeFragment extends Fragment {
                 Log.d("finalData", "onClick: "+finalI);
                 String channel = tvArr[finalI].getText().toString();
 
-                Data.setData(new String[]{"channel"}, new String[]{channel});
-
-                listData[0] = new String[]{"boardTitle10", "boardName", "boardInfo", "0", "0"};
-
-
-                try {
-                    String result = new JSONTask().execute(Data.url+"/board").get(); // channel
-                    JSONArray ja = new JSONArray(result);
-
-//                        // {"boardTitle1", "boardName", "boardInfo", "0", "0"}
-////                        "likeCount":"06",
-////                        "section":"자유",
-////                        "content":"Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.",
-////                        "writer":"양현승",
-////                        "viewer":32,
-////                        "previous":"0초 전"
-
-
-//                    for (int i = 0; i < ja.length(); i++){
-//                        JSONObject jo = ja.getJSONObject(i);
-//                        listData[i][0] = jo.getString("title");
-//                        listData[i][1] = jo.getString("writer");
-//                        listData[i][2] = jo.getString("previous")+ " ・ 조회수 "+jo.getString("viewer");
-//                        listData[i][3] = jo.getString("likeCount");
-//                        listData[i][4] = jo.getString("chatCount");
-//                    }
-                } catch (ExecutionException | InterruptedException | JSONException e) {
-                    e.printStackTrace();
-                }
+//                Data.setData(new String[]{"channel"}, new String[]{channel});
+//                listData[0] = new String[]{"boardTitle10", "boardName", "boardInfo", "0", "0"};
+//                try {
+//                    String result = new JSONTask().execute(Data.url+"/board").get(); // channel
+//                    JSONArray ja = new JSONArray(result);
+////                        // {"boardTitle1", "boardName", "boardInfo", "0", "0"}
+//////                        "likeCount":"06",
+//////                        "section":"자유",
+//////                        "content":"Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.",
+//////                        "writer":"양현승",
+//////                        "viewer":32,
+//////                        "previous":"0초 전"
+//
+//
+////                    for (int i = 0; i < ja.length(); i++){
+////                        JSONObject jo = ja.getJSONObject(i);
+////                        listData[i][0] = jo.getString("title");
+////                        listData[i][1] = jo.getString("writer");
+////                        listData[i][2] = jo.getString("previous")+ " ・ 조회수 "+jo.getString("viewer");
+////                        listData[i][3] = jo.getString("likeCount");
+////                        listData[i][4] = jo.getString("chatCount");
+////                    }
+//                } catch (ExecutionException | InterruptedException | JSONException e) {
+//                    e.printStackTrace();
+//                }
 
                 Intent intent = new Intent(getContext(), BoardActivity.class);
                 intent.putExtra("channel", channel);

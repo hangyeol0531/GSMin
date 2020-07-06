@@ -30,6 +30,7 @@
         <activity android:name=".Main.StartActivity"/>
         <activity android:name=".Main.WriteActivity"/>
         <activity android:name=".Main.TitleActivity"/>
+        <activity android:name=".Main.LoginActivity"/>
         <activity android:name=".Main.InfoActivity"/>
 
     </application>

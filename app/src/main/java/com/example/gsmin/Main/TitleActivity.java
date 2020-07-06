@@ -25,6 +25,7 @@ import com.example.gsmin.Model.Data;
 import com.example.gsmin.Json.JSONTask;
 import com.example.gsmin.R;
 import com.example.gsmin.Splash.SplashActivity;
+import com.example.gsmin.Util.Login;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,10 +34,11 @@ import java.text.BreakIterator;
 import java.util.concurrent.ExecutionException;
 
 public class TitleActivity extends AppCompatActivity {
-    public static ImageButton check_btn, back_btn;
-    public static ImageView ec;
-    private String email = "", result="";
-    public static EditText ed;
+    public static ImageButton check_btn, back_btn, next_btn;
+    public static ImageView ec, email_txt;
+    public TextView tvemail;
+    private String email = "", result="", checkCode="", jsonResult="";
+    public static EditText ed, checkNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,10 @@ public class TitleActivity extends AppCompatActivity {
         check_btn = findViewById(R.id.check_btn);
         ed = findViewById(R.id.email_url);
         ec = findViewById(R.id.email_chk);
+        checkNum = findViewById(R.id.checkNum);
+        email_txt = findViewById(R.id.imageView4);
+        next_btn = findViewById(R.id.check_btn2);
+        tvemail = findViewById(R.id.tv_email);
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,36 +73,38 @@ public class TitleActivity extends AppCompatActivity {
                     return;
                 }
                 email = ed.getText().toString() + "@gsm.hs.kr";
-
+                Data.UserEmail = email;
                 ec.setVisibility(View.VISIBLE);
+                checkNum.setVisibility(View.VISIBLE);
                 check_btn.setVisibility(View.GONE);
-
-                Data.setData(new String[]{"email"}, new String[]{email});
-                try {
-                    result = new JSONTask().execute(Data.url + "/emailCheck").get();//"http://15.164.212.158:3000/emailCheck");//AsyncTask 시작시킴
-                    JSONObject jo = new JSONObject(result);
-                    Log.d("TITLE", "onPostExecute: " + jo);
-
-//                // if 이메일 인증 성공
-                    if (jo.getString("isChecked") == "t"){
-                        startActivity(new Intent(getApplication(), MainActivity.class));
-//                    startActivity(new Intent(getApplication(), InfoActivity.class));
-                        TitleActivity.this.finish();
-                    }else{
-                        Toast.makeText(getApplicationContext(), "이메일 인증에 실패했습니다.", Toast.LENGTH_SHORT).show();
-                        ec.setVisibility(View.GONE);
-                        check_btn.setVisibility(View.VISIBLE);
-                    }
-
-
-                } catch (ExecutionException | InterruptedException | JSONException e) {
-                    e.printStackTrace();
-                }
-
-
+                email_txt.setVisibility(View.GONE);
+                ed.setVisibility(View.GONE);
+                tvemail.setVisibility(View.GONE);
+                next_btn.setVisibility(View.VISIBLE);
+                sendEmailData();
             }
         });
 
+        next_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            // Real
+            if (checkNum.getText().toString().isEmpty()){
+                Toast.makeText(getApplicationContext(), "인증번호를 입력하세요!", Toast.LENGTH_LONG).show();
+                return;
+            }
+            checkCode = checkNum.getText().toString();
+            Log.d("","\nckcode: " + checkCode+"\nresult: " + jsonResult);
+            if (checkCode.trim().equals(jsonResult.trim())){
+                startActivity(new Intent(getApplication(), InfoActivity.class));
+                TitleActivity.this.finish();
+            }else{
+                Toast.makeText(getApplicationContext(), "인증번호가 틀립니다!", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            }
+        });
         ed.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -109,5 +117,27 @@ public class TitleActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    private void sendEmailData() {
+        Data.setData(new String[]{"email"}, new String[]{email});
+        JSONTask jt = new JSONTask();
+        jt.execute(Data.url + "/emailCheck");//"http://15.164.212.158:3000/emailCheck");//AsyncTask 시작시킴
+
+        Handler hd = new Handler();
+        hd.postDelayed(new TitleActivity.splashhandler(jt), 2000);
+
+    }
+
+    public class splashhandler implements Runnable {
+        JSONTask jt;
+        public splashhandler(JSONTask jt) {
+            this.jt = jt;
+        }
+
+        @Override
+        public void run() {
+            jsonResult = jt.jsonReturn();
+        }
     }
 }

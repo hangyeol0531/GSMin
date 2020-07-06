@@ -27,7 +27,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class JSONTask extends AsyncTask<String, String, String> {
-
+    private static String jsonResult = "";
     @Override
     protected String doInBackground(String... urls) {
         try {
@@ -77,7 +77,7 @@ public class JSONTask extends AsyncTask<String, String, String> {
                     buffer.append(line);
                 }
 
-                return buffer.toString();//서버로 부터 받은 값을 리턴해줌 아마 OK!!가 들어올것임
+                return buffer.toString();//서버로 부터 받은 값을 리턴해줌
 
             } catch (MalformedURLException e){
                 e.printStackTrace();
@@ -110,8 +110,12 @@ public class JSONTask extends AsyncTask<String, String, String> {
         }
 //        String dataKey = "";
         Log.d("test node", "onPostExecute: "+result);
-
+        jsonResult = result;
         // test / anything to pass
 
+    }
+
+    public String jsonReturn(){
+        return jsonResult;
     }
 }
