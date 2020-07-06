@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
-import store from './store'
+import { router } from './router'
+import { store } from './store/index.js'
 import axios from 'axios'
 import vuetify from './plugins/vuetify'
 import {ValidationProvider} from 'vee-validate'
@@ -21,7 +21,7 @@ Vue.component('ValidationObserver', ValidationObserver)
 Vue.component('editor', Editor)
 Vue.component('viewer', Viewer)
 
-axios.defaults.baseURL = 'http://15.164.212.158:3000/';
+axios.defaults.baseURL = 'http://10.53.68.184:80/';
 axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*"
 axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'Authorization, Content-Type'
 

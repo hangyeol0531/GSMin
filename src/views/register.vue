@@ -58,17 +58,9 @@
                     required
                     ></v-text-field>
                   </ValidationProvider>
-                  <div v-if="confirmValue == false">
                     <v-btn color="#41AFE5" rounded block dark x-large @click="submit" >
-                        <strong class="title">로그인</strong>
+                        <strong class="title">회원가입</strong>
                     </v-btn>
-                  </div>
-                  <div v-if="confirmValue == true">
-                    <v-card flat align="left">
-                      <p class = "message">인증 메일이 발송되었습니다!</p>
-                      <p class = "message"><strong class="message_strong">메일함</strong>을 확인해 주세요.</p>
-                    </v-card>
-                  </div>
                 </form>
               </ValidationObserver>
               </v-card-text>
@@ -115,19 +107,20 @@ import { extend, ValidationObserver, ValidationProvider} from 'vee-validate'
             passwordConfirm: '',
             nickname: '',
             email: '',
-            confirmValue: false
         }
     },
     methods: {
       submit () {
         this.$refs.reg_ob.validate().then(valid => {
             if (valid) {
-                this.$http.post('/emailCheck', {
-                    email: this.email+'@gsm.hs.kr'
+                this.$http.post('/insert_user_information', {
+                    email: `${this.email}@gsm.hs.kr`,
+                    pw: this.password,
+                    nickname : this.nickname,
                 }).then((res) => {
-                    this.confirmValue = true
+                    this.$router.push({name : 'login'})
                 }).catch(e => {
-                    console.log(e)
+                    alert("오류", e)
                 })
             }
         })

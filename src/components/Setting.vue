@@ -93,69 +93,45 @@
                   <v-card flat>
                     <v-card-title class="headline font-weight-bold">
                         <v-col cols="10">
-                            취업 후기
+                            설정
+                        </v-col>
+                        <v-col class="mt-5 title font-weight-bold" cols="10">
+                            닉네임 변경
                         </v-col>
                     </v-card-title>
-                    <v-card-title>
-                        <v-col cols="2" class="pb-0">
-                          <v-select
-                            class="d-flex"
-                            sm="4"
-                            return-object
-                            hide-details
-                            solo
-                            label="일반">
-                          </v-select>
-                        </v-col>
-                        <v-col cols="3" class="pb-0">
-                          <v-select
-                            class="d-flex"
-                            sm="4"
-                            :items="items"
-                            item-value="value"
-                            v-model="select"
-                            return-object
-                            hide-details
-                            solo
-                            label="제목">
-                          </v-select>
-                        </v-col>                        
-                    </v-card-title>
-                    <v-card-title>
-                        <v-col cols="12" class="pt-0">
+                    <v-card-text>
+                    <v-row>
+                        <v-col cols="5" class="pt-0 ml-3">
+                        <ValidationObserver ref="nick_ob" v-slot="{ }">
+                        <ValidationProvider v-slot="{ errors }" name="닉네임 변경" rules="required">
                             <v-text-field
-                                label="제목"
-                                outlined
-                                solo
-                                flat>
-                            </v-text-field>
+                            outlined
+                            solo
+                            flat
+                            v-model="chNickname"
+                            :error-messages="errors"
+                            label="닉네임 변경"
+                            hide-details="auto"
+                            required
+                            ></v-text-field>
+                        </ValidationProvider>
+                        </ValidationObserver>
                         </v-col>
-                    </v-card-title>
-                      <v-card>
-                          <v-card-text>
-                            <viewer :initialValue="editorText" height="500px" />
-                            <editor
-                            ref="editorText"
-                            height="500px"
-                            mode="wysiwyg"/>
-                          </v-card-text>
-                          <v-card-text>
-                              <v-row>
-                                  <v-col>
-                                      <v-btn><v-icon left>delete_forever</v-icon>취소</v-btn>
-                                  </v-col>
-                                  <v-col class="text-right">
-                                      <v-btn 
-                                        :loading="loading"
-                                        dark
-                                        color="#025F94"
-                                        @click="loader = 'loading'">게시<v-icon right>send</v-icon></v-btn>
-                                  </v-col>
-                              </v-row>
-                          </v-card-text>
-                      </v-card>
-                      <v-card>
-                      </v-card>
+                        <v-col cols="3 pt-0">
+                            <v-btn x-large dark color="#025F94" @click="changeName">
+                                변경하기
+                            </v-btn>
+                        </v-col>
+                    </v-row>
+                    <v-col cols="10" class="title font-weight-bold" @click="logOut">
+                            로그아웃
+                    </v-col>
+                    <v-col>
+                        <v-btn dark color="#00B1EA">
+                            로그아웃하기
+                        </v-btn>
+                    </v-col>
+                    </v-card-text>
                   </v-card>
                 </v-card>
               </v-col>
@@ -173,7 +149,14 @@ const curmonth = date.getMonth()
 const curdate = date.getDate()
 const curday = date.getDay()
 const meal_all = `백미밥 유부두부된장국 제육채소 볶음 숙주미나리무침 배추김치 에그타르트 오렌지`
-import { Editor, Viewer } from '@toast-ui/vue-editor'
+
+import { required } from 'vee-validate/dist/rules'
+import { extend, ValidationObserver, ValidationProvider} from 'vee-validate'
+
+  extend('required', {
+    ...required,
+    message: '{_field_} 칸을 채워주세요',
+  })
 
 export default {
   data () {
@@ -209,13 +192,9 @@ export default {
       loader: null,
       loading: false,
       //
-      company: '마이다스아이티'
+      company: '마이다스아이티',
+      chNickname: ''
     }
-  },
-
-  components : {
-    'editor' : Editor,
-    'viewer' : Viewer
   },
 
   created () {
@@ -223,7 +202,15 @@ export default {
   },
 
   methods: {
+      changeName() {
+          this.$refs.nick_ob.validate().then(valid => {
+              
+          })
+      },
 
+      logOut() {
+          
+      }
   },
   
   watch: {

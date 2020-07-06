@@ -4,15 +4,36 @@ import Home from '../components/Home'
 import Board from '../components/Board'
 import Write from '../components/Write'
 import Viewer from '../components/Viewer'
+import Setting from '../components/Setting'
+import { store } from '../store'
 
 
 Vue.use(VueRouter)
+
+const isAuthenticated = (to, from, next) => {
+  if(store.state.auth.token === null) {
+    alert("잘못된 접근입니다 로그인을 해주세요.")
+    next('/')
+  } else {
+    next()
+  }
+}
+
+const onlyAuthenticated = (to, from, next) => {
+  if(store.state.auth.token !=undefined) {
+    alert("잘못된 접근입니다 로그아웃을 해주세요.")
+    next('/home')
+  } else {
+    next()
+  }
+}
 
 const routes = [
   {
     path: '/home',
     name: 'Home',
-    component: Home
+    component: Home,
+    beforeEnter: isAuthenticated
   },
   {
     path: '/board',
@@ -30,31 +51,38 @@ const routes = [
     component: Viewer
   },
   {
+    path: '/setting',
+    name: 'Setting',
+    component: Setting
+  },
+  {
     path: '/',
     name: 'login',
+    beforeEnter: onlyAuthenticated,
     component: () => import('../views/login.vue')
   },
   {
     path: '/confirm',
     name: 'confirm',
+    beforeEnter: onlyAuthenticated,
     component: () => import('../views/confirm.vue')
   },
   {
     path: '/register',
     name: 'register',
+    beforeEnter: onlyAuthenticated,
     component: () => import('../views/register.vue')
   },
   {
     path: '/endAuth',
     name: 'endAuth',
+    beforeEnter: onlyAuthenticated,
     component: () => import('../views/endAuth.vue')
   },
 ]
 
-const router = new VueRouter({
+export const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
 })
-
-export default router

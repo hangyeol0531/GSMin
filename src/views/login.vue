@@ -57,7 +57,7 @@
               </v-card-text>
               <v-container>
                 <v-card flat align="right">
-                  <p><strong>GSMin</strong>이 처음이신가요? <router-link :to="{name : 'register'}" class="href"><strong>회원가입</strong></router-link></p>
+                  <p><strong>GSMin</strong>이 처음이신가요? <router-link :to="{name : 'confirm'}" class="href"><strong>회원가입</strong></router-link></p>
                 </v-card>
                 <v-card flat align="right">
                   <p><router-link :to="{name : 'confirm'}" class="href"><strong>아이디/비밀번호 찾기</strong></router-link></p>
@@ -89,9 +89,28 @@ import { extend, ValidationObserver, ValidationProvider} from 'vee-validate'
   })
 
   export default {
+    data () {
+      return {
+        email : '',
+        password: '',
+        chpassword: ''
+      }
+    },
+
+    created() {
+      localStorage.removeItem('token');
+    },
+
     methods: {
       submit () {
-        this.$refs.login_ob.validate()
+        this.$refs.login_ob.validate().then(valid => {
+          if(valid) {
+            let email = `${this.email}`
+            let pw = this.password
+
+            this.$store.dispatch('auth/login', {email: email, pw: pw})
+          }
+        })
       }
     }
   }

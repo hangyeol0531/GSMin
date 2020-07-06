@@ -29,6 +29,7 @@
                     flat
                     v-model="email"
                     :error-messages="errors"
+                    :disabled="disable"
                     label="이메일"
                     suffix="@gsm.hs.kr"
                     required
@@ -36,14 +37,24 @@
                   </ValidationProvider>
                   <div v-if="confirmValue == false">
                     <v-btn color="#41AFE5" rounded block dark x-large @click="submit" >
-                        <strong class="title">로그인</strong>
+                        <strong class="title">확인</strong>
                     </v-btn>
                   </div>
-                  <div v-if="confirmValue == true">
-                    <v-card flat align="left">
-                      <p class = "message">인증 메일이 발송되었습니다!</p>
-                      <p class = "message"><strong class="message_strong">메일함</strong>을 확인해 주세요.</p>
-                    </v-card>
+                  <div v-else>
+                    <ValidationProvider v-slot="{ errors }" name="confirmCode" rules="required">
+                      <v-text-field
+                      outlined
+                      solo
+                      flat
+                      v-model="confirmCode"
+                      :error-messages="errors"
+                      label="인증코드"
+                      required
+                      ></v-text-field>
+                    </ValidationProvider>
+                    <v-btn color="#41AFE5" rounded block dark x-large @click="codeSubmit" >
+                        <strong class="title">인증확인</strong>
+                    </v-btn>                    
                   </div>
                 </form>
               </ValidationObserver>
@@ -78,7 +89,9 @@ import { extend, ValidationObserver, ValidationProvider} from 'vee-validate'
     data () {
         return {
             email: '',
-            confirmValue: false
+            confirmValue: false,
+            disable: false,
+            confirmCode: '',
         }
     },
     methods: {
@@ -89,10 +102,27 @@ import { extend, ValidationObserver, ValidationProvider} from 'vee-validate'
                     email: this.email+'@gsm.hs.kr'
                 }).then((res) => {
                     this.confirmValue = true
+                    this.disable = true
+                    this.codeData = res.data
+                    console.log(res)
                 }).catch(e => {
                     console.log(e)
                 })
             }
+        })
+      },
+
+      codeSubmit() {
+        this.$refs.reg_ob.validate().then(valid => {
+          if(valid) {
+
+            if(this.codeData === this.confirmCode) {
+              alert("성공적으로 확인되었습니다!")
+              this.$router.push({name : 'register'})
+            } else {
+              alert("인증코드가 맞지않습니다!")
+            }
+          }
         })
       }
     }

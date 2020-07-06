@@ -16,7 +16,7 @@
             overlap>
             <v-btn icon><v-icon large>notifications</v-icon></v-btn>
           </v-badge>
-            <v-btn icon><v-icon>settings</v-icon></v-btn>
+            <v-btn @click="routerPush('Setting')" icon><v-icon>settings</v-icon></v-btn>
             <v-spacer></v-spacer>
       </v-app-bar>
         <v-content>
@@ -47,8 +47,8 @@
                   app
                   class="mx-auto">
                   <v-card app fixed flat>
-                    <v-card-title class="headline">
-                      <v-img src="../assets/one_icon.png" max-width="8%"></v-img><strong>라이언</strong></v-card-title>
+                    <v-card-title class="headline" v-if="user">
+                      <v-img src="../assets/one_icon.png" max-width="8%"></v-img><strong>{{user['user_nickname']}}</strong></v-card-title>
                       <v-card-subtitle class="font-weight-bold">{{company}}</v-card-subtitle>
                       <v-divider></v-divider>
                         <v-card-subtitle class="pa-1 pl-3">
@@ -147,7 +147,7 @@
                     </v-row>
                     <v-row class="ma-2" align="center" justify="center">
                         <v-col class="ml-4">
-                            <v-card width="554">
+                            <v-card width="500">
                                 <v-card-title class="font-weight-black title">
                                     <div class="font">취업처 기업 규모</div>
                                 </v-card-title>
@@ -185,7 +185,9 @@ const curdate = date.getDate()
 const curday = date.getDay()
 const meal_all = `백미밥 유부두부된장국 제육채소 볶음 숙주미나리무침 배추김치 에그타르트 오렌지`
 
-import LineChart from './LineChart.js'
+import LineChart from '../LineChart.js'
+import { mapState } from 'vuex'
+import { router } from '../router/index.js'
 
 export default {
   data () {
@@ -205,11 +207,21 @@ export default {
   },
 
   created () {
+      this.$store.dispatch('auth/getUserInfo')
+
       this.fillData()
-      
+  },
+
+  computed: {
+    ...mapState({
+      user: state => state.auth.userInfo
+    })
   },
   
   methods: {
+      routerPush(name) {
+        router.push({name})
+      },
       fillData () {
         this.datacollection = {
           labels: [
@@ -218,7 +230,9 @@ export default {
             ],
           datasets: [
             {
+              barThickness: 20,
               label: '인원 수',
+              hoverBackgroundColor: '#2980b9',
               backgroundColor: '#41AFE5',
               data: [this.getRandomInt(), this.getRandomInt(), 
               this.getRandomInt(), this.getRandomInt(),
@@ -239,7 +253,7 @@ export default {
 </script>
 
 <style>
-* { font-family: 'SpoqaHanSans-Regular', sans-serif}
+/* * { font-family: 'SpoqaHanSans-Regular', sans-serif} */
 
 .bg{
   background-color:#ECEDEE !important; 
@@ -251,6 +265,7 @@ export default {
 
 .chart{
   max-width: 100%;
+  height:50%;
 }
 
 </style>
