@@ -28,63 +28,8 @@
               <v-col md="2"></v-col>
 
               <v-col md="2">
-                <v-card
-                dark
-                color="rgb(255, 0, 0, 0)"
-                flat
-                app
-                class="mx-auto"
-                width="700"
-                style="margin-top: -372px;"
-                >
-                <v-card-title class="display-1">
-                  {{today}}
-                </v-card-title>
-                </v-card>
-                <v-card
-                  app
-                  class="mx-auto">
-                   <v-card app fixed flat>
-                    <v-card-title class="headline">
-                      <v-img src="../assets/one_icon.png" max-width="8%"></v-img><strong>라이언</strong></v-card-title>
-                      <v-card-subtitle class="font-weight-bold">{{company}}</v-card-subtitle>
-                      <v-divider></v-divider>
-                        <v-card-subtitle class="pa-1 pl-3">
-                          모아보기
-                        </v-card-subtitle>                    
-                        <v-card-text>
-                          <v-btn text block class="subtitle-1">전체</v-btn>
-                        </v-card-text>
-                      <v-divider></v-divider>
-                        <v-card-subtitle class="pa-1 pl-3">
-                          정보
-                        </v-card-subtitle>                    
-                        <v-card-text>
-                          <v-btn text block class="subtitle-1">채용 공고</v-btn>
-                          <v-btn text block class="subtitle-1">취업 현황</v-btn>
-                        </v-card-text>
-                      <v-divider></v-divider>
-                        <v-card-subtitle class="pa-1 pl-3">
-                          일반
-                        </v-card-subtitle>                    
-                        <v-card-text>
-                          <v-btn text block class="subtitle-1">자유</v-btn>
-                          <v-btn text block class="subtitle-1">질문</v-btn>
-                          <v-btn text block class="subtitle-1">꿀팁</v-btn>
-                        </v-card-text> 
-                      <v-divider></v-divider>
-                        <v-card-subtitle class="pa-1 pl-3">
-                          학년
-                        </v-card-subtitle>                    
-                        <v-card-text>
-                          <v-btn text block class="subtitle-1">1학년</v-btn>
-                          <v-btn text block class="subtitle-1">2학년</v-btn>
-                          <v-btn text block class="subtitle-1">3학년</v-btn>
-                          <v-btn text block class="subtitle-1">졸업생</v-btn>
-                        </v-card-text>
-                    </v-card>
-                    </v-card>
-                </v-col>
+                <side-bar></side-bar>
+              </v-col>
 
               <v-col md="6">               
                 <v-card
@@ -167,20 +112,14 @@
 </template>
 
 <script>
-const date = new Date()
-const week = new Array('일', '월', '화', '수', '목', '금', '토')
-const curmonth = date.getMonth()
-const curdate = date.getDate()
-const curday = date.getDay()
 const meal_all = `백미밥 유부두부된장국 제육채소 볶음 숙주미나리무침 배추김치 에그타르트 오렌지`
 import { Editor, Viewer } from '@toast-ui/vue-editor'
-
+import sideBar from './sideBar.vue'
 export default {
   data () {
     return {
       text: 5,
       riple : 35,
-      today : `${curmonth+1}월 ${curdate}일 ${week[curday]}요일`,
       meal_section : `조식`,
       meal_all : meal_all,
       items : 
@@ -215,7 +154,8 @@ export default {
 
   components : {
     'editor' : Editor,
-    'viewer' : Viewer
+    'viewer' : Viewer,
+    sideBar
   },
 
   created () {

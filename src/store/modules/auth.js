@@ -47,7 +47,7 @@ const actions = {
                 }
                 commit('getUserInfo', userInfo)
             }).catch((e) => {
-                alert(e)
+                console.log(e)
             })
     }
 }
