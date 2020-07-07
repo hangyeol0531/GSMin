@@ -23,7 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SplashActivity extends Activity {
-    public String jsonResult = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

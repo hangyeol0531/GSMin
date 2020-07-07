@@ -77,19 +77,27 @@
                 </LinearLayout>
 
             </FrameLayout>
-
-            <ImageButton
-                android:id="@+id/searchBtn"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="18dp"
-                android:background="@drawable/mask"/>
+                android:orientation="horizontal"
+                android:gravity="right">
 
-            <ImageButton
-                android:id="@+id/menuBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/more_vert"/>
+                <ImageButton
+                    android:id="@+id/searchBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="18dp"
+                    android:background="@drawable/mask"/>
+
+                <ImageButton
+                    android:id="@+id/menuBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="18dp"
+                    android:background="@drawable/more_vert"/>
+
+            </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>

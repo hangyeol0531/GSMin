@@ -33,7 +33,10 @@ import org.json.JSONObject;
 import java.text.BreakIterator;
 import java.util.concurrent.ExecutionException;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class TitleActivity extends AppCompatActivity {
+    Context ct;
     public static ImageButton check_btn, back_btn, next_btn;
     public static ImageView ec, email_txt;
     public TextView tvemail;
@@ -47,7 +50,7 @@ public class TitleActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_title);
-
+        ct = this;
         back_btn = findViewById(R.id.back_btn);
         check_btn = findViewById(R.id.check_btn);
         ed = findViewById(R.id.email_url);
@@ -69,7 +72,10 @@ public class TitleActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Real
                 if (ed.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "이메일을 입력하지 않았습니다!", Toast.LENGTH_LONG).show();
+                    new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("음...")
+                            .setContentText("이메일을 깜빡했나요?")
+                            .show();
                     return;
                 }
                 email = ed.getText().toString() + "@gsm.hs.kr";
@@ -90,16 +96,26 @@ public class TitleActivity extends AppCompatActivity {
             public void onClick(View view) {
             // Real
             if (checkNum.getText().toString().isEmpty()){
-                Toast.makeText(getApplicationContext(), "인증번호를 입력하세요!", Toast.LENGTH_LONG).show();
+                new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("음...")
+                        .setContentText("인증번호를 입력하세요!")
+                        .show();
                 return;
             }
             checkCode = checkNum.getText().toString();
             Log.d("","\nckcode: " + checkCode+"\nresult: " + jsonResult);
             if (checkCode.trim().equals(jsonResult.trim())){
+                new SweetAlertDialog(ct, SweetAlertDialog.SUCCESS_TYPE)
+                        .setTitleText("굿..!")
+                        .setContentText("회원가입 완료!")
+                        .show();
                 startActivity(new Intent(getApplication(), InfoActivity.class));
                 TitleActivity.this.finish();
             }else{
-                Toast.makeText(getApplicationContext(), "인증번호가 틀립니다!", Toast.LENGTH_LONG).show();
+                new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("음...")
+                        .setContentText("인증번호 틀렸어요!")
+                        .show();
                 return;
             }
 
