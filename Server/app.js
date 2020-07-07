@@ -19,6 +19,8 @@ const jwt = require('jsonwebtoken');
 const School = require('node-school-kr');
 const school = new School()
 var ip = require('ip');
+const { stringify } = require('querystring');
+const { decode } = require('punycode');
 
 school.init(School.Type.HIGH, School.Region.GWANGJU, 'F100000120');
 
@@ -28,8 +30,21 @@ app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
 
 app.use((req, res, next) => {
-    console_all ( `${ip.address()} 님이 서버를 접속하셨습니다.` );
-    next()
+    var ip = req.headers['x-forwarded-for'] ||
+     req.connection.remoteAddress ||
+     req.socket.remoteAddress ||
+     req.connection.socket.remoteAddress;
+    let name;
+
+    if(ip.includes('73.38')){
+        name = '서지우 공주님'
+    }else if(ip.includes('73.39')){
+        name = '양현승 왕자님'
+    }else if(ip.includes('68.184')){
+        name = '햇갯님'
+    }
+    console_all ( `${name}이 서버를 접속하셨습니다.` );
+    next();
 })
 
 var db = mysql.createConnection({
@@ -39,6 +54,7 @@ var db = mysql.createConnection({
     password: config.sqlpassword
   })
 
+  
 const console_all = async (pr_content) => {
     console.log(pr_content)
 
@@ -49,22 +65,44 @@ const console_all = async (pr_content) => {
     )
 }
 
-app.post('/token', (req, res) =>{
-    const payload = {
-        idx : req.body.idx,
-        email : req.body.email,
-        nickname : req.body.nickname
-    }
-    var token = jwt.sign(payload, config.secret_key); //첫번째 인자 : playlaod 2번째 인자 비밀키 값
-    console.log(token);
-    try{
-        decoded_token = jwt.verify(token, config.secret_key)
-        res.end('token is ggul dda ri')
-    }catch{
-        res.end('token is invalid')
-    }
-    
-})
+
+// app.post('/token', (req, res) =>{
+//     const payload = {
+//         idx : req.body.idx,
+//         email : req.body.email,
+//         nickname : req.body.nickname,
+//         grade : req.body.grade
+//     }
+//     var token = jwt.sign(payload, config.secret_key); //첫번째 인자 : playlaod 2번째 인자 비밀키 값
+//     console.log(token);
+//     try{
+//         decoded_token = jwt.verify(token, config.secret_key)
+//         console.log(decoded_token)
+//         res.end('token is ggul dda ri')
+//     }catch{
+//         res.end('token is invalid')
+//     }
+// })
+
+var token_make = function(send_email){
+    return new Promise((resolve => {
+        var sql = `SELECT * FROM User_Information WHERE user_email = '${send_email}'`
+        var token = ''
+        db.query(sql, function(err, rows){
+            if(err) {
+                throw err;
+            }
+            const payload = {
+                idx : rows[0].idx,
+                user_email : rows[0].user_email,
+                nickname : rows[0].nickname,
+                grade : rows[0].grade
+            }
+            token = jwt.sign(payload, config.secret_key); //첫번째 인자 : playlaod 2번째 인자 비밀키 값
+            resolve(token)
+        })
+    }))
+}
 
 app.post('/gsmschoolfood', async (req, res) =>{
     console_all("gsmschoolfood 접속")
@@ -136,7 +174,8 @@ app.post('/emailCheck', async (req,res)=>{
             </html>
             `
         };
-
+        // 이메일 전송하려면 이쪽 주석을 풀어야함
+        
         //  await smtpTransport.sendMail(mailOptions, (error, responses) =>{
         //     if(error){
         //         console.log(error)
@@ -145,6 +184,7 @@ app.post('/emailCheck', async (req,res)=>{
         //     }
         //     smtpTransport.close();
         // });
+
     }catch(e){
         console.log(e);
     }
@@ -155,11 +195,16 @@ app.post('/insert_user_information', (req, res) =>{
     const email = req.body.email;
     const crytopassword = crypto.createHash('sha512').update(req.body.pw).digest('base64');
     const nickname = req.body.nickname;
+    const grade = Number(String(new Date().getFullYear()).slice(2,4))- Number(email.slice(1,3))+1
+    if(grade >= 4){
+        grade = 4;
+    }
+    console.log(grade)
     console.log(email)
     console.log(crytopassword)
     console.log(nickname)
-    var sql = "insert into User_Information(user_email, password, nickname) VALUES(?, ?, ?)";
-    db.query(sql, [email, crytopassword, nickname], function(err, rows){
+    var sql = "insert into User_Information(user_email, password, nickname, grade) VALUES(?, ?, ?, ?)";
+    db.query(sql, [email, crytopassword, nickname, grade], function(err, rows){
         if(!err) {
             console.log("입력 성공");
             res.end(config.success)
@@ -171,26 +216,65 @@ app.post('/insert_user_information', (req, res) =>{
 
 })
 
-app.post('/req_hire_list', (req, res) =>{
-    
+app.get('/gsm_hire_list', async (req, res) =>{
+    const job_list = await axios.get('https://sheet.best/api/sheets/a954e6a3-0e4f-48a6-8a20-234ff289fffd');
+    const spread_list = job_list[6]
+    res.end(JSON.stringify(job_list.data.slice(6, -1)));
 })
 
-app.post('/login_check', (req, res) =>{
+app.get('/gsm_employment_rate', async(req, res) =>{
+    const employment_rate = await axios.get('https://sheet.best/api/sheets/a2e05329-b7f6-4824-8295-eaa9ba36e5bd');
+    const employment_rate_data = employment_rate.data.slice(5, -1)
+    let emp_num;
+    console.log(employment_rate_data[1]['2'])
+    for (var i = 0; i < 80; i++){
+        if(!(employment_rate_data[i]['2'])){
+            emp_num = i;
+            break;
+        }
+    }
+    console.log(typeof(emp_num))
+    res.end(String(emp_num * 1.25));
+})
+app.post('/receive_token_inforation', (req, res) =>{
+    try{
+        // decoded_token = jwt.verify(req.body.user_token, config.secret_key)
+        // res.end(decoded_token)
+        jwt.verify(req.body.user_token, config.secret_key, (err,decoded) =>{
+            if(err){
+                console.log(err)
+            }else{
+                res.end(JSON.stringify(decoded))
+            }
+        })
+    }catch(err){
+        console.log(err)
+        res.end('token is invalid')
+    }
+})
+
+app.post('/login_check', async (req, res) =>{
+    console_all(`login_check 접속 ${req.body.email}`)
     email = req.body.email;
-    crytopassword = crypto.createHash('sha512').update(req.body.pw).digest('base64');
-    console.log(email, crytopassword)
+    crytopassword = crypto.createHash('sha512').update(req.body.pw).digest('base64')
     var sql = `SELECT * FROM User_Information WHERE user_email = '${email}'`
-    db.query(sql, function(err, rows){
-        console.log(rows)
+    await db.query(sql, function(err, rows){
         if(err) {
             throw err;
         }else if(JSON.stringify(rows) == '[]'){
             res.end('null');
         }else{
             if(rows[0].password == crytopassword){
-                res.end(config.success)
+                token_make(email).then((token) =>{
+                    var obj = new Object();
+                    obj.token = token;
+                    obj.email = rows[0].user_email;
+                    obj.name = rows[0].nickname;
+                    obj.grade = rows[0].grade;
+                    res.json(obj)
+                })
             }else{
-                res.end(cofng.failed)
+                res.end(config.failed)
             }
         }
     })
@@ -208,10 +292,10 @@ app.post('/board', async (req,res) =>{
         aJson.writer = "양현승";
         aJson.viewer = 32;
         aJson.previous = `${i}초 전`;
-        console.log(aJson)
+        // console.log(aJson)
         aJsonArray.push(aJson);
     }
-    console.log(JSON.stringify(aJsonArray))
+    // console.log(JSON.stringify(aJsonArray))
     res.end(JSON.stringify(aJsonArray))
 })
 
