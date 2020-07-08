@@ -7,3 +7,5 @@
 서버(Server) : Node.js(express)<br>
 디자인(Design) : figma
 봇(bot) : Discord.js
+
+협업도구 : Github, Gitbook<br>
