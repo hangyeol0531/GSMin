@@ -64,11 +64,17 @@ public class LoginActivity  extends AppCompatActivity {
             public void onClick(View view) {
                 // Real
                 if (email.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "이메일을 입력하지 않았습니다!", Toast.LENGTH_LONG).show();
+                    new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("음...")
+                            .setContentText("이메일을 깜빡했나요?")
+                            .show();
                     return;
                 }
                 if (pwd.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "비밀번호를 입력하지 않았습니다!", Toast.LENGTH_LONG).show();
+                    new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("음...")
+                            .setContentText("비밀번호를 깜빡했나봐요!")
+                            .show();
                     return;
                 }
                 email_str = email.getText().toString() + "@gsm.hs.kr";
@@ -101,6 +107,7 @@ public class LoginActivity  extends AppCompatActivity {
                         .setContentText("네트워크가 불안정합니다!!")
                         .show();
                 pDialog.hide();
+                return;
             }
             try {
                 JSONObject jo = new JSONObject(jsonResult);

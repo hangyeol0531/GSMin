@@ -32,6 +32,7 @@
         <activity android:name=".Main.TitleActivity"/>
         <activity android:name=".Main.LoginActivity"/>
         <activity android:name=".Main.InfoActivity"/>
+        <activity android:name=".Main.JobActivity"/>
 
     </application>
 

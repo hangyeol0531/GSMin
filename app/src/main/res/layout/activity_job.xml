@@ -37,7 +37,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
-                        android:layout_margin="10dp"
+                        android:layout_marginTop="14dp"
                         android:orientation="vertical"
                         android:background="@drawable/square"
                         android:paddingTop="28dp"
@@ -70,7 +70,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
                         android:layout_marginLeft="170dp"
-                        android:paddingRight="40dp"
+                        android:paddingRight="25dp"
                         android:gravity="right"
                         android:orientation="vertical">
                         <ImageView
@@ -98,7 +98,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:layout_margin="10dp"
+                    android:layout_marginTop="14dp"
                     android:orientation="vertical"
                     android:background="@drawable/square"
                     android:paddingTop="28dp"
@@ -131,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
                     android:layout_marginLeft="170dp"
-                    android:paddingRight="40dp"
+                    android:paddingRight="25dp"
                     android:gravity="right"
                     android:orientation="vertical">
                     <ImageView
@@ -159,7 +159,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
-                        android:layout_margin="10dp"
+                        android:layout_marginTop="14dp"
                         android:orientation="vertical"
                         android:background="@drawable/square"
                         android:paddingTop="28dp"
@@ -205,7 +205,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
                         android:layout_marginLeft="170dp"
-                        android:paddingRight="40dp"
+                        android:paddingRight="25dp"
                         android:gravity="right"
                         android:orientation="vertical">
                         <ImageView

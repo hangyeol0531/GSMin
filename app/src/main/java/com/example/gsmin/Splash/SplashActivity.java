@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import com.example.gsmin.Fragment.NoticeFragment;
 import com.example.gsmin.Json.JSONTask;
 import com.example.gsmin.Main.InfoActivity;
+import com.example.gsmin.Main.JobActivity;
 import com.example.gsmin.Main.LoginActivity;
 import com.example.gsmin.Main.MainActivity;
 import com.example.gsmin.Main.StartActivity;
@@ -47,7 +48,10 @@ public class SplashActivity extends Activity {
                 l.login_user(email, pw);
 
                 startActivity(new Intent(getApplication(), MainActivity.class));
-            }else{ startActivity(new Intent(getApplication(), StartActivity.class)); }
+            }else{
+                startActivity(new Intent(getApplication(), StartActivity.class));
+//                startActivity(new Intent(getApplication(), JobActivity.class));
+            }
             SplashActivity.this.finish();
         }
     }

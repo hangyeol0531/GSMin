@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.gsmin.Json.JSONTask;
 import com.example.gsmin.Main.BoardActivity;
+import com.example.gsmin.Main.JobActivity;
 import com.example.gsmin.Model.Data;
 import com.example.gsmin.R;
 
@@ -110,6 +111,9 @@ public class HomeFragment extends Fragment {
 //                }
 
                 Intent intent = new Intent(getContext(), BoardActivity.class);
+                if (channel.equals("취업 현황")){
+                    intent = new Intent(getContext(), JobActivity.class);
+                }
                 intent.putExtra("channel", channel);
                 startActivity(intent);
                 getActivity().finish();
