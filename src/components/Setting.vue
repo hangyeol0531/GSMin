@@ -2,10 +2,11 @@
   <div>
     <v-app>
       <v-app-bar app height="70px" flat color="white" hide-on-scroll>
-        <v-toolbar-title>
-          <v-img src="../assets/full_logo.svg" max-width="80%"></v-img>
-        </v-toolbar-title>
         <v-spacer></v-spacer>
+        <v-toolbar-title>
+          <router-link :to="{name: 'Home'}"><v-img src="../assets/fixlogo.svg" max-width="100%"></v-img></router-link>
+        </v-toolbar-title>
+        <v-spacer/><v-spacer/><v-spacer/>
           <v-badge
             color="#00B1EA"
             content="6"
@@ -15,10 +16,11 @@
             overlap>
             <v-btn icon><v-icon large>notifications</v-icon></v-btn>
           </v-badge>
-            <v-btn icon><v-icon large>mdi-account</v-icon></v-btn>
+            <v-btn @click="routerPush('Setting')" icon><v-icon>settings</v-icon></v-btn>
+            <v-spacer></v-spacer>
       </v-app-bar>
         <v-content>
-          <v-toolbar prominent height="374px" src="../assets/school_img.jpg">
+          <v-toolbar prominent height="250px" src="../assets/school_img.jpg">
           </v-toolbar>
           <v-container
             class="bg fill-height"
@@ -87,9 +89,7 @@
   </div>
 </template>
 
-<script>
-const meal_all = `백미밥 유부두부된장국 제육채소 볶음 숙주미나리무침 배추김치 에그타르트 오렌지`
-
+<script>  
 import { required } from 'vee-validate/dist/rules'
 import { extend, ValidationObserver, ValidationProvider} from 'vee-validate'
 import sideBar from './sideBar.vue'

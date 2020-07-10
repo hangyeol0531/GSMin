@@ -13,7 +13,7 @@
             <!-- <v-img src="../assets/GSMin.svg" class="mx-auto" max-width="158"></v-img> -->
           </div>          
         </v-card>
-            <v-card flat>
+            <v-card flat v-if="registerValue === false">
             <v-card flat align="left">
               <v-card-text justify="left">
                   <v-img src="../assets/student_confirm.svg" max-width="329" class="mr-10"></v-img>
@@ -60,6 +60,61 @@
               </ValidationObserver>
               </v-card-text>
             </v-card>
+
+
+            <v-card flat v-if="registerValue === true">
+            <v-card flat align="left">
+            <v-card-text justify="left">
+                <v-img src="../assets/input_info.svg" max-width="182" class="mr-10"></v-img>
+            </v-card-text>
+            </v-card>
+              <v-card-text>
+              <ValidationObserver ref="register_ob" v-slot="{ }">
+                <form>
+                  <ValidationProvider v-slot="{ errors }" name="비밀번호" rules="required|min:8" vid="pw">
+                    <v-text-field
+                    type="password"
+                    outlined
+                    solo
+                    flat
+                    v-model="password"
+                    :error-messages="errors"
+                    counter
+                    maxlength="16"
+                    label="비밀번호(8~16자)"
+                    required
+                    ></v-text-field>
+                  </ValidationProvider>                    
+                  <ValidationProvider v-slot="{ errors }" name="비밀번호 확인" rules="confirmed:pw|required">
+                    <v-text-field
+                    type="password"
+                    outlined
+                    solo
+                    flat
+                    v-model="passwordConfirm"
+                    :error-messages="errors"
+                    label="비밀번호 확인"
+                    required
+                    ></v-text-field>
+                  </ValidationProvider>                    
+                  <ValidationProvider v-slot="{ errors }" name="닉네임" rules="required">
+                    <v-text-field
+                    outlined
+                    solo
+                    flat
+                    v-model="nickname"
+                    :error-messages="errors"
+                    label="닉네임"
+                    required
+                    ></v-text-field>
+                  </ValidationProvider>
+                    <v-btn color="#41AFE5" rounded block dark x-large @click="register" >
+                        <strong class="title">회원가입</strong>
+                    </v-btn>
+                </form>
+              </ValidationObserver>
+              </v-card-text>
+            </v-card>            
         </v-col>
         <v-col></v-col>
       </v-row>
@@ -71,7 +126,7 @@
 </template>
 
 <script>
-import { required, email } from 'vee-validate/dist/rules'
+import { required, email, min, confirmed } from 'vee-validate/dist/rules'
 import { extend, ValidationObserver, ValidationProvider} from 'vee-validate'
 // import axios from 'axios'
 
@@ -85,6 +140,16 @@ import { extend, ValidationObserver, ValidationProvider} from 'vee-validate'
     message: '올바른 이메일 형식을 입력해 주세요',
   })
 
+    extend('min', {
+    ...min,
+    message: '최소 {length}자 이상 가능합니다.',
+  })
+
+    extend('confirmed', {
+    ...confirmed,
+    message: '비밀번호가 일치하지 않습니다',
+  })  
+
   export default {
     data () {
         return {
@@ -92,6 +157,10 @@ import { extend, ValidationObserver, ValidationProvider} from 'vee-validate'
             confirmValue: false,
             disable: false,
             confirmCode: '',
+            registerValue: false,
+            password: '',
+            passwordConfirm: '',
+            nickname: '',            
         }
     },
     methods: {
@@ -99,7 +168,7 @@ import { extend, ValidationObserver, ValidationProvider} from 'vee-validate'
         this.$refs.reg_ob.validate().then(valid => {
             if (valid) {
                 this.$http.post('/emailCheck', {
-                    email: this.email+'@gsm.hs.kr'
+                    email: `${this.email}@gsm.hs.kr`
                 }).then((res) => {
                     this.confirmValue = true
                     this.disable = true
@@ -118,11 +187,27 @@ import { extend, ValidationObserver, ValidationProvider} from 'vee-validate'
 
             if(this.codeData === this.confirmCode) {
               alert("성공적으로 확인되었습니다!")
-              this.$router.push({name : 'register'})
+              this.registerValue = true
             } else {
               alert("인증코드가 맞지않습니다!")
             }
           }
+        })
+      },
+
+      register() {
+        this.$refs.register_ob.validate().then(valid => {
+            if (valid) {
+                this.$http.post('/insert_user_information', {
+                    email: `${this.email}@gsm.hs.kr`,
+                    pw: this.password,
+                    nickname : this.nickname,
+                }).then((res) => {
+                    this.$router.push({name : 'endAuth'})
+                }).catch(e => {
+                    alert("오류", e)
+                })
+            }
         })
       }
     }

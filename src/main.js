@@ -21,7 +21,7 @@ Vue.component('ValidationObserver', ValidationObserver)
 Vue.component('editor', Editor)
 Vue.component('viewer', Viewer)
 
-axios.defaults.baseURL = 'http://10.53.68.184:80/';
+axios.defaults.baseURL = 'http://10.53.68.186:80/';
 axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*"
 axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'Authorization, Content-Type'
 

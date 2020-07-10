@@ -22,33 +22,35 @@ const mutations = {
 }
 
 const actions = {
-    login({commit}, {email, pw}) {
-        return axios.post('/login_check', {
-            email : email,
-            pw : pw
-        })
-            .then((response) => {
-                commit('login', response.data.token)
-                axios.defaults.headers.common['Authorization'] = response.data.token
-                router.push({name : 'Home'})
+    async login({commit}, {email, pw}) {
+        try{
+            const resData = await axios.post('/login_check', {
+                email : email,
+                pw : pw
             })
+            if(resData.data === null) alert("아이디 또는 비밀번호를 확인해주세요.")
+            else commit('login', resData.data.token)
+            axios.defaults.headers.common['Authorization'] = resData.data.token
+            router.push({name : 'Home'})
+        } catch(e) {
+            console.log(e)
+        }
     },
-    getUserInfo({commit}) {
+
+    async getUserInfo({commit}) {
         let getToken = localStorage.getItem('token')
-        console.log(getToken)
-        return axios.post('/receive_token_inforation', {
-            user_token : getToken
-        })
-            .then((response) => {
-                console.log(response)
-                let userInfo = {
-                    user_nickname: response.data.nickname,
-                    user_grade: response.data.grade
-                }
-                commit('getUserInfo', userInfo)
-            }).catch((e) => {
-                console.log(e)
-            })
+        try {
+            const resData =  await axios.post('/receive_token_inforation', {
+                    user_token : getToken
+                })
+            let userInfo = {
+                user_nickname: resData.data.nickname,
+                user_grade: resData.data.grade
+            }
+            commit('getUserInfo', userInfo)
+        } catch (e) {
+            console.log(e)
+        }
     }
 }
 

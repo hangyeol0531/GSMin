@@ -17,8 +17,10 @@
             app
             class="mx-auto">
             <v-card app fixed flat>
-            <v-card-title class="headline" v-if="user">
-                <v-img src="../assets/one_icon.png" max-width="8%"></v-img><strong>{{user['user_nickname']}}</strong></v-card-title>
+            <v-card-title v-if="user">
+                <v-img v-if="user['user_grade'] === 1" src="../assets/one_icon.png" max-width="8%"></v-img>
+                <v-img v-if="user['user_grade'] === 2" src="../assets/two_icon.png" max-width="8%"></v-img>
+                <v-img v-if="user['user_grade'] === 3" src="../assets/three_icon.png" max-width="8%"></v-img><strong>{{user['user_nickname']}}</strong></v-card-title>
                 <v-card-subtitle class="font-weight-bold">{{company}}</v-card-subtitle>
                 <v-divider></v-divider>
                 <v-card-subtitle class="pa-1 pl-3">
@@ -46,7 +48,7 @@
                 </v-card-text> 
                 <v-divider></v-divider>
                 <v-card-subtitle class="pa-1 pl-3">
-                    학년
+                    <div v-if="viewer == true">학년</div>
                 </v-card-subtitle>                    
                 <v-card-text>
                     <v-btn text block class="subtitle-1">1학년</v-btn>
@@ -73,6 +75,7 @@ export default {
         return{
             today : `${curmonth+1}월 ${curdate}일 ${week[curday]}요일`,
             company : '마이다스 아이티',
+            viewer : true
         }
     },
 
@@ -83,7 +86,14 @@ export default {
     computed: {
         ...mapState({
         user: state => state.auth.userInfo
-        })        
+        })
+    },
+
+    methods: {
+        test() {
+            console.log("child!")
+            // this.$store.dispatch('auth/getUserInfo')
+        }
     }
 }
 </script>

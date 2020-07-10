@@ -4,7 +4,7 @@
       <v-app-bar app height="70px" flat color="white" hide-on-scroll>
         <v-spacer></v-spacer>
         <v-toolbar-title>
-          <v-img src="../assets/fixlogo.svg" max-width="100%"></v-img>
+          <router-link :to="{name: 'Home'}"><v-img src="../assets/fixlogo.svg" max-width="100%"></v-img></router-link>
         </v-toolbar-title>
         <v-spacer/><v-spacer/><v-spacer/>
           <v-badge
@@ -30,7 +30,7 @@
               <v-col md="2"></v-col>
 
               <v-col md="2">
-                <side-bar></side-bar>
+                <side-bar ref="sidebar"></side-bar>
               </v-col>
 
               <v-col md="6">               
@@ -123,8 +123,6 @@
 </template>
 
 <script>
-const meal_all = `백미밥 유부두부된장국 제육채소 볶음 숙주미나리무침 배추김치 에그타르트 오렌지`
-
 import LineChart from '../LineChart.js'
 import { router } from '../router/index.js'
 import sideBar from './sideBar.vue'
@@ -176,6 +174,7 @@ export default {
         router.push({name})
       },
       fillData () {
+        this.$refs.sidebar.test()
         this.datacollection = {
           labels: [
             '공기업 공공기관', '공무원', '그룹 및 200인 이상',
