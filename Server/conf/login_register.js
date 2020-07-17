@@ -82,14 +82,14 @@ exports.emailCheck = async (req,res) =>{
         };
         // 이메일 전송하려면 이쪽 주석을 풀어야함
         
-        //  await smtpTransport.sendMail(mailOptions, (error, responses) =>{
-        //     if(error){
-        //         console.log(error)
-        //     }else{
-        //         console.log("이메일 전송 완료")
-        //     }
-        //     smtpTransport.close();
-        // });
+         await smtpTransport.sendMail(mailOptions, (error, responses) =>{
+            if(error){
+                console.log(error)
+            }else{
+                console.log("이메일 전송 완료")
+            }
+            smtpTransport.close();
+        });
 
     }catch(e){
         console.log(e);

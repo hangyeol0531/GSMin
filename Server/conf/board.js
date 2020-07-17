@@ -9,7 +9,7 @@ exports.board = (req,res) =>{
         var aJson = new Object();
         aJson.likeCount = `${i}6`;
         aJson.section = "자유";
-        aJson.content = "Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.";
+        aJson.content = "Lorem Ipsum, g iving information on its origins, as well as a random Lipsum generator.";
         aJson.writer = "양현승";
         aJson.viewer = 32;
         aJson.previous = `${i}초 전`;
