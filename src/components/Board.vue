@@ -52,7 +52,7 @@
                             v-model="select"
                             return-object
                             solo
-                            label="제목">
+                            label="선택">
 
                           </v-select>
                           <v-toolbar
@@ -96,7 +96,7 @@
                         </v-pagination>
                         <v-card-text align="right">
                           <v-btn dark color="#025F94" @click="Write"><v-icon>create</v-icon>글쓰기</v-btn>
-                          <v-btn dark color="#025F94" @click="Viewer"><v-icon>create</v-icon>뷰어테스트</v-btn>
+                          <!-- <v-btn dark color="#025F94" @click="Viewer"><v-icon>create</v-icon>뷰어테스트</v-btn> -->
                         </v-card-text>
                       </v-card>                       
                   </v-card>
@@ -122,11 +122,10 @@ export default {
       text: 5,
       riple : 35,
       meal_section : `조식`,
-      meal_all : meal_all,
       items : 
       [
         {
-          text: '제목',
+          text: '좋아요 수',
           value : 'likeCount'
         },
         {
@@ -155,6 +154,7 @@ export default {
       .then((res) => {
         this.listData = res.data
         this.resBoard = true
+        console.log(this.listData)
       }). catch((e) => {
         console.log(e)
         this.resBoard = false
@@ -164,6 +164,7 @@ export default {
   methods: {
     submit() {
       let gory = this.category
+      console.log(gory)
       this.searchData = this.listData.filter(data => {
         return (data[gory]).includes(this.search)
       })

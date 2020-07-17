@@ -32,6 +32,7 @@
                       outlined
                       solo
                       flat
+                      type="password"
                       v-model="password"
                       :error-messages="errors"
                       label="비밀번호"

@@ -11,7 +11,7 @@ import { store } from '../store'
 Vue.use(VueRouter)
 
 const isAuthenticated = (to, from, next) => {
-  if(store.state.auth.token === null) {
+  if(store.state.auth.token === null || store.state.auth.token === undefined) {
     alert("잘못된 접근입니다 로그인을 해주세요.")
     next('/')
   } else {
@@ -38,22 +38,26 @@ const routes = [
   {
     path: '/board',
     name: 'Board',
-    component: Board
+    component: Board,
+    beforeEnter: isAuthenticated
   },
   {
     path: '/write',
     name: 'Write',
-    component: Write
+    component: Write,
+    beforeEnter: isAuthenticated
   },
   {
     path: '/viewer',
     name: 'Viewer',
-    component: Viewer
+    component: Viewer,
+    beforeEnter: isAuthenticated
   },
   {
     path: '/setting',
     name: 'Setting',
-    component: Setting
+    component: Setting,
+    beforeEnter: isAuthenticated  
   },
   {
     path: '/',

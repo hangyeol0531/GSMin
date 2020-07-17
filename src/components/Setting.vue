@@ -70,11 +70,11 @@
                             </v-btn>
                         </v-col>
                     </v-row>
-                    <v-col cols="10" class="title font-weight-bold" @click="logOut">
+                    <v-col cols="10" class="title font-weight-bold">
                             로그아웃
                     </v-col>
                     <v-col>
-                        <v-btn dark color="#00B1EA">
+                        <v-btn dark color="#00B1EA" @click="logOut">
                             로그아웃하기
                         </v-btn>
                     </v-col>
@@ -153,7 +153,7 @@ export default {
       },
 
       logOut() {
-          
+        this.$store.dispatch('auth/logOut')
       }
   },
   

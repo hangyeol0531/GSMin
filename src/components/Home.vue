@@ -131,10 +131,10 @@ export default {
   data () {
     return {
       meal_section : `조식`,
-      meal_all : meal_all,
       graduatePercent: '75',
       enrolledPercent: '',
       getJobNum:'',
+      getJobText: '1기 76명 중 50명',
       datacollection: null,
     }
   },
@@ -205,8 +205,6 @@ export default {
 </script>
 
 <style>
-/* * { font-family: 'SpoqaHanSans-Regular', sans-serif} */
-
 .bg{
   background-color:#ECEDEE !important; 
 }
