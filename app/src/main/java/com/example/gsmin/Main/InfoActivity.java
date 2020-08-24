@@ -1,6 +1,8 @@
 package com.example.gsmin.Main;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,14 +22,21 @@ import com.example.gsmin.Json.JSONTask;
 import com.example.gsmin.Model.Data;
 import com.example.gsmin.R;
 import com.example.gsmin.Splash.SplashActivity;
+import com.example.gsmin.Util.Login;
+
+import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class InfoActivity extends AppCompatActivity {
     public String jsonResult = "";
     ImageButton check_btn, back_btn;
     EditText pw1, pw2, name;
     TextView ck1, ck2, ck3;
+    SweetAlertDialog pDialog;
+    Context ct;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +45,8 @@ public class InfoActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_info);
 
+        ct = this;
+        pDialog = new SweetAlertDialog(ct, SweetAlertDialog.PROGRESS_TYPE);
         pw1 = findViewById(R.id.pw1);
         pw2 = findViewById(R.id.pw2);
         name = findViewById(R.id.name);
@@ -61,10 +72,13 @@ public class InfoActivity extends AppCompatActivity {
                 Data.setData(new String[]{"email","pw", "nickname"}, new String[]{Data.UserEmail, pw1.getText().toString(), name.getText().toString()});
                 JSONTask jt = new JSONTask();
                 jt.execute(Data.url + "/insert_user_information");
-                jsonResult = jt.jsonReturn();
 
                 Handler hd = new Handler();
-                hd.postDelayed(new InfoActivity.splashhandler(), 1000);
+                hd.postDelayed(new InfoActivity.splashhandler(jt), 1800);
+                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                pDialog.setTitleText("Loading");
+                pDialog.setCancelable(false);
+                pDialog.show();
             }
         });
 
@@ -93,16 +107,43 @@ public class InfoActivity extends AppCompatActivity {
         }
 
     private class splashhandler implements Runnable {
-        public void run() {
-            Log.d("","\nckcode: " + "success"+"\nresult: " + jsonResult);
+        JSONTask jt;
+        public splashhandler(JSONTask jt) {
+            this.jt = jt;
+        }
 
+        public void run() {
+            jsonResult = jt.jsonReturn();
+            Log.d("","\nckcode: " + "success"+"\nresult: " + jsonResult);
+            String pwd_str = pw1.getText().toString();
             if (jsonResult.trim().equals("success")){
-                startActivity(new Intent(getApplication(), MainActivity.class));
+//                SharedPreferences sharedPreferences = getSharedPreferences("login_data",MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.putString("pw", pwd_str);
+//                editor.commit();
+//
+//                SharedPreferences userLogin = getSharedPreferences("login_data",MODE_PRIVATE);
+//                String email = userLogin.getString("email","");
+//                String pw = userLogin.getString("pw","");
+
+//                Log.d("회원가입", "run: "+ email+"/"+pw);
+//                if (!email.equals("") && !pw.equals("")){
+//
+//                    Login l = new Login();
+//                    l.login_user(email, pw);
+//
+//                    startActivity(new Intent(getApplication(), MainActivity.class));
+//                }else{
+//                    startActivity(new Intent(getApplication(), StartActivity.class));
+////                startActivity(new Intent(getApplication(), JobActivity.class));
+//                }
+                startActivity(new Intent(getApplication(), LoginActivity.class));
                 InfoActivity.this.finish();
             }else{
                 Toast.makeText(getApplicationContext(), "INSERT_ERROR", Toast.LENGTH_SHORT).show();
                 return;
             }
+            pDialog.hide();
         }
     }
 }

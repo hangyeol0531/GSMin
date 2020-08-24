@@ -1,6 +1,7 @@
 package com.example.gsmin.Adapter;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,16 +12,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.gsmin.Json.JSONTask;
 import com.example.gsmin.Main.BoardActivity;
 import com.example.gsmin.Main.WriteActivity;
 import com.example.gsmin.Model.DB;
+import com.example.gsmin.Model.Data;
 import com.example.gsmin.R;
+import com.example.gsmin.Util.Login;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.ItemViewHolder> {
     private String[] strli;
+    public static String jsonResult = "";
     // adapter에 들어갈 list 입니다.
     private ArrayList<DB> listData = new ArrayList<>();
 
@@ -80,12 +88,13 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
             mLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d("Layout_Click", "onClick: "+ BoardActivity.channel + " / " + boardTitle.getText().toString());
-//                Data.setData(new String[]{"channel", "title"}, new String[]{BoardActivity.channel,  boardTitle.getText().toString()});
-//                new JSONTask().execute("@string/serverUrl"+"/emailCheck");//AsyncTask 시작시킴
-//                    Intent intent = new Intent(view.getContext(), WriteActivity.class);
-//                    intent.putExtra("title", boardTitle.getText().toString());
-//                    view.getContext().startActivity(intent);
+                    Log.d("HomeRecyclerViewAdapter", "onClick: "+ BoardActivity.channel + " / " + boardTitle.getText().toString()+ "|" + boardName.getText().toString());
+//                    Data.setData(new String[]{"channel", "boardTitle", "boardName"}, new String[]{BoardActivity.channel, boardTitle.getText().toString(), boardName.getText().toString()});
+//                    JSONTask jt = new JSONTask();
+//                    jt.execute(Data.url + "/login_check"); // 백엔드 개발 후 변경
+//
+//                    Handler hd = new Handler();
+//                    hd.postDelayed(new HomeRecyclerViewAdapter.splashhandler(jt), 2000);
                 }
             });
         }
@@ -97,6 +106,31 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
             boardInfo.setText(strli[2]);
             boardThumb.setText(strli[3]);
             boardMsg.setText(strli[4]);
+        }
+    }
+
+    public class splashhandler implements Runnable {
+        JSONTask jt;
+        public splashhandler(JSONTask jt) {
+            this.jt = jt;
+        }
+
+        @Override
+        public void run() {
+            if (jt.jsonReturn().equals("")){
+                jsonResult = "network_error";
+                return;
+            }
+            try {
+                JSONObject jo = new JSONObject(jt.jsonReturn());
+                if (!jo.getString("token").isEmpty()){
+                    Intent intent = new Intent();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.d("login.java", "result: "+jt.jsonReturn());
+            jsonResult = jt.jsonReturn();
         }
     }
 }

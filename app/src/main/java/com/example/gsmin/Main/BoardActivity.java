@@ -1,7 +1,9 @@
 package com.example.gsmin.Main;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -20,8 +22,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.gsmin.Adapter.HomeRecyclerViewAdapter;
 import com.example.gsmin.Fragment.HomeFragment;
+import com.example.gsmin.Json.JSONTask;
 import com.example.gsmin.Model.DB;
+import com.example.gsmin.Model.Data;
 import com.example.gsmin.R;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class BoardActivity extends AppCompatActivity {
     private static HomeRecyclerViewAdapter adapter = new HomeRecyclerViewAdapter();
@@ -36,6 +42,7 @@ public class BoardActivity extends AppCompatActivity {
     public static String channel = "";
     private static RecyclerView recyclerView;
     private boolean searchActivity= true;
+    SweetAlertDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +77,18 @@ public class BoardActivity extends AppCompatActivity {
         gsmin.setVisibility(View.GONE);
         mainText.setVisibility(View.VISIBLE);
         mainText.setText(String.valueOf(channel));
+        pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+
+//        Data.setData(new String[]{"email", "pw"}, new String[]{email, pw});
+//        JSONTask jt = new JSONTask();
+//        jt.execute(Data.url + "/login_check");
+
+        Handler hd = new Handler();
+        hd.postDelayed(new BoardActivity.splashhandler(), 1000);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Loading");
+        pDialog.setCancelable(false);
+        pDialog.show();
 
         final SwipeRefreshLayout slayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         slayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -169,5 +188,12 @@ public class BoardActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
         BoardActivity.this.finish();
+    }
+
+    public class splashhandler implements Runnable {
+        @Override
+        public void run() {
+            pDialog.hide();
+        }
     }
 }

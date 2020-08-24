@@ -109,7 +109,6 @@ public class HomeFragment extends Fragment {
 //                } catch (ExecutionException | InterruptedException | JSONException e) {
 //                    e.printStackTrace();
 //                }
-
                 Intent intent = new Intent(getContext(), BoardActivity.class);
                 if (channel.equals("취업 현황")){
                     intent = new Intent(getContext(), JobActivity.class);

@@ -2,6 +2,7 @@ package com.example.gsmin.Main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.icu.text.CaseMap;
 import android.os.Bundle;
@@ -107,8 +108,14 @@ public class TitleActivity extends AppCompatActivity {
             if (checkCode.trim().equals(jsonResult.trim())){
                 new SweetAlertDialog(ct, SweetAlertDialog.SUCCESS_TYPE)
                         .setTitleText("굿..!")
-                        .setContentText("회원가입 완료!")
+                        .setContentText("인증번호 일치!!")
                         .show();
+
+//                SharedPreferences sharedPreferences = getSharedPreferences("login_data",MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.putString("email", email);
+//                editor.commit();
+
                 startActivity(new Intent(getApplication(), InfoActivity.class));
                 TitleActivity.this.finish();
             }else{
@@ -118,6 +125,8 @@ public class TitleActivity extends AppCompatActivity {
                         .show();
                 return;
             }
+            startActivity(new Intent(getApplication(), InfoActivity.class));
+            TitleActivity.this.finish();
 
             }
         });
