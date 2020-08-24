@@ -12,7 +12,7 @@ var port = 80;
 const axios = require('axios');
 
 const cors = require('cors');
-const shortId = require('shortId')
+const shortId = require('shortid')
 const crypto = require('crypto'); 
 const logger = require('morgan');
 const jwt = require('jsonwebtoken');
