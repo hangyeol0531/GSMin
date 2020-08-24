@@ -108,6 +108,15 @@ public class LoginActivity  extends AppCompatActivity {
                         .show();
                 pDialog.hide();
                 return;
+            }else if (jsonResult == null){
+//                Toast.makeText(getApplicationContext(), "네트워크가 불안정합니다!!", Toast.LENGTH_SHORT).show();
+                Log.d("loginAc", "null");
+                new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("이런...")
+                        .setContentText("서버가 불안정합니다!!")
+                        .show();
+                pDialog.hide();
+                return;
             }
             try {
                 JSONObject jo = new JSONObject(jsonResult);

@@ -110,7 +110,12 @@ public class TitleActivity extends AppCompatActivity {
                         .setTitleText("굿..!")
                         .setContentText("인증번호 일치!!")
                         .show();
-
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                    }
+                }, 2000);
 //                SharedPreferences sharedPreferences = getSharedPreferences("login_data",MODE_PRIVATE);
 //                SharedPreferences.Editor editor = sharedPreferences.edit();
 //                editor.putString("email", email);
