@@ -1,7 +1,7 @@
 const db = require('./config_database')
 const config = require('../../config.json');
 const crypto = require('crypto'); 
-const shortId = require('shortId')
+const shortId = require('shortid')
 const nodemailer = require('nodemailer');
 var fun_all = require('./fun_all.js')
 
