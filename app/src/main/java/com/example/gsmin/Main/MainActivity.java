@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     public static HomeFragment homeFragment;
     public static NoticeFragment noticeFragment;
     public static SettingFragment settingFragment;
+//    public static MyWriteFragment myWriteFragment;
+//    public static MyChatFragment myChatFragment;
     public static FragmentTransaction transaction;
 
     private ViewPager viewPager;
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPagerAdapter adapter;
     private ImageButton drawwr_btn, search, menu;
     private ImageView gsmin, navImg;
-    private TextView navName, navEmail;
+    public static TextView navName, navEmail;
     private boolean mSlideState = false, searchActivity= true;
     private EditText mainEdit;
 
@@ -102,6 +104,21 @@ public class MainActivity extends AppCompatActivity {
                         drawer.closeDrawer(Gravity.LEFT);
                         mSlideState = false;
                         break;
+
+//                    case R.id.navMywrite:
+//                        viewPager.setCurrentItem(2);
+//                        transaction.detach(myWriteFragment).attach(myWriteFragment).commit();
+//                        drawer.closeDrawer(Gravity.LEFT);
+//                        mSlideState = false;
+//                        break;
+
+//                    case R.id.navMychat:
+//                        viewPager.setCurrentItem(3);
+//                        transaction.detach(myChatFragment).attach(myChatFragment).commit();
+//                        drawer.closeDrawer(Gravity.LEFT);
+//                        mSlideState = false;
+//                        break;
+
                     case R.id.navSetting:
                         viewPager.setCurrentItem(4);
                         transaction.detach(settingFragment).attach(settingFragment).commit();
@@ -135,9 +152,6 @@ public class MainActivity extends AppCompatActivity {
 
         menu = findViewById(R.id.menuBtn);
         menu.setBackgroundResource(R.drawable.mask);
-
-
-
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -213,10 +227,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 adapter.notifyDataSetChanged();
                 Log.d("page", "onPageSelected: " + position);
-//                if (position == 1){
-//                    transaction = fragmentManager.beginTransaction();
-//                    transaction.detach(bookmarkFragment).attach(bookmarkFragment).commit();
-//                }
+
                 nav_view.getMenu().getItem(position).setChecked(true);
                 prevMenuItem = nav_view.getMenu().getItem(position);
             }
@@ -278,7 +289,6 @@ public class MainActivity extends AppCompatActivity {
         {
             case R.id.mainMenu:
                 Log.d("add", "onContextItemSelected: ");
-
         }
 
         return super.onContextItemSelected(item);
@@ -286,16 +296,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
-
         homeFragment = new HomeFragment();
         noticeFragment = new NoticeFragment();
         settingFragment = new SettingFragment();
-//        profileFragment = new ProfileFragment();
+//        myWriteFragment = new MyWriteFragment();
+//        myChatFragment = new MyChatFragment();
 
         adapter.addFragment(homeFragment);
         adapter.addFragment(noticeFragment);
         adapter.addFragment(settingFragment);
-//        adapter.addFragment(profileFragment);
+//        adapter.addFragment(myWriteFragment);
+//        adapter.addFragment(myChatFragment);
         viewPager.setAdapter(adapter);
     }
 

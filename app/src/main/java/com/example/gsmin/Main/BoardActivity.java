@@ -78,7 +78,7 @@ public class BoardActivity extends AppCompatActivity {
         listData = new ArrayList<>();
         pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
 
-        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#41AFE5"));
         pDialog.setTitleText("Loading...");
         pDialog.setCancelable(false);
         pDialog.show();

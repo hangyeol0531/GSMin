@@ -1,32 +1,86 @@
 package com.example.gsmin.Fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.VideoView;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.gsmin.Json.JSONTask;
+import com.example.gsmin.Main.BoardActivity;
+import com.example.gsmin.Main.MainActivity;
+import com.example.gsmin.Model.Data;
 import com.example.gsmin.R;
 
-public class SettingFragment extends Fragment {
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
+public class SettingFragment extends Fragment {
+    private JSONTask jt;
     private LinearLayout notice_lay;
     private ImageView gsmin;
     private TextView mainText;
     private ImageButton search, menu;
     private static EditText mainEdit, nameChange;
+    SweetAlertDialog pDialog;
+    private Button Changebtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
 //        init(view);
+        nameChange = view.findViewById(R.id.nameChange);
+        Changebtn = view.findViewById(R.id.changeBtn);
+        pDialog = new SweetAlertDialog(view.getContext(), SweetAlertDialog.PROGRESS_TYPE);
+
+        Changebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                pDialog.getProgressHelper().setBarColor(Color.parseColor("#41AFE5"));
+//                pDialog.setTitleText("Loading...");
+//                pDialog.setCancelable(false);
+//                pDialog.show();
+
+                Data.setData(new String[]{"email", "change_nickname"}, new String[]{Data.UserEmail, nameChange.getText().toString()});
+                jt = new JSONTask();
+                jt.execute(Data.url + "/update_nickname");
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(jt.jsonReturn().equals("success")){
+                            Data.UserName = nameChange.getText().toString();
+                            MainActivity.navName.setText(Data.UserName);
+                            SweetAlertDialog sd = new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE);
+                            sd.setTitleText(Data.UserName);
+                            sd.setContentText("변경 완료!!");
+                            sd.show();
+                            Button sb = sd.findViewById(R.id.confirm_button);
+//                            sd.findViewById(R.id.);
+                            sb.setBackgroundColor(ContextCompat.getColor( getContext(),R.color.skyblue));
+                        }
+                    }
+                }, 1000);
+
+            }
+        });
+
 
 
 
