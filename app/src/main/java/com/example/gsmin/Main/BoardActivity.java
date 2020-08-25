@@ -99,7 +99,7 @@ public class BoardActivity extends AppCompatActivity {
                     try {
                         String jsonRt = jt.jsonReturn();
                         JSONArray ja = new JSONArray(jsonRt);
-
+                        findViewById(R.id.no_board_layout).setVisibility(View.GONE);
                         for (int i = 0; i < ja.length(); i++){
                             JSONObject jo = ja.getJSONObject(i);
                             String[] a = new String[]{jo.getString("1"), jo.getString("2"), jo.getString("3"), "0", "0"};
@@ -115,10 +115,12 @@ public class BoardActivity extends AppCompatActivity {
                 }
             }, 1000);
         }else {
+
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    findViewById(R.id.no_board_layout).setVisibility(View.VISIBLE);
                     mainText.setText(channel);
                     pDialog.hide();
                 }

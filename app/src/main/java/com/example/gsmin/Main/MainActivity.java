@@ -39,6 +39,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.gsmin.Adapter.ViewPagerAdapter;
 //import com.example.gsmin.Fragment.HomeFragment;
 import com.example.gsmin.Fragment.HomeFragment;
+import com.example.gsmin.Fragment.MyChatFragment;
+import com.example.gsmin.Fragment.MyWriteFragment;
 import com.example.gsmin.Fragment.NoticeFragment;
 import com.example.gsmin.Fragment.SettingFragment;
 import com.example.gsmin.Model.Data;
@@ -56,16 +58,19 @@ public class MainActivity extends AppCompatActivity {
     public static HomeFragment homeFragment;
     public static NoticeFragment noticeFragment;
     public static SettingFragment settingFragment;
-//    public static MyWriteFragment myWriteFragment;
-//    public static MyChatFragment myChatFragment;
+    public static MyWriteFragment myWriteFragment;
+    public static MyChatFragment myChatFragment;
     public static FragmentTransaction transaction;
+    public static ImageView gsmin;
+    public static TextView mainText;
+    public static TextView navName, navEmail;
+    public int pagePosition = 0;
 
     private ViewPager viewPager;
     private MenuItem prevMenuItem;
     private ViewPagerAdapter adapter;
     private ImageButton drawwr_btn, search, menu;
-    private ImageView gsmin, navImg;
-    public static TextView navName, navEmail;
+    private ImageView navImg;
     private boolean mSlideState = false, searchActivity= true;
     private EditText mainEdit;
 
@@ -105,19 +110,19 @@ public class MainActivity extends AppCompatActivity {
                         mSlideState = false;
                         break;
 
-//                    case R.id.navMywrite:
-//                        viewPager.setCurrentItem(2);
-//                        transaction.detach(myWriteFragment).attach(myWriteFragment).commit();
-//                        drawer.closeDrawer(Gravity.LEFT);
-//                        mSlideState = false;
-//                        break;
+                    case R.id.navMywrite:
+                        viewPager.setCurrentItem(2);
+                        transaction.detach(myWriteFragment).attach(myWriteFragment).commit();
+                        drawer.closeDrawer(Gravity.LEFT);
+                        mSlideState = false;
+                        break;
 
-//                    case R.id.navMychat:
-//                        viewPager.setCurrentItem(3);
-//                        transaction.detach(myChatFragment).attach(myChatFragment).commit();
-//                        drawer.closeDrawer(Gravity.LEFT);
-//                        mSlideState = false;
-//                        break;
+                    case R.id.navMychat:
+                        viewPager.setCurrentItem(3);
+                        transaction.detach(myChatFragment).attach(myChatFragment).commit();
+                        drawer.closeDrawer(Gravity.LEFT);
+                        mSlideState = false;
+                        break;
 
                     case R.id.navSetting:
                         viewPager.setCurrentItem(4);
@@ -149,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
         gsmin = findViewById(R.id.gsmin);
 
         mainEdit = findViewById(R.id.mainEdit);
+        mainText = findViewById(R.id.mainText);
 
         menu = findViewById(R.id.menuBtn);
         menu.setBackgroundResource(R.drawable.mask);
@@ -157,12 +163,20 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
             if(searchActivity){
                 isTextChange();
-                gsmin.setVisibility(View.GONE);
+                if (pagePosition == 0) {
+                    gsmin.setVisibility(View.GONE);
+                }else{
+                    mainText.setVisibility(View.GONE);
+                }
                 mainEdit.setVisibility(View.VISIBLE);
                 searchActivity=false;
             }else {
                 isTextChange();
-                gsmin.setVisibility(View.VISIBLE);
+                if (pagePosition == 0){
+                    gsmin.setVisibility(View.VISIBLE);
+                }else{
+                    mainText.setVisibility(View.VISIBLE);
+                }
                 mainEdit.setVisibility(View.GONE);
                 searchActivity=true;
             }
@@ -225,7 +239,43 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     nav_view.getMenu().getItem(0).setChecked(false);
                 }
+                pagePosition = position;
                 adapter.notifyDataSetChanged();
+                isTextChange();
+                gsmin.setVisibility(View.VISIBLE);
+                mainEdit.setVisibility(View.GONE);
+                searchActivity=true;
+                switch (position){
+                    case 0:
+                        menu.setVisibility(View.VISIBLE);
+                        MainActivity.gsmin.setVisibility(View.VISIBLE);
+                        MainActivity.mainText.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        menu.setVisibility(View.VISIBLE);
+                        MainActivity.gsmin.setVisibility(View.GONE);
+                        MainActivity.mainText.setVisibility(View.VISIBLE);
+                        MainActivity.mainText.setText("알림");
+                        break;
+                    case 2:
+                        menu.setVisibility(View.VISIBLE);
+                        MainActivity.gsmin.setVisibility(View.GONE);
+                        MainActivity.mainText.setVisibility(View.VISIBLE);
+                        MainActivity.mainText.setText("내가 쓴 글");
+                        break;
+                    case 3:
+                        menu.setVisibility(View.VISIBLE);
+                        MainActivity.gsmin.setVisibility(View.GONE);
+                        MainActivity.mainText.setVisibility(View.VISIBLE);
+                        MainActivity.mainText.setText("내가 쓴 댓글");
+                        break;
+                    case 4:
+                        menu.setVisibility(View.GONE);
+                        MainActivity.gsmin.setVisibility(View.GONE);
+                        MainActivity.mainText.setVisibility(View.VISIBLE);
+                        MainActivity.mainText.setText("설정");
+                        break;
+                }
                 Log.d("page", "onPageSelected: " + position);
 
                 nav_view.getMenu().getItem(position).setChecked(true);
@@ -298,15 +348,15 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         homeFragment = new HomeFragment();
         noticeFragment = new NoticeFragment();
+        myWriteFragment = new MyWriteFragment();
+        myChatFragment = new MyChatFragment();
         settingFragment = new SettingFragment();
-//        myWriteFragment = new MyWriteFragment();
-//        myChatFragment = new MyChatFragment();
 
         adapter.addFragment(homeFragment);
         adapter.addFragment(noticeFragment);
+        adapter.addFragment(myWriteFragment);
+        adapter.addFragment(myChatFragment);
         adapter.addFragment(settingFragment);
-//        adapter.addFragment(myWriteFragment);
-//        adapter.addFragment(myChatFragment);
         viewPager.setAdapter(adapter);
     }
 

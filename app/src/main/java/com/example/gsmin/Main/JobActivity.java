@@ -53,8 +53,10 @@ public class JobActivity extends AppCompatActivity {
 
         Handler hd = new Handler();
         hd.postDelayed(new JobActivity.splashhandler(), 1000);
-        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-        pDialog.setTitleText("Loading");
+        pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#41AFE5"));
+        pDialog.setTitleText("Loading...");
         pDialog.setCancelable(false);
         pDialog.show();
 

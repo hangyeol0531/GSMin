@@ -57,26 +57,51 @@ public class SettingFragment extends Fragment {
 //                pDialog.setCancelable(false);
 //                pDialog.show();
 
-                Data.setData(new String[]{"email", "change_nickname"}, new String[]{Data.UserEmail, nameChange.getText().toString()});
-                jt = new JSONTask();
-                jt.execute(Data.url + "/update_nickname");
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
+                if (nameChange.getText().toString().equals("")){
+                    SweetAlertDialog s1 = new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE);
+                    s1.setTitleText("Oops...");
+                    s1.setContentText("변경할 닉네임을 입력하세요!");
+                    s1.show();
+                    s1.findViewById(R.id.confirm_button).setBackgroundColor(ContextCompat.getColor( getContext(),R.color.skyblue));
+                    return;
+                }
+
+                SweetAlertDialog s1 = new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE);
+                s1.setTitleText(nameChange.getText().toString());
+                s1.setContentText("수정하시겠습니까?");
+                s1.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
-                    public void run() {
-                        if(jt.jsonReturn().equals("success")){
-                            Data.UserName = nameChange.getText().toString();
-                            MainActivity.navName.setText(Data.UserName);
-                            SweetAlertDialog sd = new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE);
-                            sd.setTitleText(Data.UserName);
-                            sd.setContentText("변경 완료!!");
-                            sd.show();
-                            Button sb = sd.findViewById(R.id.confirm_button);
-//                            sd.findViewById(R.id.);
-                            sb.setBackgroundColor(ContextCompat.getColor( getContext(),R.color.skyblue));
-                        }
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.dismissWithAnimation();
+                        final SweetAlertDialog pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
+                        pDialog.getProgressHelper().setBarColor(Color.parseColor("#41AFE5"));
+                        pDialog.setTitleText("Loading...");
+                        pDialog.setCancelable(false);
+                        pDialog.show();
+
+                        Data.setData(new String[]{"email", "change_nickname"}, new String[]{Data.UserEmail, nameChange.getText().toString()});
+                        jt = new JSONTask();
+                        jt.execute(Data.url + "/update_nickname");
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(jt.jsonReturn().equals("success")){
+                                    Data.UserName = nameChange.getText().toString();
+                                    MainActivity.navName.setText(Data.UserName);
+                                    SweetAlertDialog sd = new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE);
+                                    sd.setTitleText(Data.UserName);
+                                    sd.setContentText("변경 완료!!");
+                                    sd.show();
+                                    sd.findViewById(R.id.confirm_button).setBackgroundColor(ContextCompat.getColor( getContext(),R.color.skyblue));
+                                }
+                                pDialog.hide();
+                            }
+                        }, 1000);
                     }
-                }, 1000);
+                })
+                .show();
+                s1.findViewById(R.id.confirm_button).setBackgroundColor(ContextCompat.getColor( getContext(),R.color.skyblue));
 
             }
         });
