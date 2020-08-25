@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#545454"
+            android:textSize="17dp"
+            android:textStyle="bold"
+            android:text="닉네임 변경" />
+
+        <EditText
+            android:id="@+id/nameChange"
+            android:layout_width="228dp"
+            android:layout_height="45dp"
+            android:textColor="@color/black"
+            android:backgroundTint="#41AFE5"/>
+    </LinearLayout>
+</LinearLayout>

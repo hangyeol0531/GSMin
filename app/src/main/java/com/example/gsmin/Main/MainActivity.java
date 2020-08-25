@@ -40,6 +40,7 @@ import com.example.gsmin.Adapter.ViewPagerAdapter;
 //import com.example.gsmin.Fragment.HomeFragment;
 import com.example.gsmin.Fragment.HomeFragment;
 import com.example.gsmin.Fragment.NoticeFragment;
+import com.example.gsmin.Fragment.SettingFragment;
 import com.example.gsmin.Model.Data;
 import com.example.gsmin.R;
 import com.example.gsmin.Splash.SplashActivity;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager = getSupportFragmentManager();
     public static HomeFragment homeFragment;
     public static NoticeFragment noticeFragment;
+    public static SettingFragment settingFragment;
     public static FragmentTransaction transaction;
 
     private ViewPager viewPager;
@@ -97,6 +99,12 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.navNoti:
                         viewPager.setCurrentItem(1);
                         transaction.detach(noticeFragment).attach(noticeFragment).commit();
+                        drawer.closeDrawer(Gravity.LEFT);
+                        mSlideState = false;
+                        break;
+                    case R.id.navSetting:
+                        viewPager.setCurrentItem(4);
+                        transaction.detach(settingFragment).attach(settingFragment).commit();
                         drawer.closeDrawer(Gravity.LEFT);
                         mSlideState = false;
                         break;
@@ -211,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
 //                }
                 nav_view.getMenu().getItem(position).setChecked(true);
                 prevMenuItem = nav_view.getMenu().getItem(position);
-             }
+            }
 
             @Override
             public void onPageScrollStateChanged(int state) {
@@ -281,10 +289,12 @@ public class MainActivity extends AppCompatActivity {
 
         homeFragment = new HomeFragment();
         noticeFragment = new NoticeFragment();
+        settingFragment = new SettingFragment();
 //        profileFragment = new ProfileFragment();
 
         adapter.addFragment(homeFragment);
         adapter.addFragment(noticeFragment);
+        adapter.addFragment(settingFragment);
 //        adapter.addFragment(profileFragment);
         viewPager.setAdapter(adapter);
     }

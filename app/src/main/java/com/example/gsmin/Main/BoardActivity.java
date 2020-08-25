@@ -21,20 +21,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.gsmin.Adapter.HomeRecyclerViewAdapter;
-import com.example.gsmin.Fragment.HomeFragment;
 import com.example.gsmin.Json.JSONTask;
 import com.example.gsmin.Model.DB;
 import com.example.gsmin.Model.Data;
 import com.example.gsmin.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class BoardActivity extends AppCompatActivity {
     private static HomeRecyclerViewAdapter adapter = new HomeRecyclerViewAdapter();
+    private static ArrayList<String[]> listData = new ArrayList<>();
 
-    private static String[][] listData = new String[][]{
-            {"boardTitle1", "boardName", "boardInfo", "0", "0"}
-    };
+    JSONTask jt;
     private ImageView gsmin;
     private TextView mainText;
     private ImageButton back, floating, search;
@@ -53,12 +57,6 @@ public class BoardActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setSupportActionBar(toolbar);
 
-        Intent intent = getIntent();
-        if (getIntent()!=null && intent.getExtras()!= null) {
-            channel = intent.getExtras().getString("channel");
-        }
-        listData = HomeFragment.listData;
-
         gsmin = findViewById(R.id.gsmin);
         mainText = findViewById(R.id.mainText);
         floating = findViewById(R.id.fab);
@@ -76,19 +74,57 @@ public class BoardActivity extends AppCompatActivity {
         back.setBackgroundResource(R.drawable.arrow_back);
         gsmin.setVisibility(View.GONE);
         mainText.setVisibility(View.VISIBLE);
-        mainText.setText(String.valueOf(channel));
+        mainText.setText(channel);
+        listData = new ArrayList<>();
         pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
 
-//        Data.setData(new String[]{"email", "pw"}, new String[]{email, pw});
-//        JSONTask jt = new JSONTask();
-//        jt.execute(Data.url + "/login_check");
-
-        Handler hd = new Handler();
-        hd.postDelayed(new BoardActivity.splashhandler(), 1000);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-        pDialog.setTitleText("Loading");
+        pDialog.setTitleText("Loading...");
         pDialog.setCancelable(false);
         pDialog.show();
+
+        Intent intent = getIntent();
+        if (getIntent()!=null && intent.getExtras()!= null) {
+            channel = intent.getExtras().getString("channel");
+        }
+        if (channel.equals("채용 공고")){
+            Data.type = "GET";
+            jt = new JSONTask();
+            jt.execute(Data.url + "/gsm_hire_list");
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        String jsonRt = jt.jsonReturn();
+                        JSONArray ja = new JSONArray(jsonRt);
+
+                        for (int i = 0; i < ja.length(); i++){
+                            JSONObject jo = ja.getJSONObject(i);
+                            String[] a = new String[]{jo.getString("1"), jo.getString("2"), jo.getString("3"), "0", "0"};
+                            listData.add(i, a);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Data.type = "POST";
+                    mainText.setText(channel);
+                    getData();
+                    pDialog.hide();
+                }
+            }, 1000);
+        }else {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mainText.setText(channel);
+                    pDialog.hide();
+                }
+            }, 1000);
+        }
+
 
         final SwipeRefreshLayout slayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         slayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -168,19 +204,20 @@ public class BoardActivity extends AppCompatActivity {
     public static void getData(){
         adapter = new HomeRecyclerViewAdapter();
         recyclerView.setAdapter(adapter);
-        for (int i = 0; i < listData.length; i++) {
+        for (int i = 0; i < listData.size(); i++) {
             DB db = new DB();
             if (mainEdit.getText().toString().length() != 0){
-                if (isTextChange(listData[i][0])){
-                    db.setBoardData(listData[i][0], listData[i][1], listData[i][2], listData[i][3], listData[i][4]);
+                if (isTextChange(listData.get(i)[0])){
+                    db.setBoardData(listData.get(i)[0], listData.get(i)[1], listData.get(i)[2], listData.get(i)[3], listData.get(i)[4]);
                     adapter.addItem(db);
                 }
             }else{
-                db.setBoardData(listData[i][0], listData[i][1], listData[i][2], listData[i][3], listData[i][4]);
+                db.setBoardData(listData.get(i)[0], listData.get(i)[1], listData.get(i)[2], listData.get(i)[3], listData.get(i)[4]);
                 adapter.addItem(db);
             }
         }
         adapter.notifyDataSetChanged();
+        Log.d("BoardActivity", "getData: Adapter");
     }
 
     @Override
@@ -188,12 +225,5 @@ public class BoardActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
         BoardActivity.this.finish();
-    }
-
-    public class splashhandler implements Runnable {
-        @Override
-        public void run() {
-            pDialog.hide();
-        }
     }
 }
