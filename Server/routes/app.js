@@ -30,7 +30,7 @@ var board_func = require('../conf/board.js')
 var login_register_func = require('../conf/login_register.js')
 var token_data_func = require('../conf/token_data.js')
 var get_school_func = require('../conf/get_school_data.js')
-
+var update_information_func = require('../conf/update_information.js')
 school.init(School.Type.HIGH, School.Region.GWANGJU, 'F100000120');
 
 app.use(logger("short"));
@@ -98,7 +98,10 @@ app.post('/board', (req,res) => {
 app.post('/write_Bulletin', (req, res) =>{
     board_func.write_Bulletin(req, res);
 })
-
+//TODO update_information
+app.post('/update_nickname', (req, res) =>{
+    update_information_func.update_nickname(req, res);
+})
 //* end
 //TODO----------------------------------------------------------------------------------------------------------------------
 client.on('ready', () => {
