@@ -6,8 +6,8 @@ const config = require('../../config.json');
 exports.write_Bulletin = async (req, res) =>{
     fun_all.console_all("write_Bulletin 접속");
     // console.log(req.body.email, req.body.content, moment().format('YYYY-MM-DD HH:mm:ss'));
-    var sql = "insert into Bulletin_Information(user_email, content, date) VALUES(?, ?, ?)";
-    await db.query(sql, [req.body.email, req.body.content, moment().format('YYYY-MM-DD HH:mm:ss')], function(err, rows){
+    var sql = "insert into Bulletin_Information(user_email, content, date, type, title) VALUES(?, ?, ?, ?, ?)";
+    await db.query(sql, [req.body.email, req.body.content, moment().format('YYYY-MM-DD HH:mm:ss'), req.body.type, req.body.title], function(err, rows){
         if(!err) {
             console.log("입력 성공");
             res.end(config.success)
