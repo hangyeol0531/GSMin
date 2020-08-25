@@ -1,5 +1,23 @@
-var fun_all = require('./fun_all.js')
-const axios = require('axios');
+const fun_all = require('./fun_all.js')
+const db = require('./config_database') 
+const moment = require('moment');
+const config = require('../../config.json');
+
+exports.write_Bulletin = async (req, res) =>{
+    fun_all.console_all("write_Bulletin 접속");
+
+    console.log(req.body.email, req.body.content, moment().format('YYYY-MM-DD HH:mm:ss'));
+    var sql = "insert into Bulletin_Information(user_email, content, date) VALUES(?, ?, ?)";
+    await db.query(sql, [req.body.email, req.body.content, moment().format('YYYY-MM-DD HH:mm:ss')], function(err, rows){
+        if(!err) {
+            console.log("입력 성공");
+            res.end(config.success)
+        }else{
+            console.log(err);
+            res.end(config.failed)
+        }   
+    })
+}
 
 exports.board = (req,res) =>{
     fun_all.console_all("board 접속");

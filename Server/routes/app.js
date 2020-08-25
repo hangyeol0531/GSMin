@@ -95,6 +95,10 @@ app.post('/board', (req,res) => {
     board_func.board(req,res);
 })
 
+app.post('/write_Bulletin', (req, res) =>{
+    board_func.write_Bulletin(req, res);
+})
+
 //* end
 //TODO----------------------------------------------------------------------------------------------------------------------
 client.on('ready', () => {
