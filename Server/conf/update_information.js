@@ -4,7 +4,7 @@ const config = require('../../config.json');
 
 exports.update_nickname = async (req,res) =>{
     fun_all.console_all(req.body.change_nickname, req.body.email);
-    if(body == {}) res.end('status : 400')
+    if(req.body == {}) res.end('status : 400')
     fun_all.console_all("update_nickname 접속");
     var sql = `Update User_Information SET nickname = "${req.body.change_nickname}" WHERE user_email = "${req.body.email}"`;
     await db.query(sql, function(err, rows){
