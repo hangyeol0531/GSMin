@@ -10,7 +10,15 @@ exports.update_nickname = async (req,res) =>{
     await db.query(sql, function(err, rows){
         if(!err) {
             console.log("update 성공");
-            res.end(config.success)
+            fun_all.token_make(req.body.email).then((token) =>{
+                // var obj = new Object();
+                // obj.token = token;
+                // obj.email = rows[0].user_email;
+                // obj.name = rows[0].nickname;
+                // obj.grade = rows[0].grade;
+                // res.json(obj)
+                res.end(token)
+            })
         }else{
             console.log(err);
             res.end(config.failed)
