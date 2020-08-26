@@ -145,8 +145,6 @@ export default {
   },
 
   created () {
-      this.$store.dispatch('auth/getUserInfo')
-      
       this.$http.get('/gsm_hire_list', {
         //취업공고
       })
@@ -174,7 +172,6 @@ export default {
         router.push({name})
       },
       fillData () {
-        this.$refs.sidebar.test()
         this.datacollection = {
           labels: [
             '공기업 공공기관', '공무원', '그룹 및 200인 이상',
