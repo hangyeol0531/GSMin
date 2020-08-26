@@ -95,11 +95,11 @@ app.post('/insert_user_information', (req,res) =>{
 //     board_func.board(req,res);
 // })
 
-app.get('/get_board_information', (req,res) => {
+app.post('/get_board_information', (req,res) => {
     board_func.get_board_information(req,res);
 })
 
-app.get('/trash_Data', (req, res) =>{
+app.post('/trash_Data', (req, res) =>{
     board_func.trash_Data(req, res);
 })
 
