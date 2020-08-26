@@ -96,7 +96,7 @@ app.post('/insert_user_information', (req,res) =>{
 // })
 
 app.get('/get_board_information', (req,res) => {
-    board_func.get_broad_information(req,res);
+    board_func.get_board_information(req,res);
 })
 
 app.get('/trash_Data', (req, res) =>{
