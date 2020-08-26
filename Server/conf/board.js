@@ -40,10 +40,10 @@ exports.write_Bulletin = async (req, res) =>{
 
 
 
-exports.get_broad_information = async (req,res) =>{
+exports.get_board_information = async (req,res) =>{
     fun_all.console_all("get_broad_information 접속");
     console.log(req.body.type, req.body.page_num)
-    var sql = `SELECT * FROM (SELECT * FROM Bulletin_Information WHERE type = "${req.body.type}" ORDER BY date DESC) as A LIMIT 10 OFFSET ${10 * (req.body.page_num -1)}`
+    var sql = `SELECT * FROM (SELECT * FROM Bulletin_Information WHERE type = "${req.body.type}" ORDER BY date DESC) as A LIMIT 10 OFFSET ${req.body.page_num}`
     await db.query(sql, function(err, rows){
         if(err) {
             throw err;
