@@ -17,7 +17,10 @@ exports.update_nickname = async (req,res) =>{
                 // obj.name = rows[0].nickname;
                 // obj.grade = rows[0].grade;
                 // res.json(obj)
-                res.end(token)
+                var obj = new Object();
+                obj.status = 200;
+                obj.token = token
+                res.json(obj)
             })
         }else{
             console.log(err);
