@@ -52,8 +52,6 @@ exports.write_comment = async(req, res) =>{
     })
 }   
 
-
-
 exports.get_board_information = async (req,res) =>{
     fun_all.console_all("get_broad_information 접속");
     console.log(req.body.type, req.body.page_num)
@@ -78,6 +76,32 @@ exports.get_board_information = async (req,res) =>{
         }
     })
 }
+
+exports.get_comment_information = async (req,res) =>{
+    fun_all.console_all("get_comment_information 접속");
+    console.log(req.body.idx)
+    var sql = `SELECT * FROM Comment_information WHERE Bulletin_idx = "${req.body.idx}" ORDER BY date DESC `
+    await db.query(sql, function(err, rows){
+        if(err) {
+            throw err;
+        }else if(JSON.stringify(rows) == '[]'){ 
+            res.end('null');
+        }else{
+            var aJsonArray = new Array();
+            var aJson = new Object();
+            for(var i = 0;  i < rows.length; i++){
+                var aJson = new Object();
+                aJson.idx = rows[i].idx;
+                aJson.title = rows[i].title;
+                aJson.date = rows[i].date;
+                aJsonArray.push(aJson);
+            }
+            console.log(JSON.stringify(aJsonArray))
+            res.end(JSON.stringify(aJsonArray))
+        }
+    })
+}
+
 exports.trash_Data = async (req,res) =>{
     var max = 100;
     var min = 1;
