@@ -1,6 +1,7 @@
 const config = require('../../config.json');
 const db = require('../conf/config_database.js')
 var fs = require('fs');    
+const axios = require('axios');
 const School = require('node-school-kr');
 const school = new School()
 school.init(School.Type.HIGH, School.Region.GWANGJU, 'F100000120');
