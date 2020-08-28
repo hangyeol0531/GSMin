@@ -36,7 +36,7 @@ exports.gsm_hire_list = async (req,res) =>{
     // res.end(data) //!임시
 }
 
-exports.gsm_employment_rate = (req,res) =>{
+exports.gsm_employment_rate = async (req,res) =>{
     const employment_rate = await axios.get('https://sheet.best/api/sheets/a2e05329-b7f6-4824-8295-eaa9ba36e5bd');
     const employment_rate_data = employment_rate.data.slice(5, -1)
     let emp_num;
