@@ -47,16 +47,11 @@
                     android:scaleType="fitXY"
                     android:adjustViewBounds="true"
                     android:background="@drawable/imgplus"/>
-                <com.github.irshulx.Editor
-                    android:id="@+id/writeEdit"
-                    app:render_type="Editor"
-                    app:placeholder="내용 입력"
-                    android:paddingTop="10dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="40dp"
-                    android:layout_width="match_parent" />
+
+                <EditText
+                    android:id="@+id/editWrite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
 
             </LinearLayout>
@@ -64,10 +59,5 @@
         </LinearLayout>
 
     </ScrollView>
-    <include
-        layout="@layout/editor_toolbar_linearlayout_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-40dp"/>
 
 </LinearLayout>

@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.auth0.android.jwt.JWT;
 import com.example.gsmin.Json.JSONTask;
@@ -64,17 +65,19 @@ public class LoginActivity  extends AppCompatActivity {
             public void onClick(View view) {
                 // Real
                 if (email.getText().toString().isEmpty()){
-                    new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("음...")
-                            .setContentText("이메일을 깜빡했나요?")
-                            .show();
+                    SweetAlertDialog sd = new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE);
+                    sd.setTitleText("음...");
+                    sd.setContentText("이메일을 깜빡했나요?");
+                    sd.show();
+                    sd.findViewById(R.id.confirm_button).setBackgroundColor(ContextCompat.getColor( ct, R.color.skyblue));
                     return;
                 }
                 if (pwd.getText().toString().isEmpty()){
-                    new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("음...")
-                            .setContentText("비밀번호를 깜빡했나봐요!")
-                            .show();
+                    SweetAlertDialog sd = new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE);
+                    sd.setTitleText("음...");
+                    sd.setContentText("비밀번호를 깜빡했나봐요!");
+                    sd.show();
+                    sd.findViewById(R.id.confirm_button).setBackgroundColor(ContextCompat.getColor( ct, R.color.skyblue));
                     return;
                 }
                 email_str = email.getText().toString() + "@gsm.hs.kr";
@@ -85,7 +88,7 @@ public class LoginActivity  extends AppCompatActivity {
 
                 Handler hd = new Handler();
                 hd.postDelayed(new LoginActivity.splashhandler(l), 2000);
-                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                pDialog.getProgressHelper().setBarColor(Color.parseColor("#41AFE5"));
                 pDialog.setTitleText("Loading");
                 pDialog.setCancelable(false);
                 pDialog.show();
@@ -102,19 +105,19 @@ public class LoginActivity  extends AppCompatActivity {
             jsonResult = l.jsonResult;
             if (jsonResult.equals("network_error")){
 //                Toast.makeText(getApplicationContext(), "네트워크가 불안정합니다!!", Toast.LENGTH_SHORT).show();
-                new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText("이런...")
-                        .setContentText("네트워크가 불안정합니다!!")
-                        .show();
+                SweetAlertDialog sd = new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE);
+                sd.setTitleText("이런...");
+                sd.setContentText("네트워크가 불안정합니다!!");
+                sd.show();
                 pDialog.hide();
                 return;
             }else if (jsonResult == null){
 //                Toast.makeText(getApplicationContext(), "네트워크가 불안정합니다!!", Toast.LENGTH_SHORT).show();
                 Log.d("loginAc", "null");
-                new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText("이런...")
-                        .setContentText("서버가 불안정합니다!!")
-                        .show();
+                SweetAlertDialog sd = new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE);
+                sd.setTitleText("이런...");
+                sd.setContentText("서버가 불안정합니다!!");
+                sd.show();
                 pDialog.hide();
                 return;
             }
@@ -132,10 +135,10 @@ public class LoginActivity  extends AppCompatActivity {
                     startActivity(new Intent(getApplication(), MainActivity.class));
                     LoginActivity.this.finish();
                 }else{
-                    new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("이런...")
-                            .setContentText("이메일 또는 비밀번호가 틀립니다!")
-                            .show();
+                    SweetAlertDialog sd = new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE);
+                    sd.setTitleText("이런...");
+                    sd.setContentText("이메일 또는 비밀번호가 틀립니다!");
+                    sd.show();
                     pDialog.hide();
                     check_btn.setVisibility(View.VISIBLE);
                 }

@@ -1,15 +1,18 @@
 package com.example.gsmin.Main;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,7 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import com.example.gsmin.Json.JSONTask;
+import com.example.gsmin.Model.Data;
 import com.example.gsmin.R;
 
 import com.github.irshulx.Editor;
@@ -26,13 +32,16 @@ import com.github.irshulx.models.EditorContent;
 import com.github.irshulx.models.EditorTextStyle;
 import java.io.IOException;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class WriteActivity extends AppCompatActivity {
     private ImageButton back, search, menu;
     private ImageView gsmin;
     private LinearLayout wLayout;
     private TextView channelText;
-    private Editor editor;
-    private Bitmap bitmap;
+    private EditText editWrite, editTitle;
+    private JSONTask jt;
+    private Context ct;
 
     @Override
 
@@ -42,9 +51,6 @@ public class WriteActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_write);
-
-        editor = findViewById(R.id.writeEdit);
-        setUpEditor();
 
         gsmin = findViewById(R.id.gsmin);
         gsmin.setVisibility(View.GONE);
@@ -71,119 +77,61 @@ public class WriteActivity extends AppCompatActivity {
         menu = findViewById(R.id.menuBtn);
         menu.setBackgroundResource(R.drawable.mdi_send);
 
+        editWrite = findViewById(R.id.editWrite);
+        editTitle = findViewById(R.id.editTitle);
 
-        Intent intent = getIntent();
-        String title = intent.getExtras().getString("title");
-    }
-
-    private void setUpEditor() {
-        editor.setFontFace(R.string.fontFamily__sans_serif);
-        {
-            findViewById(R.id.action_h1).setVisibility(View.GONE);
-            findViewById(R.id.action_h2).setVisibility(View.GONE);
-            findViewById(R.id.action_h3).setVisibility(View.GONE);
-            findViewById(R.id.action_bold).setVisibility(View.GONE);
-            findViewById(R.id.action_Italic).setVisibility(View.GONE);
-            findViewById(R.id.action_indent).setVisibility(View.GONE);
-            findViewById(R.id.action_blockquote).setVisibility(View.GONE);
-            findViewById(R.id.action_outdent).setVisibility(View.GONE);
-            findViewById(R.id.action_bulleted).setVisibility(View.GONE);
-            findViewById(R.id.action_unordered_numbered).setVisibility(View.GONE);
-            findViewById(R.id.action_hr).setVisibility(View.GONE);
-            findViewById(R.id.action_color).setVisibility(View.GONE);
-            findViewById(R.id.action_erase).setVisibility(View.GONE);
-            findViewById(R.id.action_insert_link).setVisibility(View.GONE);
-        }
-
-//        findViewById(R.id.action_h1).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editor.updateTextStyle(EditorTextStyle.H1);
-//            }
-//        });
-//
-//        findViewById(R.id.action_h2).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editor.updateTextStyle(EditorTextStyle.H2);
-//            }
-//        });
-//
-//        findViewById(R.id.action_h3).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editor.updateTextStyle(EditorTextStyle.H3);
-//            }
-//        });
-//
-//        findViewById(R.id.action_bold).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editor.updateTextStyle(EditorTextStyle.BOLD);
-//            }
-//        });
-//
-//        findViewById(R.id.action_Italic).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editor.updateTextStyle(EditorTextStyle.ITALIC);
-//            }
-//        });
-//
-
-//        findViewById(R.id.action_indent).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editor.updateTextStyle(EditorTextStyle.INDENT);
-//            }
-//        });
-//
-//        findViewById(R.id.action_blockquote).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editor.updateTextStyle(EditorTextStyle.BLOCKQUOTE);
-//            }
-//        });
-//
-//        findViewById(R.id.action_outdent).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editor.updateTextStyle(EditorTextStyle.OUTDENT);
-//            }
-//        });
-//
-//        findViewById(R.id.action_bulleted).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editor.insertList(false);
-//            }
-//        });
-//
-//        findViewById(R.id.action_unordered_numbered).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editor.insertList(true);
-//            }
-//        });
-//
-//        findViewById(R.id.action_hr).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editor.insertDivider();
-//            }
-//        });
-//
-//        findViewById(R.id.action_insert_link).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editor.insertLink();
-//            }
-//        });
-
-        findViewById(R.id.action_insert_image).setOnClickListener(new View.OnClickListener() {
+        ct = this;
+        menu.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                editor.openImagePicker();
+            public void onClick(View view) {
+                if (editTitle.getText().toString().equals("")){
+
+                    new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("이런...")
+                            .setContentText("제목을 입력하세요!!")
+                            .show();
+                    return;
+                }else if (editWrite.getText().toString().equals("")){
+
+                    new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("이런...")
+                            .setContentText("내용을 입력하세요!!")
+                            .show();
+                    return;
+                }
+                Data.setData(new String[]{"title", "type", "email", "content"}, new String[]{
+                        editTitle.getText().toString(),
+                        channelText.getText().toString(),
+                        Data.UserEmail,
+                        editWrite.getText().toString()
+                });
+                jt = new JSONTask();
+                jt.execute(Data.url + "/write_Bulletin");
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(jt.jsonReturn().equals("success")){
+                            new SweetAlertDialog(ct, SweetAlertDialog.SUCCESS_TYPE)
+                                    .setTitleText("굿..!")
+                                    .setContentText("글쓰기 성공!!")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                            startActivity(new Intent(getApplication(), BoardActivity.class));
+                                            WriteActivity.this.finish();
+                                        }
+                                    })
+                                    .show();
+                        } else {
+                            new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE)
+                                    .setTitleText("이런...")
+                                    .setContentText("글쓰기 실패!!")
+                                    .show();
+                        }
+                    }
+                }, 1000);
+
             }
         });
     };
@@ -193,25 +141,6 @@ public class WriteActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), BoardActivity.class);
         startActivity(intent);
         WriteActivity.this.finish();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == editor.PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
-            Uri uri = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                Log.d("bitmap", String.valueOf(bitmap));
-                editor.insertImage(bitmap);
-            } catch (IOException e) {
-                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            }
-        } else if (resultCode == Activity.RESULT_CANCELED) {
-            //Write your code if there's no result
-            Toast.makeText(getApplicationContext(), "Cancelled", Toast.LENGTH_SHORT).show();
-        }
     }
 
 }

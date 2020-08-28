@@ -73,6 +73,7 @@ public class BoardActivity extends AppCompatActivity {
 
         back.setBackgroundResource(R.drawable.arrow_back);
         gsmin.setVisibility(View.GONE);
+
         mainText.setVisibility(View.VISIBLE);
         mainText.setText(channel);
         listData = new ArrayList<>();
@@ -115,14 +116,31 @@ public class BoardActivity extends AppCompatActivity {
                 }
             }, 1000);
         }else {
-
+            Data.setData(
+                    new String[]{
+                        "page_num",
+                        "type"},
+                    new String[]{
+                        "1",
+                        channel
+            });
+            jt = new JSONTask();
+            jt.execute(Data.url + "/get_board_information");
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    findViewById(R.id.no_board_layout).setVisibility(View.VISIBLE);
-                    mainText.setText(channel);
-                    pDialog.hide();
+                    try {
+                        JSONObject jo = new JSONObject(jt.jsonReturn());
+//                        jo.getString();
+                        findViewById(R.id.no_board_layout).setVisibility(View.VISIBLE);
+                        mainText.setText(channel);
+                        pDialog.hide();
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }, 1000);
         }

@@ -93,7 +93,14 @@ public class SettingFragment extends Fragment {
                                     sd.setTitleText(Data.UserName);
                                     sd.setContentText("변경 완료!!");
                                     sd.show();
+                                    nameChange.setText("");
                                     sd.findViewById(R.id.confirm_button).setBackgroundColor(ContextCompat.getColor( getContext(),R.color.skyblue));
+
+                                }else{
+                                    new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
+                                            .setTitleText("이런...")
+                                            .setContentText("네트워크가 불안정합니다!!")
+                                            .show();
                                 }
                                 pDialog.hide();
                             }

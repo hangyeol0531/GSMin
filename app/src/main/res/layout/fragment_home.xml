@@ -14,7 +14,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
             android:orientation="vertical">
 <!--            즐겨찾기-->
             <LinearLayout
@@ -32,7 +31,7 @@
                     android:text="즐겨찾기"
                     />
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
                     android:textSize="@dimen/frag_main_font"
@@ -61,13 +60,14 @@
                     />
                 <LinearLayout
                     android:id="@+id/l2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
                     android:orientation="horizontal">
                     <TextView
                         android:id="@+id/t1"
                         android:layout_width="350dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/frag_main_font"
                         android:textColor="#000000"
@@ -103,12 +103,13 @@
 
                 <LinearLayout
                     android:id="@+id/l3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
                     android:orientation="horizontal">
                     <TextView
                         android:id="@+id/t2"
+                        android:layout_weight="1"
                         android:layout_width="350dp"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/frag_main_font"
@@ -124,7 +125,7 @@
 
                 <LinearLayout
                     android:id="@+id/l4"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
                     android:orientation="horizontal">
@@ -132,6 +133,7 @@
                         android:id="@+id/t3"
                         android:layout_width="350dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:textSize="@dimen/frag_main_font"
                         android:textColor="#000000"
                         android:text="취업 현황"
@@ -165,7 +167,7 @@
                     />
                 <LinearLayout
                     android:id="@+id/l5"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
                     android:orientation="horizontal">
@@ -174,6 +176,7 @@
                         android:layout_width="350dp"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/frag_main_font"
+                        android:layout_weight="1"
                         android:textColor="#000000"
                         android:text="자유"
                         />
@@ -186,7 +189,7 @@
 
                 <LinearLayout
                     android:id="@+id/l6"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
                     android:orientation="horizontal">
@@ -195,6 +198,7 @@
                         android:layout_width="350dp"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/frag_main_font"
+                        android:layout_weight="1"
                         android:textColor="#000000"
                         android:text="홍보"
                         />
@@ -206,7 +210,7 @@
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/l7"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
                     android:orientation="horizontal">
@@ -215,6 +219,7 @@
                         android:layout_width="350dp"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/frag_main_font"
+                        android:layout_weight="1"
                         android:textColor="#000000"
                         android:text="장터"
                         />
@@ -247,7 +252,7 @@
                     />
                 <LinearLayout
                     android:id="@+id/l8"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
                     android:orientation="horizontal">
@@ -255,6 +260,7 @@
                         android:id="@+id/t7"
                         android:layout_width="350dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:textSize="@dimen/frag_main_font"
                         android:textColor="#000000"
                         android:text="1학년"
@@ -267,7 +273,7 @@
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/l9"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
                     android:orientation="horizontal">
@@ -275,6 +281,7 @@
                         android:id="@+id/t8"
                         android:layout_width="350dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:textSize="@dimen/frag_main_font"
                         android:textColor="#000000"
                         android:text="2학년"
@@ -287,7 +294,7 @@
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/l10"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
                     android:orientation="horizontal">
@@ -296,6 +303,7 @@
                         android:layout_width="350dp"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/frag_main_font"
+                        android:layout_weight="1"
                         android:textColor="#000000"
                         android:text="3학년"
                         />
@@ -307,13 +315,14 @@
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/l11"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
                     android:orientation="horizontal">
                     <TextView
                         android:id="@+id/t10"
                         android:layout_width="350dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/frag_main_font"
                         android:textColor="#000000"
@@ -347,7 +356,7 @@
                     />
                 <LinearLayout
                     android:id="@+id/l12"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="13dp"
                     android:orientation="horizontal">
@@ -355,6 +364,7 @@
                         android:id="@+id/t11"
                         android:layout_width="350dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:textSize="@dimen/frag_main_font"
                         android:textColor="#000000"
                         android:text="코딩"
