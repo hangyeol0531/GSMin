@@ -30,25 +30,25 @@ exports.gsmschoolfood = async (req, res) =>{
 }
 
 exports.gsm_hire_list = async (req,res) =>{
-    const job_list = await axios.get('https://sheet.best/api/sheets/a954e6a3-0e4f-48a6-8a20-234ff289fffd');
-    const spread_list = job_list[6]
-    res.end(JSON.stringify(job_list.data.slice(6, -1)));
-    // var data = fs.readFileSync('../emplist','utf-8');   //!임시
-    // res.end(data) //!임시
+    // const job_list = await axios.get('https://sheet.best/api/sheets/a954e6a3-0e4f-48a6-8a20-234ff289fffd');
+    // const spread_list = job_list[6]
+    // res.end(JSON.stringify(job_list.data.slice(6, -1)));
+    var data = fs.readFileSync('../emplist','utf-8');   //!임시
+    res.end(data) //!임시
 }
 
 exports.gsm_employment_rate = async (req,res) =>{
-    const employment_rate = await axios.get('https://sheet.best/api/sheets/a2e05329-b7f6-4824-8295-eaa9ba36e5bd');
-    const employment_rate_data = employment_rate.data.slice(5, -1)
-    let emp_num;
-    for (var i = 0; i < 80; i++){
-        if(!(employment_rate_data[i]['2'])){
-            emp_num = i;
-            break;
-        }
-    }
+    // const employment_rate = await axios.get('https://sheet.best/api/sheets/a2e05329-b7f6-4824-8295-eaa9ba36e5bd');
+    // const employment_rate_data = employment_rate.data.slice(5, -1)
+    // let emp_num;
+    // for (var i = 0; i < 80; i++){
+    //     if(!(employment_rate_data[i]['2'])){
+    //         emp_num = i;
+    //         break;
+    //     }
+    // }
 
-    // emp_num = 9; // !테스트
+    emp_num = 12; // !테스트
     send_data = new Object;
     send_data.rate = emp_num * 1.25
     send_data.emp_num = emp_num
