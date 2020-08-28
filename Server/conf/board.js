@@ -96,8 +96,11 @@ exports.get_board_information = async (req,res) =>{
             for(var i = 0;  i < rows.length; i++){
                 var aJson = new Object();
                 aJson.idx = rows[i].idx;
+                aJson.email = rows[i].user_email;
                 aJson.title = rows[i].title;
+                aJson.content = rows[i].content;
                 aJson.date = rows[i].date;
+                aJson.type = rows[i].type;
                 aJsonArray.push(aJson);
             }
             console.log(JSON.stringify(aJsonArray))
