@@ -106,6 +106,10 @@ app.post('/trash_Data', (req, res) =>{
 app.post('/write_Bulletin', (req, res) =>{
     board_func.write_Bulletin(req, res);
 })
+
+app.post('/write_comment', (req, res) =>{
+    board_func.write_comment(req, res);
+})
 //TODO update_information
 app.post('/update_nickname', (req, res) =>{
     update_information_func.update_nickname(req, res);

@@ -38,6 +38,20 @@ exports.write_Bulletin = async (req, res) =>{
     })
 }
 
+exports.write_comment = async(req, res) =>{
+    fun_all.console_all("wrtie comment 접속");
+    var sql = "insert into Comment_information(Bulletin_idx, user_email, comment, date) VALUES(?, ?, ?, ?)";
+    await db.query(sql, [req.body.idx, req.body.email, req.body.comment, moment().format('YYYY-MM-DD HH:mm:ss')], function(err, rows){
+        if(!err) {
+            console.log("입력 성공");
+            res.end(config.success)
+        }else{
+            console.log(err);
+            res.end("config.failed")
+        }   
+    })
+}   
+
 
 
 exports.get_board_information = async (req,res) =>{
@@ -54,14 +68,12 @@ exports.get_board_information = async (req,res) =>{
             var aJson = new Object();
             for(var i = 0;  i < rows.length; i++){
                 var aJson = new Object();
-                aJson.user_email = rows[i].user_email;
+                aJson.idx = rows[i].idx;
                 aJson.title = rows[i].title;
-                aJson.content = rows[i].content;
                 aJson.date = rows[i].date;
-                aJson.type = rows[i].type;
                 aJsonArray.push(aJson);
             }
-            // console.log(JSON.stringify(aJsonArray))
+            console.log(JSON.stringify(aJsonArray))
             res.end(JSON.stringify(aJsonArray))
         }
     })
@@ -83,3 +95,4 @@ exports.trash_Data = async (req,res) =>{
         })
     }
 }
+
