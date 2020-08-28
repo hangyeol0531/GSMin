@@ -113,6 +113,18 @@ app.post('/write_Bulletin', (req, res) =>{
 app.post('/write_comment', (req, res) =>{
     board_func.write_comment(req, res);
 })
+
+app.post('/delete_board', (req,res) =>{
+    board_func.delete_board(req, res);
+})
+
+app.post('/delete_comment', (req,res) =>{
+    board_func.delete_comment(req, res);
+})
+
+app.post('/check_writer', (req,res) =>{
+    board_func.check_writer(req, res);
+})
 //TODO update_information
 app.post('/update_nickname', (req, res) =>{
     update_information_func.update_nickname(req, res);

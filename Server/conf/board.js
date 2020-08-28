@@ -2,6 +2,7 @@ const fun_all = require('./fun_all.js')
 const db = require('./config_database') 
 const moment = require('moment');
 const config = require('../../config.json');
+const { fromLong } = require('ip');
 
 
 // exports.board = (req,res) =>{
@@ -47,10 +48,38 @@ exports.write_comment = async(req, res) =>{
             res.end(config.success)
         }else{
             console.log(err);
-            res.end("config.failed")
+            res.end(config.failed)
         }   
     })
 }   
+
+exports.delete_board = async(req, res) =>{
+    fun_all.console_all("delete_board");
+    var sql = `delete from Bulletin_Information where idx = ${req.body.idx}`;
+    await db.query(sql, function(err, rows){
+        if(!err) {
+            console.log("삭제 성공");
+            res.end(config.success)
+        }else{
+            console.log(err);
+            res.end(config.failed)
+        }   
+    })
+}
+
+exports.delete_comment = async(req, res) =>{
+    fun_all.console_all("delete_comment");
+    var sql = `delete from Comment_information where idx = ${req.body.idx}`;
+    await db.query(sql, function(err, rows){
+        if(!err) {
+            console.log("삭제 성공");
+            res.end(config.success)
+        }else{
+            console.log(err);
+            res.end(config.failed)
+        }   
+    })
+}
 
 exports.get_board_information = async (req,res) =>{
     fun_all.console_all("get_broad_information 접속");
@@ -92,7 +121,9 @@ exports.get_comment_information = async (req,res) =>{
             for(var i = 0;  i < rows.length; i++){
                 var aJson = new Object();
                 aJson.idx = rows[i].idx;
-                aJson.title = rows[i].title;
+                aJson.Bulletin_idx = rows[i].Bulletin_idx;
+                aJson.user_email = rows[i].user_email;
+                aJson.comment = rows[i].comment;
                 aJson.date = rows[i].date;
                 aJsonArray.push(aJson);
             }
@@ -118,5 +149,21 @@ exports.trash_Data = async (req,res) =>{
             }   
         })
     }
+}
+
+exports.check_writer = async(req, res) =>{
+    console.log(req.body.idx, req.body.check_Code) // 1 = board else comment
+    if(req.body.check_Code == 1) var sql = `SELECT * FROM Bulletin_Information WHERE idx = "${req.body.idx}"`;
+    else var sql = `SELECT * FROM Comment_information WHERE idx = "${req.body.idx}"`;
+    
+    await db.query(sql, function(err, rows){
+        if(err) {
+            throw err;
+        }else if(JSON.stringify(rows) == '[]'){ 
+            res.end('null');
+        }else{
+            res.end(rows[0].user_email)
+        }
+     })
 }
 
