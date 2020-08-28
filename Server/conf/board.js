@@ -133,6 +133,26 @@ exports.get_comment_information = async (req,res) =>{
     })
 }
 
+exports.get_one_board = async (req,res) =>{
+    fun_all.console_all("get_one_board 접속");
+    console.log(req.body.idx)
+    var sql = `SELECT * FROM Bulletin_Information WHERE idx = "${req.body.idx}"`
+    await db.query(sql, function(err, rows){
+        if(err) {
+            throw err;
+        }else if(JSON.stringify(rows) == '[]'){ 
+            res.end('null');
+        }else{;
+            var aJson = new Object();
+            aJson.idx = rows[0].idx;
+            aJson.user_email = rows[0].user_email;
+            aJson.title = rows[0].title;
+            aJson.content = rows[0].content;
+            aJson.date = rows[0].date;
+            res.end(JSON.stringify(aJson))
+        }
+    })
+}
 exports.trash_Data = async (req,res) =>{
     var max = 100;
     var min = 1;
@@ -151,7 +171,7 @@ exports.trash_Data = async (req,res) =>{
     }
 }
 
-exports.check_writer = async(req, res) =>{
+exports.check_writer = async(req, res) =>{xs
     console.log(req.body.idx, req.body.check_Code) // 1 = board else comment
     if(req.body.check_Code == 1) var sql = `SELECT * FROM Bulletin_Information WHERE idx = "${req.body.idx}"`;
     else var sql = `SELECT * FROM Comment_information WHERE idx = "${req.body.idx}"`;

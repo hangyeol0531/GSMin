@@ -125,6 +125,10 @@ app.post('/delete_comment', (req,res) =>{
 app.post('/check_writer', (req,res) =>{
     board_func.check_writer(req, res);
 })
+
+app.post('/get_one_board', (req,res) =>{
+    board_func.get_one_board(req, res);
+})
 //TODO update_information
 app.post('/update_nickname', (req, res) =>{
     update_information_func.update_nickname(req, res);
