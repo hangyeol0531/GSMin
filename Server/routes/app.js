@@ -137,6 +137,10 @@ app.get('/board_num', (req, res) =>{
 app.post('/update_nickname', (req, res) =>{
     update_information_func.update_nickname(req, res);
 })
+
+app.post('/get_user_data', (req, res) =>{
+    update_information_func.get_user_data(req, res);
+})
 //* end
 //TODO----------------------------------------------------------------------------------------------------------------------
 client.on('ready', () => {
