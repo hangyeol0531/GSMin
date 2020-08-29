@@ -103,7 +103,7 @@ exports.get_board_information = async (req,res) =>{
                 aJson.content = rows[i].content;
                 aJson.date = rows[i].date;
                 aJson.type = rows[i].type;
-                aJson.nickanme = rows[i].nickname;
+                aJson.nickname = rows[i].nickname;
                 aJson.grade = rows[i].grade
                 aJsonArray.push(aJson);
             }
@@ -112,6 +112,8 @@ exports.get_board_information = async (req,res) =>{
         }
     })
 }
+
+
 
 exports.get_comment_information = async (req,res) =>{
     fun_all.console_all("get_comment_information 접속");
@@ -134,7 +136,7 @@ exports.get_comment_information = async (req,res) =>{
                 aJson.date = rows[i].date;
                 aJsonArray.push(aJson);
             }
-            console.log(JSON.stringify(aJsonArray))
+            // console.log(JSON.stringify(aJsonArray))
             res.end(JSON.stringify(aJsonArray))
         }
     })
