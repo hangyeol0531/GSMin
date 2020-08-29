@@ -147,6 +147,9 @@ app.post('/isgood', (req, res) =>{
 app.post('/isgood_num', (req, res) =>{
     board_func.isgood_num(req, res);
 })
+app.post('/iungood', (req, res) =>{
+    board_func.iungood(req, res);
+})
 //TODO update_information
 app.post('/update_nickname', (req, res) =>{
     update_information_func.update_nickname(req, res);

@@ -261,8 +261,21 @@ exports.isgood = async (req ,res) => {
     })
 }
 
-exports.isgood_num = async (req ,res) => { 
+exports.iungood = async (req ,res) => { 
 
+    console.log(req.body.Bulletin_idx, req.body.email)
+    var sql = `DELETE FROM good_board where Bulletin_idx = ${req.body.Bulletin_idx} AND user_email = ${ req.body.email};`;
+    await db.query(sql, (err, rows) =>{
+        if(err){
+            console.log(err);
+            res.end(config.failed);
+        }else{
+            res.end(config.success)
+        }
+    })
+}
+
+exports.isgood_num = async (req ,res) => { 
     console.log(req.body.Bulletin_idx)
     var sql = `SELECT Count(*) from GSMinDB.good_board where Bulletin_idx = ${req.body.Bulletin_idx};`
     await db.query(sql,(err, rows) =>{
