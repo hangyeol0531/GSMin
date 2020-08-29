@@ -5,24 +5,7 @@ const config = require('../../config.json');
 const { fromLong } = require('ip');
 
 
-// exports.board = (req,res) =>{
-//     fun_all.console_all("board 접속");
-//     var aJsonArray = new Array();
-//     var aJson = new Object();
-//     for(var i = 0;  i < 10; i++){
-//         var aJson = new Object();
-//         aJson.likeCount = `${i}6`;
-//         aJson.section = "자유";
-//         aJson.content = "Lorem Ipsum, g iving information on its origins, as well as a random Lipsum generator.";
-//         aJson.writer = "양현승";
-//         aJson.viewer = 32;
-//         aJson.previous = `${i}초 전`;
-//         // console.log(aJson)
-//         aJsonArray.push(aJson);
-//     }
-//     // console.log(JSON.stringify(aJsonArray))
-//     res.end(JSON.stringify(aJsonArray))
-// }
+
 
 exports.write_Bulletin = async (req, res) =>{
     fun_all.console_all("write_Bulletin 접속");
@@ -113,12 +96,11 @@ exports.get_board_information = async (req,res) =>{
     })
 }
 
-
-
 exports.get_comment_information = async (req,res) =>{
     fun_all.console_all("get_comment_information 접속");
     console.log(req.body.idx)
-    var sql = `SELECT * FROM Comment_information WHERE Bulletin_idx = "${req.body.idx}" ORDER BY date DESC `
+    var sql = `SELECT * FROM Comment_information as A, User_Information AS U 
+    WHERE Bulletin_idx = ${req.body.idx} ORDER BY date DESC, A.user_email = U.user_email;`
     await db.query(sql, function(err, rows){
         if(err) {
             throw err;
@@ -134,6 +116,8 @@ exports.get_comment_information = async (req,res) =>{
                 aJson.user_email = rows[i].user_email;
                 aJson.comment = rows[i].comment;
                 aJson.date = rows[i].date;
+                aJson.nickname = rows[i].nickname;
+                aJson.grade = rows[i].grade
                 aJsonArray.push(aJson);
             }
             // console.log(JSON.stringify(aJsonArray))
@@ -209,3 +193,24 @@ exports.board_num = async(req, res) =>{
         }
      })
 }
+
+
+
+// exports.board = (req,res) =>{
+//     fun_all.console_all("board 접속");
+//     var aJsonArray = new Array();
+//     var aJson = new Object();
+//     for(var i = 0;  i < 10; i++){
+//         var aJson = new Object();
+//         aJson.likeCount = `${i}6`;
+//         aJson.section = "자유";
+//         aJson.content = "Lorem Ipsum, g iving information on its origins, as well as a random Lipsum generator.";
+//         aJson.writer = "양현승";
+//         aJson.viewer = 32;
+//         aJson.previous = `${i}초 전`;
+//         // console.log(aJson)
+//         aJsonArray.push(aJson);
+//     }
+//     // console.log(JSON.stringify(aJsonArray))
+//     res.end(JSON.stringify(aJsonArray))
+// }
