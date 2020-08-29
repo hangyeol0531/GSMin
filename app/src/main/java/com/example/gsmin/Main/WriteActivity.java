@@ -55,6 +55,9 @@ public class WriteActivity extends AppCompatActivity {
         gsmin = findViewById(R.id.gsmin);
         gsmin.setVisibility(View.GONE);
 
+        channelText = findViewById(R.id.channelText);
+        channelText.setText(BoardActivity.channel);
+
         back = findViewById(R.id.drawer_btn);
         back.setVisibility(View.VISIBLE);
         back.setBackgroundResource(R.drawable.arrow_back);
@@ -67,9 +70,6 @@ public class WriteActivity extends AppCompatActivity {
 
         wLayout = findViewById(R.id.writeLayout);
         wLayout.setVisibility(View.VISIBLE);
-
-        channelText = findViewById(R.id.channelText);
-        channelText.setText(BoardActivity.channel);
 
         search = findViewById(R.id.searchBtn);
         search.setVisibility(View.INVISIBLE);

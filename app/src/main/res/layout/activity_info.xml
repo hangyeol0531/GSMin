@@ -12,30 +12,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
         android:background="@drawable/back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.041"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
-
-    <ImageView
+    <LinearLayout
         android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/fixWidth"
         android:layout_height="wrap_content"
-
-        android:layout_marginTop="44dp"
-        android:background="@drawable/info_image"
+        android:layout_gravity="center"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.098"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/back_btn"
-        tools:ignore="MissingConstraints" />
-
+        tools:ignore="MissingConstraints">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:background="@drawable/info_image" />
+    </LinearLayout>
 
     <LinearLayout
+        android:layout_marginLeft="16dp"
         android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/fixWidth"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:orientation="vertical"
@@ -75,8 +79,9 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginLeft="16dp"
         android:id="@+id/linearLayout2"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/fixWidth"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:orientation="vertical"
@@ -116,7 +121,8 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_width="@dimen/fixWidth"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="20dp"

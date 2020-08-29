@@ -29,30 +29,29 @@
 
         <LinearLayout
             android:layout_gravity="center"
-            android:layout_width="400dp"
+            android:layout_width="@dimen/fixWidth"
             android:layout_height="wrap_content"
-        android:orientation="vertical">
+            android:layout_marginLeft="16dp"
+            android:orientation="vertical">
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_gravity="left"
                 android:layout_marginTop="44dp"
-                android:layout_marginLeft="16dp"
                 android:background="@drawable/ic_logintitle"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_gravity="center"
-            android:layout_width="400dp"
+            android:layout_marginLeft="16dp"
+            android:layout_width="@dimen/fixWidth"
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
                 android:id="@+id/imageView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
                 android:layout_marginTop="70dp"
 
                 android:text="이메일"
@@ -62,7 +61,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
                 android:orientation="horizontal">
 
                 <EditText
@@ -113,14 +111,14 @@
 
         <LinearLayout
             android:layout_gravity="center"
-            android:layout_width="400dp"
+            android:layout_marginLeft="16dp"
+            android:layout_width="@dimen/fixWidth"
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="34dp"
+                android:layout_marginTop="28dp"
                 android:text="비밀번호"
                 android:textColor="@color/black"
                 android:textSize="15dp"
@@ -130,8 +128,6 @@
                 android:layout_width="338dp"
                 android:layout_height="50dp"
                 android:backgroundTint="#41AFE5"
-
-                android:layout_marginLeft="16dp"
                 android:textColor="#000000"
                 android:textColorHint="#BDBDBD"
                 android:textSize="21dp"
@@ -149,7 +145,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="144dp"
+            android:layout_marginTop="124dp"
             android:background="@drawable/check_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.505"

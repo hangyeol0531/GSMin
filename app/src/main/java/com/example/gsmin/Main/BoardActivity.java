@@ -29,9 +29,7 @@ import com.example.gsmin.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class BoardActivity extends AppCompatActivity {
@@ -43,11 +41,11 @@ public class BoardActivity extends AppCompatActivity {
     private TextView mainText;
     private ImageButton back, floating, search;
     private static EditText mainEdit;
-    public static String channel = "";
     private static RecyclerView recyclerView;
     private boolean searchActivity= true;
     SweetAlertDialog pDialog;
 
+    public static String channel = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,68 +86,14 @@ public class BoardActivity extends AppCompatActivity {
         if (getIntent()!=null && intent.getExtras()!= null) {
             channel = intent.getExtras().getString("channel");
         }
-        if (channel.equals("채용 공고")){
-            Data.type = "GET";
-            jt = new JSONTask();
-            jt.execute(Data.url + "/gsm_hire_list");
-
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        String jsonRt = jt.jsonReturn();
-                        JSONArray ja = new JSONArray(jsonRt);
-                        findViewById(R.id.no_board_layout).setVisibility(View.GONE);
-                        for (int i = 0; i < ja.length(); i++){
-                            JSONObject jo = ja.getJSONObject(i);
-                            String[] a = new String[]{jo.getString("1"), jo.getString("2"), jo.getString("3"), "0", "0"};
-                            listData.add(i, a);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    Data.type = "POST";
-                    mainText.setText(channel);
-                    getData();
-                    pDialog.hide();
-                }
-            }, 1000);
-        }else {
-            Data.setData(
-                    new String[]{
-                        "page_num",
-                        "type"},
-                    new String[]{
-                        "1",
-                        channel
-            });
-            jt = new JSONTask();
-            jt.execute(Data.url + "/get_board_information");
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        JSONObject jo = new JSONObject(jt.jsonReturn());
-//                        jo.getString();
-                        findViewById(R.id.no_board_layout).setVisibility(View.VISIBLE);
-                        mainText.setText(channel);
-                        pDialog.hide();
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, 1000);
-        }
-
+        getChannel();
 
         final SwipeRefreshLayout slayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         slayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                listData.clear();
+                getChannel();
                 mainEdit.setText("");
                 search();
                 mainText.setVisibility(View.VISIBLE);
@@ -197,6 +141,84 @@ public class BoardActivity extends AppCompatActivity {
             }
         });
         getData();
+
+    }
+
+    private void getChannel() {
+        if (channel.equals("채용 공고")){
+            Data.type = "GET";
+            jt = new JSONTask();
+            jt.execute(Data.url + "/gsm_hire_list");
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        if (jt.jsonReturn().equals("null")){
+                            findViewById(R.id.no_board_layout).setVisibility(View.VISIBLE);
+                            mainText.setText(channel);
+                            pDialog.hide();
+                            return;
+                        }
+                        String jsonRt = jt.jsonReturn();
+                        JSONArray ja = new JSONArray(jsonRt);
+                        findViewById(R.id.no_board_layout).setVisibility(View.GONE);
+                        for (int i = 0; i < ja.length(); i++){
+                            JSONObject jo = ja.getJSONObject(i);
+                            String[] a = new String[]{jo.getString("1"), jo.getString("2"), jo.getString("3"), "0", "0", "null"};
+                            listData.add(i, a);
+                        }
+                        getData();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Data.type = "POST";
+                    mainText.setText(channel);
+                    getData();
+                    pDialog.hide();
+                }
+            }, 1000);
+        } else {
+            Data.setData(
+                    new String[]{
+                            "page_num",
+                            "type"},
+                    new String[]{
+                            "1",
+                            channel
+                    });
+            jt = new JSONTask();
+            jt.execute(Data.url + "/get_board_information");
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        if (jt.jsonReturn().equals("null")){
+                            findViewById(R.id.no_board_layout).setVisibility(View.VISIBLE);
+                            mainText.setText(channel);
+                            pDialog.hide();
+                            return;
+                        }
+                        String jsonRt = jt.jsonReturn();
+                        JSONArray ja = new JSONArray(jsonRt);
+                        findViewById(R.id.no_board_layout).setVisibility(View.GONE);
+                        for (int i = 0; i < ja.length(); i++){
+                            JSONObject jo = ja.getJSONObject(i);
+                            String[] t = jo.getString("date").split("T");
+                            String[] a = new String[]{jo.getString("title"), jo.getString("email"), t[0], "0", "0", jo.getString("idx")};
+                            listData.add(i, a);
+                        }
+                        mainText.setText(channel);
+                        getData();
+                        pDialog.hide();
+                    } catch (JSONException e) {
+                        pDialog.hide();
+                        e.printStackTrace();
+                    }
+                }
+            }, 1000);
+        }
     }
 
     private static boolean isTextChange(String gdata) {
@@ -228,11 +250,11 @@ public class BoardActivity extends AppCompatActivity {
             DB db = new DB();
             if (mainEdit.getText().toString().length() != 0){
                 if (isTextChange(listData.get(i)[0])){
-                    db.setBoardData(listData.get(i)[0], listData.get(i)[1], listData.get(i)[2], listData.get(i)[3], listData.get(i)[4]);
+                    db.setBoardData(listData.get(i)[0], listData.get(i)[1], listData.get(i)[2], listData.get(i)[3], listData.get(i)[4], listData.get(i)[5]);
                     adapter.addItem(db);
                 }
             }else{
-                db.setBoardData(listData.get(i)[0], listData.get(i)[1], listData.get(i)[2], listData.get(i)[3], listData.get(i)[4]);
+                db.setBoardData(listData.get(i)[0], listData.get(i)[1], listData.get(i)[2], listData.get(i)[3], listData.get(i)[4], listData.get(i)[5]);
                 adapter.addItem(db);
             }
         }

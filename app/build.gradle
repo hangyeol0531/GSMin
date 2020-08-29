@@ -33,6 +33,7 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     implementation 'com.github.f0ris.sweetalert:library:1.5.6'
     implementation 'com.github.irshulx:laser-native-editor:3.0.3'
+    compile 'boxresin.library:MarkdownViewSupport:1.0.0'
     implementation 'com.auth0.android:jwtdecode:2.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

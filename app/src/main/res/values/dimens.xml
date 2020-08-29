@@ -7,4 +7,5 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="frag_main_font">17dp</dimen>
     <dimen name="frag_main_sub_font">13dp</dimen>
+    <dimen name="fixWidth">350dp</dimen>
 </resources>

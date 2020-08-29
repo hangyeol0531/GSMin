@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         navImg = hView.findViewById(R.id.navImg);
         navName = hView.findViewById(R.id.navName);
         navEmail = hView.findViewById(R.id.navEmail);
+//        navigationView.setLayoutParams(new NavigationView.LayoutParams(getResources().getDisplayMetrics().widthPixels/2, NavigationView.LayoutParams.FILL_PARENT));
 
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         final NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);

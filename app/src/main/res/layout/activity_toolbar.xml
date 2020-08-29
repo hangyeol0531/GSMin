@@ -23,7 +23,7 @@
                 android:background="@drawable/drawer"/>
 
             <FrameLayout
-                android:layout_width="264dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
                 <ImageView
@@ -41,6 +41,7 @@
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:hint="검색할 키워드 입력"
+                    android:maxLines="1"
                     android:textColorHint="#e4e4e4"
                     android:textSize="20dp"
                     android:textColor="#000000"/>
@@ -60,6 +61,7 @@
                     android:visibility="gone"
                     android:orientation="vertical">
                     <TextView
+                        android:id="@+id/gsmin_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="글쓰기"

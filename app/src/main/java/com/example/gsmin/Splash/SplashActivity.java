@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.example.gsmin.Fragment.NoticeFragment;
 import com.example.gsmin.Json.JSONTask;
@@ -50,7 +51,7 @@ public class SplashActivity extends Activity {
                 startActivity(new Intent(getApplication(), MainActivity.class));
             }else{
                 startActivity(new Intent(getApplication(), StartActivity.class));
-//                startActivity(new Intent(getApplication(), JobActivity.class));
+//                startActivity(new Intent(getApplication(), InfoActivity.class));
             }
             SplashActivity.this.finish();
         }

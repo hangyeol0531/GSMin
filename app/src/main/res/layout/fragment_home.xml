@@ -18,31 +18,37 @@
 <!--            즐겨찾기-->
             <LinearLayout
                 android:id="@+id/l1"
-                android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/frag_main_sub_font"
-                    android:layout_marginLeft="13dp"
-                    android:textColor="#848484"
-                    android:text="즐겨찾기"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="13dp"
-                    android:textSize="@dimen/frag_main_font"
-                    android:textColor="#000000"
-                    android:text="아직 즐겨찾기가 없습니다. 즐겨찾기를 추가해 보세요!"
-                    />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#E6E6E6"/>
-            </LinearLayout>
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="horizontal" />
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:visibility="gone"-->
+<!--                android:orientation="vertical"-->
+<!--                android:layout_height="wrap_content">-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textSize="@dimen/frag_main_sub_font"-->
+<!--                    android:layout_marginLeft="13dp"-->
+<!--                    android:textColor="#848484"-->
+<!--                    android:text="즐겨찾기"-->
+<!--                    />-->
+<!--                <TextView-->
+<!--                    android:id="@+id/NoStarTextView"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_margin="13dp"-->
+<!--                    android:textSize="@dimen/frag_main_font"-->
+<!--                    android:textColor="#000000"-->
+<!--                    android:text="아직 즐겨찾기가 없습니다. 즐겨찾기를 추가해 보세요!"-->
+<!--                    />-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="1dp"-->
+<!--                    android:background="#E6E6E6"/>-->
+<!--            </LinearLayout>-->
 
 <!--            모아보기-->
             <LinearLayout
@@ -340,7 +346,7 @@
                     android:background="#E6E6E6"/>
             </LinearLayout>
 
-<!--            취미-->
+<!--            소모임-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_marginTop="20dp"

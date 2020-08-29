@@ -50,7 +50,8 @@ public class HomeFragment extends Fragment {
             R.id.l10, R.id.l11, R.id.l12};
 
     public static int[] r = new int[]{
-            R.id.t1, R.id.t2, R.id.t3,
+            R.id.t1,
+            R.id.t2, R.id.t3,
             R.id.t4, R.id.t5, R.id.t6,
             R.id.t7, R.id.t8, R.id.t9,
             R.id.t10, R.id.t11};

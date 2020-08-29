@@ -1,12 +1,11 @@
 package com.example.gsmin.Adapter;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,12 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.gsmin.Json.JSONTask;
 import com.example.gsmin.Main.BoardActivity;
 import com.example.gsmin.Main.BulletinActivity;
-import com.example.gsmin.Main.JobActivity;
-import com.example.gsmin.Main.WriteActivity;
 import com.example.gsmin.Model.DB;
 import com.example.gsmin.Model.Data;
 import com.example.gsmin.R;
-import com.example.gsmin.Util.Login;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,9 +25,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.ItemViewHolder> {
+public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerViewAdapter.ItemViewHolder> {
     private static String[] strli;
-    private static TextView boardName, boardTitle, boardInfo, boardThumb, boardMsg, boardIdx;
+    private static TextView chatName, chatInfo, chatThumb, chatContent;
+    private static ImageView chatGrade;
     public static String jsonResult = "";
     // adapter에 들어갈 list 입니다.
     private ArrayList<DB> listData = new ArrayList<>();
@@ -41,7 +38,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // LayoutInflater를 이용하여 전 단계에서 만들었던 item.xml을 inflate 시킵니다.
         // return 인자는 ViewHolder 입니다.
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat, parent, false);
         Log.d("TEST", "onCreateViewHolder: ");
         return new ItemViewHolder(view);
     }
@@ -66,47 +63,27 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
     // RecyclerView의 핵심인 ViewHolder 입니다.
     // 여기서 subView를 setting 해줍니다.
     class ItemViewHolder extends RecyclerView.ViewHolder {
-        private LinearLayout mLayout;
-
         ItemViewHolder(final View itemView) {
             super(itemView);
-            mLayout = itemView.findViewById(R.id.mainLayout);
-            boardName = itemView.findViewById(R.id.boardName);
-            boardTitle = itemView.findViewById(R.id.boardTitle);
-            boardInfo = itemView.findViewById(R.id.boardInfo);
-            boardThumb = itemView.findViewById(R.id.t_cnt_1);
-            boardMsg = itemView.findViewById(R.id.c_cnt_1);
-            boardIdx = itemView.findViewById(R.id.boardIdx);
-            mLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Log.d("HomeRecyclerViewAdapter", "onClick: "+ BoardActivity.channel + " / " + boardIdx.getText().toString()+":"+boardTitle.getText().toString()+ "|" + boardName.getText().toString());
-                    Intent intent = new Intent(itemView.getContext(), BulletinActivity.class);
-                    intent.putExtra("title", boardTitle.getText().toString());
-                    intent.putExtra("name", boardName.getText().toString());
-                    intent.putExtra("content", boardName.getText().toString());
-                    intent.putExtra("date", boardInfo.getText().toString());
-                    intent.putExtra("idx", boardIdx.getText().toString());
-                    itemView.getContext().startActivity(intent);
-
-//                    Data.setData(new String[]{"channel", "boardTitle", "boardName"}, new String[]{BoardActivity.channel, boardTitle.getText().toString(), boardName.getText().toString()});
-//                    JSONTask jt = new JSONTask();
-//                    jt.execute(Data.url + "/login_check"); // 백엔드 개발 후 변경
-//                    Handler hd = new Handler();
-//                    hd.postDelayed(new HomeRecyclerViewAdapter.splashhandler(jt), 2000);
-
-                }
-            });
+            chatContent = itemView.findViewById(R.id.chatContent);
+            chatInfo = itemView.findViewById(R.id.chatInfo);
+            chatName = itemView.findViewById(R.id.chatName);
+            chatThumb = itemView.findViewById(R.id.chat_thumb_cnt);
+            chatGrade = itemView.findViewById(R.id.chatGrade);
         }
 
         void onBind(DB db) {
-            strli = db.getBoardData();
-            boardTitle.setText(strli[0]);
-            boardName.setText(strli[1]);
-            boardInfo.setText(strli[2]);
-            boardThumb.setText(strli[3]);
-            boardMsg.setText(strli[4]);
-            boardIdx.setText(strli[5]);
+            strli = db.getChatData();
+            chatName.setText(strli[0]);
+            chatInfo.setText(strli[1]);
+            chatThumb.setText(strli[2]);
+            chatContent.setText(strli[3]);
+            switch (strli[4]){
+                case "1" : chatGrade.setImageResource(R.drawable.one_icon);break;
+                case "2" :chatGrade.setImageResource(R.drawable.two_icon);break;
+                case "3" :chatGrade.setImageResource(R.drawable.three_icon);break;
+                default: chatGrade.setImageResource(R.drawable.grad_icon);break;
+            }
         }
     }
     public class splashhandler implements Runnable {

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <include
+        layout="@layout/activity_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginBottom="52dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center|top"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="@dimen/fixWidth"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/boardTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:text="순천롯데리아축구대회태클마스터서지우"
+                        android:textColor="#000000"
+                        android:textSize="18dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="261dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="45dp"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/boardName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxWidth="100dp"
+                                android:maxLines="1"
+                                android:text="닉네임"
+                                android:textColor="#000000"
+                                android:textSize="14dp" />
+
+                            <TextView
+                                android:id="@+id/boardInfo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:maxLines="1"
+                                android:text="6초 전 ・ 조회수 1"
+                                android:textColor="#424242"
+                                android:textSize="12dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="@dimen/fixWidth"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+                    <us.feras.mdv.MarkdownView xmlns:mdv="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/markdownView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        mdv:cssFromAssets="markdown_css_themes/paperwhite.css"
+                        mdv:markdown="## Hello Markdown" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="@dimen/fixWidth"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:background="#E6E6E6" />
+
+                <LinearLayout
+                    android:layout_width="@dimen/fixWidth"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:background="#f4f4f4"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/chatCnt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16dp"
+                        android:gravity="left|center"
+                        android:text="댓글 0개"
+                        android:textColor="#424242" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="@dimen/fixWidth"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:background="#E6E6E6" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_gravity="center"
+                    android:id="@+id/recycler_main"
+                    android:layout_width="@dimen/fixWidth"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"></androidx.recyclerview.widget.RecyclerView>
+
+            </LinearLayout>
+        </ScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:layout_marginTop="-52dp"
+        android:layout_width="@dimen/fixWidth"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="#E6E6E6"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="@dimen/fixWidth"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#E6E6E6" />
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_width="@dimen/fixWidth"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/chatEdit"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:focusable="true"
+                android:background="@color/white"
+                android:focusableInTouchMode="true"
+                android:hint="댓글 쓰기"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:textColorHint="#e4e4e4"
+                android:textSize="20dp"
+                android:textColor="#000000"/>
+
+            <ImageButton
+                android:id="@+id/chatSend"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="4dp"
+                android:background="@color/white"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_mdi_send_gray"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

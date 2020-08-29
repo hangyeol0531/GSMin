@@ -143,6 +143,7 @@ public class LoginActivity  extends AppCompatActivity {
                     check_btn.setVisibility(View.VISIBLE);
                 }
             } catch (JSONException e) {
+                pDialog.hide();
                 e.printStackTrace();
             }
         }

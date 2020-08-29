@@ -10,9 +10,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/gsm"
+        android:icon="@drawable/gsmin_small"
         android:label="GSMin"
-        android:roundIcon="@drawable/gsm"
+        android:roundIcon="@drawable/gsmin_small"
         android:supportsRtl="true"
         tools:replace="android:label"
         android:theme="@style/AppTheme.NoActionBar"
@@ -33,6 +33,7 @@
         <activity android:name=".Main.LoginActivity"/>
         <activity android:name=".Main.InfoActivity"/>
         <activity android:name=".Main.JobActivity"/>
+        <activity android:name=".Main.BulletinActivity"/>
 
     </application>
 
