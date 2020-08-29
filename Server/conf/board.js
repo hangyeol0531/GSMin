@@ -78,7 +78,7 @@ exports.get_all_board_information = async (req,res) =>{
             res.end('null');
         }else{
             var aJsonArray = new Array();
-            for(var i = 0;  i < rows.length; i++){
+            for(var i = 0;  i < rows.length; i++){ㄱ
                 var aJson = new Object();
                 aJson.idx = rows[i].idx;
                 aJson.email = rows[i].user_email;
@@ -95,7 +95,6 @@ exports.get_all_board_information = async (req,res) =>{
         }
     })
 }
-
 
 exports.get_board_information = async (req,res) =>{
     fun_all.console_all("get_broad_information 접속");
@@ -131,7 +130,8 @@ exports.get_board_information = async (req,res) =>{
 
 exports.get_comment_information = async (req,res) =>{
     fun_all.console_all("get_comment_information 접속");
-    console.log(req.body.idx)
+    // console.log(req.body.idx)
+    if(req.body.idx == undefined) res.status('404').end('req.body.idx null')
     var sql = `SELECT * FROM Comment_information as A, User_Information AS U 
     WHERE Bulletin_idx = ${req.body.idx} ORDER BY date DESC, A.user_email = U.user_email;`
     await db.query(sql, function(err, rows){
@@ -162,19 +162,24 @@ exports.get_comment_information = async (req,res) =>{
 exports.get_one_board = async (req,res) =>{
     fun_all.console_all("get_one_board 접속");
     console.log(req.body.idx)
+    let flag = 0;
     var sql = `SELECT * FROM Bulletin_Information WHERE idx = "${req.body.idx}"`
     await db.query(sql, function(err, rows){
         if(err) {
             throw err;
         }else if(JSON.stringify(rows) == '[]'){ 
             res.end('null');
-        }else{;
+        }else{
+            if(rows[0].view_count == []) 
+            var sql = `SELECT * FROM Bulletin_Information WHERE idx = "${req.body.idx}"`
+
             var aJson = new Object();
             aJson.idx = rows[0].idx;
             aJson.user_email = rows[0].user_email;
             aJson.title = rows[0].title;
             aJson.content = rows[0].content;
             aJson.date = rows[0].date;
+            aJson.view_count = rows[0].view_count;
             res.end(JSON.stringify(aJson))
         }
     })
@@ -215,7 +220,8 @@ exports.check_writer = async(req, res) =>{
 }
 
 exports.board_num = async(req, res) =>{
-    var sql = `SELECT Count(*) FROM GSMinDB.Bulletin_Information;`;
+    if(req.body.type === undefined) var sql = `SELECT Count(*) FROM GSMinDB.Bulletin_Information;`;
+    else var sql = `SELECT Count(*) FROM GSMinDB.Bulletin_Information WHERE type = "${req.body.type}";`;
     await db.query(sql, function(err, rows){
         if(err) {
             throw err;
@@ -226,7 +232,6 @@ exports.board_num = async(req, res) =>{
         }
      })
 }
-
 
 
 // exports.board = (req,res) =>{

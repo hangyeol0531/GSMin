@@ -132,7 +132,7 @@ app.post('/get_one_board', (req,res) =>{
     board_func.get_one_board(req, res);
 })
 
-app.get('/board_num', (req, res) =>{
+app.post('/board_num', (req, res) =>{
     board_func.board_num(req, res);
 })
 //TODO update_information
