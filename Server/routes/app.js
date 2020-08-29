@@ -135,6 +135,18 @@ app.post('/get_one_board', (req,res) =>{
 app.post('/board_num', (req, res) =>{
     board_func.board_num(req, res);
 })
+
+app.post('/isgoodCheck', (req, res) =>{
+    board_func.isgoodCheck(req, res);
+})
+
+app.post('/isgood', (req, res) =>{
+    board_func.isgood(req, res);
+})
+
+app.post('/isgood_num', (req, res) =>{
+    board_func.isgood_num(req, res);
+})
 //TODO update_information
 app.post('/update_nickname', (req, res) =>{
     update_information_func.update_nickname(req, res);

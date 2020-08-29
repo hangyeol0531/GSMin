@@ -4,9 +4,6 @@ const moment = require('moment');
 const config = require('../../config.json');
 const { fromLong } = require('ip');
 
-
-
-
 exports.write_Bulletin = async (req, res) =>{
     fun_all.console_all("write_Bulletin 접속");
     // console.log(req.body.email, req.body.content, moment().format('YYYY-MM-DD HH:mm:ss'));
@@ -224,8 +221,8 @@ exports.check_writer = async(req, res) =>{
 }
 
 exports.board_num = async(req, res) =>{
-    if(req.body.type === undefined) var sql = `SELECT Count(*) FROM GSMinDB.Bulletin_Information;`;
-    else var sql = `SELECT Count(*) FROM GSMinDB.Bulletin_Information WHERE type = "${req.body.type}";`;
+    if(req.body.type === undefined) var sql = `SELECT Count(*) FROM Bulletin_Information;`;
+    else var sql = `SELECT Count(*) FROM Bulletin_Information WHERE type = "${req.body.type}";`;
     await db.query(sql, function(err, rows){
         if(err) {
             throw err;
@@ -237,22 +234,46 @@ exports.board_num = async(req, res) =>{
      })
 }
 
+//TODO -- ㄸㅃ
 
-// exports.board = (req,res) =>{
-//     fun_all.console_all("board 접속");
-//     var aJsonArray = new Array();
-//     var aJson = new Object();
-//     for(var i = 0;  i < 10; i++){
-//         var aJson = new Object();
-//         aJson.likeCount = `${i}6`;
-//         aJson.section = "자유";
-//         aJson.content = "Lorem Ipsum, g iving information on its origins, as well as a random Lipsum generator.";
-//         aJson.writer = "양현승";
-//         aJson.viewer = 32;
-//         aJson.previous = `${i}초 전`;
-//         // console.log(aJson)
-//         aJsonArray.push(aJson);
-//     }
-//     // console.log(JSON.stringify(aJsonArray))
-//     res.end(JSON.stringify(aJsonArray))
-// }
+exports.isgoodCheck = async (req ,res) => { 
+
+    console.log(req.body.Bulletin_idx, req.body.email)
+    let sql = `SELECT * FROM good_board WHERE Bulletin_idx = "${req.body.Bulletin_idx}" AND user_email = "${req.body.email}";`
+    await db.query(sql, async (err, rows) =>{
+        console.log(rows);
+        if(rows.length == 0) res.end('0')
+        else res.end('1')
+    })
+}
+
+exports.isgood = async (req ,res) => { 
+
+    console.log(req.body.Bulletin_idx, req.body.email)
+    var sql = "insert into good_board(user_email, Bulletin_idx) VALUES(?, ?)";
+    await db.query(sql, [req.body.email, req.body.Bulletin_idx],(err, rows) =>{
+        if(err){
+            console.log(err);
+            res.end(config.failed);
+        }else{
+            res.end(config.success)
+        }
+    })
+}
+
+exports.isgood_num = async (req ,res) => { 
+
+    console.log(req.body.Bulletin_idx)
+    var sql = `SELECT Count(*) from GSMinDB.good_board where Bulletin_idx = ${req.body.Bulletin_idx};`
+    await db.query(sql,(err, rows) =>{
+        if(err){
+            console.log(err);
+            res.end(config.failed);
+        }else{
+            console.log(rows[0]['Count(*)'])
+            res.status(201).send(rows[0]['Count(*)'].toString())
+        }
+    })
+}
+
+
