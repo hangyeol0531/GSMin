@@ -64,6 +64,39 @@ exports.delete_comment = async(req, res) =>{
     })
 }
 
+exports.get_all_board_information = async (req,res) =>{
+    fun_all.console_all("get_all_board_information 접속");
+    console.log(req.body.page_num)
+    req.body.page_num = Number(req.body.page_num);
+    var sql = `SELECT A.idx, A.user_email, A.title, A.content, A.date, A.type, U.grade, U.nickname FROM 
+    (SELECT * FROM Bulletin_Information ORDER BY date DESC) 
+        as A, User_Information AS U Where A.user_email = U.user_email LIMIT 10 OFFSET ${10*(req.body.page_num - 1)} `
+    await db.query(sql, async function(err, rows){
+        if(err) {
+            throw err;
+        }else if(JSON.stringify(rows) == '[]'){ 
+            res.end('null');
+        }else{
+            var aJsonArray = new Array();
+            for(var i = 0;  i < rows.length; i++){
+                var aJson = new Object();
+                aJson.idx = rows[i].idx;
+                aJson.email = rows[i].user_email;
+                aJson.title = rows[i].title;
+                aJson.content = rows[i].content;
+                aJson.date = rows[i].date;
+                aJson.type = rows[i].type;
+                aJson.nickname = rows[i].nickname;
+                aJson.grade = rows[i].grade
+                aJsonArray.push(aJson);
+            }
+            console.log(JSON.stringify(aJsonArray))
+            res.status(201).send(JSON.stringify(aJsonArray))
+        }
+    })
+}
+
+
 exports.get_board_information = async (req,res) =>{
     fun_all.console_all("get_broad_information 접속");
     console.log(req.body.type, req.body.page_num)
@@ -91,7 +124,7 @@ exports.get_board_information = async (req,res) =>{
                 aJsonArray.push(aJson);
             }
             console.log(JSON.stringify(aJsonArray))
-            res.end(JSON.stringify(aJsonArray))
+            res.status(200).send(JSON.stringify(aJsonArray))
         }
     })
 }
