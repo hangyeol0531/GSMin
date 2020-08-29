@@ -162,7 +162,7 @@ exports.get_comment_information = async (req,res) =>{
 exports.get_one_board = async (req,res) =>{
     fun_all.console_all("get_one_board 접속");
     console.log(req.body.idx)
-    let flag = 0;
+    // let flag = 0;
     var sql = `SELECT * FROM Bulletin_Information WHERE idx = "${req.body.idx}"`
     await db.query(sql, function(err, rows){
         if(err) {
@@ -170,17 +170,21 @@ exports.get_one_board = async (req,res) =>{
         }else if(JSON.stringify(rows) == '[]'){ 
             res.end('null');
         }else{
-            if(rows[0].view_count == []) 
-            var sql = `SELECT * FROM Bulletin_Information WHERE idx = "${req.body.idx}"`
-
+            let view_count = rows[0].view_count;
+            if(view_count == []) view_count = 1;
+            else view_count += 1;
+            console.log(view_count)
+            var sql2 = `Update Bulletin_Information SET view_count = "${view_count}" WHERE idx = "${rows[0].idx}"`;
+            db.query(sql2, (err, rows) =>{
+            })
             var aJson = new Object();
-            aJson.idx = rows[0].idx;
-            aJson.user_email = rows[0].user_email;
-            aJson.title = rows[0].title;
-            aJson.content = rows[0].content;
-            aJson.date = rows[0].date;
-            aJson.view_count = rows[0].view_count;
-            res.end(JSON.stringify(aJson))
+                aJson.idx = rows[0].idx;
+                aJson.user_email = rows[0].user_email;
+                aJson.title = rows[0].title;
+                aJson.content = rows[0].content;
+                aJson.date = rows[0].date;
+                aJson.view_count = view_count;
+                res.end(JSON.stringify(aJson))
         }
     })
 }
