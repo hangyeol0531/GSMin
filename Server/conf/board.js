@@ -130,7 +130,7 @@ exports.get_comment_information = async (req,res) =>{
     // console.log(req.body.idx)
     if(req.body.idx == undefined) res.status('404').end('req.body.idx null')
     var sql = `SELECT * FROM Comment_information as A, User_Information AS U 
-    WHERE Bulletin_idx = ${req.body.idx} ORDER BY date DESC, A.user_email = U.user_email;`
+    WHERE Bulletin_idx = ${req.body.idx} AND A.user_email = U.user_email ORDER BY date DESC ;`
     await db.query(sql, function(err, rows){
         if(err) {
             throw err;
@@ -150,7 +150,7 @@ exports.get_comment_information = async (req,res) =>{
                 aJson.grade = rows[i].grade
                 aJsonArray.push(aJson);
             }
-            // console.log(JSON.stringify(aJsonArray))
+            console.log(JSON.stringify(aJsonArray))
             res.end(JSON.stringify(aJsonArray))
         }
     })
