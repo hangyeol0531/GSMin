@@ -157,6 +157,7 @@ exports.get_one_board = async (req,res) =>{
         }
     })
 }
+
 exports.trash_Data = async (req,res) =>{
     var max = 100;
     var min = 1;
@@ -175,7 +176,7 @@ exports.trash_Data = async (req,res) =>{
     }
 }
 
-exports.check_writer = async(req, res) =>{xs
+exports.check_writer = async(req, res) =>{
     console.log(req.body.idx, req.body.check_Code) // 1 = board else comment
     if(req.body.check_Code == 1) var sql = `SELECT * FROM Bulletin_Information WHERE idx = "${req.body.idx}"`;
     else var sql = `SELECT * FROM Comment_information WHERE idx = "${req.body.idx}"`;
@@ -191,3 +192,15 @@ exports.check_writer = async(req, res) =>{xs
      })
 }
 
+exports.board_num = async(req, res) =>{
+    var sql = `SELECT Count(*) FROM GSMinDB.Bulletin_Information;`;
+    await db.query(sql, function(err, rows){
+        if(err) {
+            throw err;
+        }else if(JSON.stringify(rows) == '[]'){ 
+            res.end('null');
+        }else{
+            res.end(JSON.stringify(rows[0]['Count(*)']))
+        }
+     })
+}
