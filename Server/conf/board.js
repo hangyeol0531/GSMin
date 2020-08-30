@@ -325,7 +325,7 @@ exports.get_my_list = async(req, res) =>{
                     aJson.idx = rows[i].idx;
                     aJson.user_email = rows[i].user_email;
                     aJson.date = rows[i].date;
-                    aJson.content = rows[i].content;
+                    aJson.comment = rows[i].comment;
                     aJsonArray.push(aJson);
                 }
             }
