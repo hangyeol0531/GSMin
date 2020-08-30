@@ -424,6 +424,7 @@ exports.isgood_num = async (req ,res) => {
 
 exports.get_my_list = async(req, res) =>{
     console.log('get_my_list 입력')
+    let flag = 0;
     console.log(req.body.email, req.body.b_c, req.body.page_num)
     req.body.page_num = Number(req.body.page_num);
     if(req.body.b_c == 'b' ){
@@ -438,7 +439,9 @@ exports.get_my_list = async(req, res) =>{
             res.end('null');
         }else{
             var aJsonArray = new Array();
-            for(var i = 0;  i < rows.length; i++){
+
+            for(i = 0;  i < rows.length; i++){
+                length = rows.length;
                 var aJson = new Object();
                 if(req.body.b_c == 'b'){
                     aJson.idx = rows[i].idx;
@@ -449,131 +452,9 @@ exports.get_my_list = async(req, res) =>{
                     aJson.type = rows[i].type;
                     aJson.view_count = rows[i].view_count;
                     aJsonArray.push(aJson);
-                     //TODO ----1
-                    if(aJsonArray.length >= 1){
-                    let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[0].idx}";`
-                        db.query(sql1,(err, rows) =>{
-                            aJsonArray[0].good_count = rows[0]['COUNT(*)']
-                            var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[0].idx}";`
-                            db.query(sql2,(err, rows) =>{
-                                aJsonArray[0].comment_count = rows[0]['COUNT(*)']
-                                if(aJsonArray.length == 1) res.status(200).send(JSON.stringify(aJsonArray));
-                            })
-                        })
+                    if(i == rows.length - 1) {
+                        flag = 1;
                     }
-                    //TODO ----2
-                    if(aJsonArray.length >= 2){
-                        let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[1].idx}";`
-                        db.query(sql1,(err, rows) =>{
-                            aJsonArray[1].good_count = rows[0]['COUNT(*)']
-                            var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[1].idx}";`
-                            db.query(sql2,(err, rows) =>{
-                                aJsonArray[1].comment_count = rows[0]['COUNT(*)']
-                                if(aJsonArray.length == 2) res.status(200).send(JSON.stringify(aJsonArray));
-                            })
-                        })
-                    }
-                    //TODO ----3
-                    if(aJsonArray.length >= 3){
-                        let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[2].idx}";`
-                        db.query(sql1,(err, rows) =>{
-                            aJsonArray[2].good_count = rows[0]['COUNT(*)']
-                            var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[2].idx}";`
-                            db.query(sql2,(err, rows) =>{
-                                aJsonArray[2].comment_count = rows[0]['COUNT(*)']
-                                if(aJsonArray.length == 3) res.status(200).send(JSON.stringify(aJsonArray));
-                            })
-                        })
-                    }
-                    //TODO ----4
-                    if(aJsonArray.length >= 4){
-                        let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[3].idx}";`
-                        db.query(sql1,(err, rows) =>{
-                            aJsonArray[3].good_count = rows[0]['COUNT(*)']
-                            var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[3].idx}";`
-                            db.query(sql2,(err, rows) =>{
-                                aJsonArray[3].comment_count = rows[0]['COUNT(*)']
-                                if(aJsonArray.length == 4) res.status(200).send(JSON.stringify(aJsonArray));
-                            })
-                        })
-                    }
-    
-                    //TODO ----5
-                    if(aJsonArray.length >= 5){
-                        let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[4].idx}";`
-                        db.query(sql1,(err, rows) =>{
-                            aJsonArray[4].good_count = rows[0]['COUNT(*)']
-                            var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[4].idx}";`
-                            db.query(sql2,(err, rows) =>{
-                                aJsonArray[4].comment_count = rows[0]['COUNT(*)']
-                                if(aJsonArray.length == 5) res.status(200).send(JSON.stringify(aJsonArray));
-                            })
-                        })
-                    }
-    
-                    //TODO ----6
-                    if(aJsonArray.length >= 6){
-                        let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[5].idx}";`
-                        db.query(sql1,(err, rows) =>{
-                            aJsonArray[5].good_count = rows[0]['COUNT(*)']
-                            var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[5].idx}";`
-                            db.query(sql2,(err, rows) =>{
-                                aJsonArray[5].comment_count = rows[0]['COUNT(*)']
-                                if(aJsonArray.length == 6) res.status(200).send(JSON.stringify(aJsonArray));
-                            })
-                        })
-                    }
-    
-                    //TODO ----7
-                    if(aJsonArray.length >= 7){
-                        let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[6].idx}";`
-                        db.query(sql1,(err, rows) =>{
-                            aJsonArray[6].good_count = rows[0]['COUNT(*)']
-                            var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[6].idx}";`
-                            db.query(sql2,(err, rows) =>{
-                                aJsonArray[6].comment_count = rows[0]['COUNT(*)']
-                                if(aJsonArray.length == 7) res.status(200).send(JSON.stringify(aJsonArray));
-                            })
-                        })
-                    }
-                    //TODO ----8
-                    if(aJsonArray.length >= 8){
-                        let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[7].idx}";`
-                        db.query(sql1,(err, rows) =>{
-                            aJsonArray[7].good_count = rows[0]['COUNT(*)']
-                            var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[7].idx}";`
-                            db.query(sql2,(err, rows) =>{
-                                aJsonArray[7].comment_count = rows[0]['COUNT(*)']
-                                if(aJsonArray.length == 8) res.status(200).send(JSON.stringify(aJsonArray));
-                            })
-                        })
-                    }
-    
-                    //TODO ----9
-                    if(aJsonArray.length >= 9){
-                        let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[8].idx}";`
-                        db.query(sql1,(err, rows) =>{
-                            aJsonArray[8].good_count = rows[0]['COUNT(*)']
-                            var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[8].idx}";`
-                            db.query(sql2,(err, rows) =>{
-                                aJsonArray[8].comment_count = rows[0]['COUNT(*)']
-                                if(aJsonArray.length == 9) res.status(200).send(JSON.stringify(aJsonArray));
-                            })
-                        })
-                    }
-                    //TODO ----10
-                    if(aJsonArray.length >= 10){
-                        let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[9].idx}";`
-                        db.query(sql1,(err, rows) =>{
-                            aJsonArray[9].good_count = rows[0]['COUNT(*)']
-                            var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[9].idx}";`
-                            db.query(sql2,(err, rows) =>{
-                                aJsonArray[9].comment_count = rows[0]['COUNT(*)']
-                                if(aJsonArray.length == 10) res.status(200).send(JSON.stringify(aJsonArray));
-                            })
-                        })
-                    }
-    
                 }else if(req.body.b_c == 'c'){
                     aJson.Bulletin_idx = rows[i].Bulletin_idx;
                     aJson.idx = rows[i].idx;
@@ -583,6 +464,139 @@ exports.get_my_list = async(req, res) =>{
                     aJsonArray.push(aJson);
                 }
             }
+            if(flag){
+                //TODO ----1
+                if(aJsonArray.length >= 1){
+                    console.log('1입장')
+                let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[0].idx}";`
+                    db.query(sql1,(err, rows) =>{
+                        aJsonArray[0].good_count = rows[0]['COUNT(*)']
+                        var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[0].idx}";`
+                        db.query(sql2,(err, rows) =>{
+                            aJsonArray[0].comment_count = rows[0]['COUNT(*)']
+                            console.log(aJsonArray[0])
+                            if(aJsonArray.length == 1) res.status(200).send(JSON.stringify(aJsonArray));
+                        })
+                    })
+                }
+                //TODO ----2
+                if(aJsonArray.length >= 2){
+                    console.log('2입장')
+                    let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[1].idx}";`
+                    db.query(sql1,(err, rows) =>{
+                        aJsonArray[1].good_count = rows[0]['COUNT(*)']
+                        var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[1].idx}";`
+                        db.query(sql2,(err, rows) =>{
+                            aJsonArray[1].comment_count = rows[0]['COUNT(*)']
+                            if(aJsonArray.length == 2) res.status(200).send(JSON.stringify(aJsonArray));
+                        })
+                    })
+                }
+                //TODO ----3
+                if(aJsonArray.length >= 3){
+                    console.log('3입장')
+                    let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[2].idx}";`
+                    db.query(sql1,(err, rows) =>{
+                        aJsonArray[2].good_count = rows[0]['COUNT(*)']
+                        var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[2].idx}";`
+                        db.query(sql2,(err, rows) =>{
+                            aJsonArray[2].comment_count = rows[0]['COUNT(*)']
+                            if(aJsonArray.length == 3) res.status(200).send(JSON.stringify(aJsonArray));
+                        })
+                    })
+                }
+                //TODO ----4
+                if(aJsonArray.length >= 4){
+                    console.log('4입장')
+                    let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[3].idx}";`
+                    db.query(sql1,(err, rows) =>{
+                        aJsonArray[3].good_count = rows[0]['COUNT(*)']
+                        var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[3].idx}";`
+                        db.query(sql2,(err, rows) =>{
+                            aJsonArray[3].comment_count = rows[0]['COUNT(*)']
+                            if(aJsonArray.length == 4) {
+                                res.status(200).send(JSON.stringify(aJsonArray));
+                            }
+                        })
+                    })
+                }
+                //TODO ----5
+                if(aJsonArray.length >= 5){
+                    console.log('5입장')
+                    let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[4].idx}";`
+                    db.query(sql1,(err, rows) =>{
+                        aJsonArray[4].good_count = rows[0]['COUNT(*)']
+                        var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[4].idx}";`
+                        db.query(sql2,(err, rows) =>{
+                            aJsonArray[4].comment_count = rows[0]['COUNT(*)']
+                            if(aJsonArray.length == 5) res.status(200).send(JSON.stringify(aJsonArray));
+                        })
+                    })
+                }
+                //TODO ----6
+                if(aJsonArray.length >= 6){
+                    console.log('6입장')
+                    let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[5].idx}";`
+                    db.query(sql1,(err, rows) =>{
+                        aJsonArray[5].good_count = rows[0]['COUNT(*)']
+                        var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[5].idx}";`
+                        db.query(sql2,(err, rows) =>{
+                            aJsonArray[5].comment_count = rows[0]['COUNT(*)']
+                            if(aJsonArray.length == 6) res.status(200).send(JSON.stringify(aJsonArray));
+                        })
+                    })
+                }
+
+                //TODO ----7
+                if(aJsonArray.length >= 7){
+                    let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[6].idx}";`
+                    db.query(sql1,(err, rows) =>{
+                        aJsonArray[6].good_count = rows[0]['COUNT(*)']
+                        var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[6].idx}";`
+                        db.query(sql2,(err, rows) =>{
+                            aJsonArray[6].comment_count = rows[0]['COUNT(*)']
+                            if(aJsonArray.length == 7) res.status(200).send(JSON.stringify(aJsonArray));
+                        })
+                    })
+                }
+                //TODO ----8
+                if(aJsonArray.length >= 8){
+                    let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[7].idx}";`
+                    db.query(sql1,(err, rows) =>{
+                        aJsonArray[7].good_count = rows[0]['COUNT(*)']
+                        var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[7].idx}";`
+                        db.query(sql2,(err, rows) =>{
+                            aJsonArray[7].comment_count = rows[0]['COUNT(*)']
+                            if(aJsonArray.length == 8) res.status(200).send(JSON.stringify(aJsonArray));
+                        })
+                    })
+                }
+                //TODO ----9
+                if(aJsonArray.length >= 9){
+                    let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[8].idx}";`
+                    db.query(sql1,(err, rows) =>{
+                        aJsonArray[8].good_count = rows[0]['COUNT(*)']
+                        var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[8].idx}";`
+                        db.query(sql2,(err, rows) =>{
+                            aJsonArray[8].comment_count = rows[0]['COUNT(*)']
+                            if(aJsonArray.length == 9) res.status(200).send(JSON.stringify(aJsonArray));
+                        })
+                    })
+                }
+                //TODO ----10
+                if(aJsonArray.length >= 10){
+                    let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[9].idx}";`
+                    db.query(sql1,(err, rows) =>{
+                        aJsonArray[9].good_count = rows[0]['COUNT(*)']
+                        var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[9].idx}";`
+                        db.query(sql2,(err, rows) =>{
+                            aJsonArray[9].comment_count = rows[0]['COUNT(*)']
+                            if(aJsonArray.length == 10) res.status(200).send(JSON.stringify(aJsonArray));
+                        })
+                    })
+                }
+            }
+
             console.log(JSON.stringify(aJsonArray))
             res.status(200).send(JSON.stringify(aJsonArray))
         }
