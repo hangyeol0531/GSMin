@@ -238,7 +238,7 @@ exports.isgood = async (req ,res) => {
                     console.log(err);
                     res.end(config.failed);
                 }else{
-                    res.end(config.success)
+                    res.end('추가')
                 }
             })
         }else if(check_Code == 1){
@@ -248,12 +248,11 @@ exports.isgood = async (req ,res) => {
                     console.log(err);
                     res.end(config.failed);
                 }else{
-                    res.end(config.success)
+                    res.end('삭제')
                 }
             })
         }
     })}
-
 
 exports.isgood_num = async (req ,res) => { 
     console.log(req.body.Bulletin_idx)
