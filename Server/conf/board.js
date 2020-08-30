@@ -515,6 +515,7 @@ exports.get_my_list = async(req, res) =>{
                         db.query(sql2,(err, rows) =>{
                             aJsonArray[3].comment_count = rows[0]['COUNT(*)']
                             if(aJsonArray.length == 4) {
+                                console.log(aJsonArray)
                                 res.status(200).send(JSON.stringify(aJsonArray));
                             }
                         })
@@ -597,8 +598,8 @@ exports.get_my_list = async(req, res) =>{
                 }
             }
 
-            console.log(JSON.stringify(aJsonArray))
-            res.status(200).send(JSON.stringify(aJsonArray))
+            // console.log(JSON.stringify(aJsonArray))
+            // res.status(200).send(JSON.stringify(aJsonArray))
         }
     })
 }
