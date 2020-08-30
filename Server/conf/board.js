@@ -223,7 +223,7 @@ exports.isgoodCheck = async (req ,res) => {
 }
 
 exports.isgood = async (req ,res) => { 
-
+    console.log('isgood');
     console.log(req.body.Bulletin_idx, req.body.email)
     var sql = "insert into good_board(user_email, Bulletin_idx) VALUES(?, ?)";
     await db.query(sql, [req.body.email, req.body.Bulletin_idx],(err, rows) =>{
