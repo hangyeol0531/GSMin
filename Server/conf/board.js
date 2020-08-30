@@ -242,7 +242,7 @@ exports.isgood = async (req ,res) => {
                 }
             })
         }else if(check_Code == 1){
-            sql = `DELETE FROM good_board where Bulletin_idx = ${req.body.Bulletin_idx} AND user_email = ${ req.body.email};`;
+            sql = `DELETE FROM good_board where Bulletin_idx = ${req.body.Bulletin_idx} AND user_email = ${req.body.email};`;
             await db.query(sql, (err, rows) =>{
                 if(err){
                     console.log(err);
@@ -252,7 +252,7 @@ exports.isgood = async (req ,res) => {
                 }
             })
         }
-    })}
+})}
 
 exports.isgood_num = async (req ,res) => { 
     console.log(req.body.Bulletin_idx)
