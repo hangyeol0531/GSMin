@@ -298,9 +298,9 @@ exports.get_my_list = async(req, res) =>{
     console.log(req.body.email, req.body.b_c, req.body.page_num)
     req.body.page_num = Number(req.body.page_num);
     if(req.body.b_c == 'b' ){
-        var sql = `SELECT * FROM Bulletin_Information WHERE user_email = "${req.body.email}"`
+        var sql = `SELECT * FROM Bulletin_Information WHERE user_email = "${req.body.email}" LIMIT 10 OFFSET ${10*(req.body.page_num - 1)}`
     }else if(req.body.b_c == 'c'){
-        var sql = `SELECT * FROM Comment_information WHERE user_email = "${req.body.email}"`
+        var sql = `SELECT * FROM Comment_information WHERE user_email = "${req.body.email}" LIMIT 10 OFFSET ${10*(req.body.page_num - 1)}`
     }
     await db.query(sql, (err, rows) => {
         if(err) {
