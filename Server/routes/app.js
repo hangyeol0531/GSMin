@@ -145,6 +145,10 @@ app.post('/isgood', (req, res) =>{
 app.post('/isgood_num', (req, res) =>{
     board_func.isgood_num(req, res);
 })
+
+app.post('/get_my_list', (req, res) =>{
+    board_func.get_my_list(req, res);
+})
 //TODO update_information
 app.post('/update_nickname', (req, res) =>{
     update_information_func.update_nickname(req, res);

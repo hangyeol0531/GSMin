@@ -136,7 +136,8 @@ exports.get_one_board = async (req,res) =>{
     console.log(req.body.idx)
     // let flag = 0;
     var sql = `SELECT * FROM Bulletin_Information WHERE idx = "${req.body.idx}"`
-    await db.query(sql, function(err, rows){
+    var aJson = new Object();
+    await db.query(sql, async function(err, rows){
         if(err) {
             throw err;
         }else if(JSON.stringify(rows) == '[]'){ 
@@ -145,18 +146,27 @@ exports.get_one_board = async (req,res) =>{
             let view_count = rows[0].view_count;
             if(view_count == []) view_count = 1;
             else view_count += 1;
-            console.log(view_count)
+            // console.log(view_count)
+            aJson.idx = rows[0].idx
+            aJson.user_email = rows[0].user_email;
+            aJson.title = rows[0].title;
+            aJson.content = rows[0].content;
+            aJson.date = rows[0].date;
+            aJson.view_count = view_count;
             var sql2 = `Update Bulletin_Information SET view_count = "${view_count}" WHERE idx = "${rows[0].idx}"`;
-            db.query(sql2, (err, rows) =>{
+            await db.query(sql2, (err, rows) =>{
             })
-            var aJson = new Object();
-                aJson.idx = rows[0].idx;
-                aJson.user_email = rows[0].user_email;
-                aJson.title = rows[0].title;
-                aJson.content = rows[0].content;
-                aJson.date = rows[0].date;
-                aJson.view_count = view_count;
-                res.end(JSON.stringify(aJson))
+            var sql3 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = ${req.body.idx};`
+            await db.query(sql3, async (err, rows) =>{
+                console.log(rows[0])
+                aJson.Comment_count = rows[0]['COUNT(*)'];
+                var sql4 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = ${req.body.idx};`
+                await db.query(sql4, (err, rows) => {
+                    console.log(rows[0])
+                    aJson.good_count = rows[0]['COUNT(*)'];
+                    res.end(JSON.stringify(aJson))
+                })
+            })
         }
     })
 }
@@ -268,4 +278,46 @@ exports.isgood_num = async (req ,res) => {
     })
 }
 
+//TODO -- mydata
 
+exports.get_my_list = async(req, res) =>{
+    console.log('get_my_list 입력')
+    console.log(req.body.email, req.body.b_c, req.body.page_num)
+    req.body.page_num = Number(req.body.page_num);
+    if(req.body.b_c == 'b' ){
+        var sql = `SELECT * FROM Bulletin_Information WHERE user_email = "${req.body.email}"`
+    }else if(req.body.b_c == 'c'){
+        var sql = `SELECT * FROM Comment_information WHERE user_email = "${req.body.email}"`
+    }
+    await db.query(sql, async function(err, rows){
+        if(err) {
+            throw err;
+        }else if(JSON.stringify(rows) == '[]'){ 
+            res.end('null');
+        }else{
+            var aJsonArray = new Array();
+            for(var i = 0;  i < rows.length; i++){
+                var aJson = new Object();
+                if(req.body.b_c == 'b'){
+                    aJson.idx = rows[i].idx;
+                    aJson.email = rows[i].user_email;
+                    aJson.title = rows[i].title;
+                    aJson.content = rows[i].content;
+                    aJson.date = rows[i].date;
+                    aJson.type = rows[i].type;
+                    aJson.view_count = rows[i].view_count;
+                    aJsonArray.push(aJson);
+                }else if(req.body.b_c == 'c'){
+                    aJson.Bulletin_idx = rows[i].Bulletin_idx;
+                    aJson.idx = rows[i].idx;
+                    aJson.user_email = rows[i].user_email;
+                    aJson.date = rows[i].date;
+                    aJson.content = rows[i].content;
+                    aJsonArray.push(aJson);
+                }
+            }
+            console.log(JSON.stringify(aJsonArray))
+            res.status(200).send(JSON.stringify(aJsonArray))
+        }
+    })
+}
