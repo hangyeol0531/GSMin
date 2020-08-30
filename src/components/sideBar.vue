@@ -11,7 +11,7 @@
     >
       <v-card-title class="display-1">{{today}}</v-card-title>
     </v-card>
-    <v-card app class="mx-auto">
+    <v-card flat app class="mx-auto">
       <v-card app fixed flat>
         <v-card-title v-if="user">
           <v-img v-if="user['user_grade'] === 1" src="../assets/one_icon.png" max-width="8%"></v-img>
@@ -28,25 +28,25 @@
         <v-divider></v-divider>
         <v-card-subtitle class="pa-1 pl-3">정보</v-card-subtitle>
         <v-card-text>
-          <v-btn text block class="subtitle-1">채용 공고</v-btn>
+          <v-btn text block class="subtitle-1" @click="routerPush('hireList')">채용 공고</v-btn>
           <v-btn text block class="subtitle-1">취업 현황</v-btn>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-subtitle class="pa-1 pl-3">일반</v-card-subtitle>
         <v-card-text>
-          <v-btn text block class="subtitle-1">자유</v-btn>
-          <v-btn text block class="subtitle-1">질문</v-btn>
-          <v-btn text block class="subtitle-1">꿀팁</v-btn>
+          <v-btn text block class="subtitle-1" @click="categoryBoard({name: '자유'})">자유</v-btn>
+          <v-btn text block class="subtitle-1" @click="categoryBoard({name: '질문'})">질문</v-btn>
+          <v-btn text block class="subtitle-1" @click="categoryBoard({name: '꿀팁'})">꿀팁</v-btn>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-subtitle class="pa-1 pl-3">
           <div v-if="viewer == true">학년</div>
         </v-card-subtitle>
         <v-card-text>
-          <v-btn text block class="subtitle-1">1학년</v-btn>
-          <v-btn text block class="subtitle-1">2학년</v-btn>
-          <v-btn text block class="subtitle-1">3학년</v-btn>
-          <v-btn text block class="subtitle-1">졸업생</v-btn>
+          <v-btn text block class="subtitle-1" @click="categoryBoard({name: '1학년'})">1학년</v-btn>
+          <v-btn text block class="subtitle-1" @click="categoryBoard({name: '2학년'})">2학년</v-btn>
+          <v-btn text block class="subtitle-1" @click="categoryBoard({name: '3학년'})">3학년</v-btn>
+          <v-btn text block class="subtitle-1" @click="categoryBoard({name: '졸업생'})">졸업생</v-btn>
         </v-card-text>
       </v-card>
     </v-card>
@@ -60,6 +60,7 @@ const week = new Array("일", "월", "화", "수", "목", "금", "토");
 const curmonth = date.getMonth();
 const curdate = date.getDate();
 const curday = date.getDay();
+
 import { mapState } from "vuex";
 
 export default {
@@ -81,6 +82,18 @@ export default {
     }),
   },
 
-  methods: {},
+  methods: {
+    routerPush(name) {
+      this.$router.push({ name });
+    },
+
+    categoryBoard(params) {
+      if (this.$router.currentRoute.path === "/subBoard") {
+        this.$router.replace({path: '/subBoard', query: params})
+      } else {
+        this.$router.replace({path: '/subBoard', query: params})
+      }
+    },
+  },
 };
 </script>

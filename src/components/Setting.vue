@@ -1,26 +1,7 @@
 <template>
   <div>
     <v-app>
-      <v-app-bar app height="70px" flat color="white" hide-on-scroll>
-        <v-spacer></v-spacer>
-        <v-toolbar-title>
-          <router-link :to="{name: 'Home'}">
-            <v-img src="../assets/fixlogo.svg" max-width="100%"></v-img>
-          </router-link>
-        </v-toolbar-title>
-        <v-spacer />
-        <v-spacer />
-        <v-spacer />
-        <v-badge color="#00B1EA" content="6" bordered offset-x="22" offset-y="20" overlap>
-          <v-btn icon>
-            <v-icon large>notifications</v-icon>
-          </v-btn>
-        </v-badge>
-        <v-btn @click="routerPush('Setting')" icon>
-          <v-icon>settings</v-icon>
-        </v-btn>
-        <v-spacer></v-spacer>
-      </v-app-bar>
+      <top-bar ref="topBar"></top-bar>
       <v-content>
         <v-toolbar prominent height="250px" src="../assets/school_img.jpg"></v-toolbar>
         <v-container class="bg fill-height" fluid>
@@ -79,6 +60,7 @@
 import { required } from "vee-validate/dist/rules";
 import { extend, ValidationObserver, ValidationProvider } from "vee-validate";
 import sideBar from "./sideBar.vue";
+import topBar from "./topBar.vue"
 import { mapState } from "vuex";
 
 extend("required", {
@@ -89,6 +71,7 @@ extend("required", {
 export default {
   components: {
     sideBar,
+    topBar
   },
 
   data() {
@@ -123,13 +106,11 @@ export default {
       loading: false,
       company: "마이다스아이티",
       chNickname: "",
-      email: ""
+      email: "",
     };
   },
 
-  created() {
-    
-  },
+  created() {},
 
   computed: {},
 
@@ -137,12 +118,12 @@ export default {
     changeName() {
       this.$refs.nick_ob.validate().then((valid) => {
         if (valid) {
-          this.email = this.$store.state.auth.userInfo.user_email
-          let email = this.email
-          let chNickname = this.chNickname
-          this.$store.dispatch("auth/changeNick", {email, chNickname});
+          this.email = this.$store.state.auth.userInfo.user_email;
+          let email = this.email;
+          let chNickname = this.chNickname;
+          this.$store.dispatch("auth/changeNick", { email, chNickname });
         }
-      });   
+      });
     },
 
     logOut() {

@@ -4,6 +4,7 @@ import { router } from "./router";
 import { store } from "./store/index.js";
 import axios from "axios";
 import vuetify from "./plugins/vuetify";
+import VueSweetalert2 from 'vue-sweetalert2';
 import { ValidationProvider } from "vee-validate";
 import { ValidationObserver } from "vee-validate";
 
@@ -16,6 +17,7 @@ import { Viewer } from "@toast-ui/vue-editor";
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = axios;
+Vue.use(VueSweetalert2);
 Vue.component("ValidationProvider", ValidationProvider);
 Vue.component("ValidationObserver", ValidationObserver);
 Vue.component("editor", Editor);

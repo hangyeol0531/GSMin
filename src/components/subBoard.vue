@@ -13,31 +13,14 @@
             </v-col>
 
             <v-col md="6">
-              <v-card class="mx-auto fixed" style="margin-top: -300px;" flat>
+              <v-card class="mx-auto fixed" style="margin-top: -300px;">
                 <v-card flat>
                   <v-card-title class="headline font-weight-bold">
                     <v-row>
-                      <v-col cols="7">전체</v-col>
-                      <v-col cols="5" class="pa-0 d-flex">
-                        <v-select
-                          class="d-flex"
-                          sm="6"
-                          :items="categoryItems"
-                          item-value="value"
-                          v-model="categorySelect"
-                          return-object
-                          solo
-                          label="선택"
-                        ></v-select>
-                        <v-toolbar flat dense floating>
-                          <v-btn large color="white" @click="searchBoard">
-                            <v-icon>search</v-icon>
-                          </v-btn>
-                        </v-toolbar>
-                      </v-col>
+                      <v-col cols="7">{{ $route.query.name }}</v-col>
                     </v-row>
                   </v-card-title>
-                  <v-card hover v-for="(listItem, index) in calData" :key="index" flat>
+                  <v-card v-for="(listItem, index) in calData" :key="index" flat>
                     <v-card @click="eachBoard(listItem.idx)" hover>
                       <v-card-text>
                         <div v-if="resBoard === false">{{ resText }}</div>
@@ -75,20 +58,23 @@
                                 {{listItem.nickname}}
                               </div>
                             </td>
-                            <td class="viewer">25</td>
+                            <td class="viewer">{{listItem.view_count}}</td>
                             <td class="previous">{{ listItem.date.split("T")[0] }}</td>
                           </tr>
                         </tbody>
                       </v-card-text>
                     </v-card>
                   </v-card>
-                  <v-card flat>
-                    <v-pagination v-model="curPageNum" :length="numOfPages" :value="selectedPage"></v-pagination>
+                  <v-card>
+                    <v-pagination
+                      v-model="curPageNum"
+                      :length="numOfPages"
+                      :value="selectedPage"
+                    ></v-pagination>
                     <v-card-text align="right">
                       <v-btn dark color="#025F94" @click="Write">
                         <v-icon>create</v-icon>글쓰기
                       </v-btn>
-                      <!-- <v-btn dark color="#025F94" @click="Viewer"><v-icon>create</v-icon>뷰어테스트</v-btn> -->
                     </v-card-text>
                   </v-card>
                 </v-card>
@@ -112,6 +98,10 @@ export default {
     topBar,
   },
 
+  props: {
+    name: {},
+  },
+
   data() {
     return {
       text: 5,
@@ -133,9 +123,10 @@ export default {
       category: "",
       searchData: [],
       resBoard: {},
-      resLength: "",
-      selectedPage: "",
       resText: "게시판이 비어있어요",
+      resLength: "",
+      subCategory: "",
+      selectedPage: "",
       calData: [],
     };
   },
@@ -143,14 +134,14 @@ export default {
   created() {
     this.$store.dispatch("auth/getUserInfo");
     this.$http
-      .post("/get_all_board_information", {
-        page_num: String(this.curPageNum)
+      .post("/get_board_information", {
+        page_num: this.curPageNum,
+        type: this.$route.query.name,
       })
       .then((res) => {
-        console.log(res)
         this.listData = res.data;
         this.resBoard = true;
-        this.calData = this.listData;
+        this.calData = this.listData
       })
       .catch((e) => {
         console.log(e);
@@ -168,21 +159,20 @@ export default {
 
   methods: {
     searchBoard(page) {
-      console.log("currP", page);
       this.$http
-        .post("/get_all_board_information", {
+        .post("/get_board_information", {
           page_num: page,
+          type: this.$route.query.name,
         })
         .then((res) => {
           this.listData = res.data;
           this.resBoard = true;
-          this.calData = this.listData;
+          this.calData = this.listData
         })
         .catch((e) => {
           swal("이런!", "게시판이 비어 있습니다", "error");
         });
     },
-
     eachBoard(postIdx) {
       this.$router.replace({ path: "/eachBoard", query: { postIdx } });
     },

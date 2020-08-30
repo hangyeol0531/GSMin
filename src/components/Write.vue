@@ -1,204 +1,188 @@
 <template>
   <div>
     <v-app>
-      <v-app-bar app height="70px" flat color="white" hide-on-scroll>
-        <v-spacer></v-spacer>
-        <v-toolbar-title>
-          <router-link :to="{name: 'Home'}"><v-img src="../assets/fixlogo.svg" max-width="100%"></v-img></router-link>
-        </v-toolbar-title>
-        <v-spacer/><v-spacer/><v-spacer/>
-          <v-badge
-            color="#00B1EA"
-            content="6"
-            bordered
-            offset-x=22
-            offset-y=20
-            overlap>
-            <v-btn icon><v-icon large>notifications</v-icon></v-btn>
-          </v-badge>
-            <v-btn @click="routerPush('Setting')" icon><v-icon>settings</v-icon></v-btn>
-            <v-spacer></v-spacer>
-      </v-app-bar>
-        <v-content>
-          <v-toolbar prominent height="250px" src="../assets/school_img.jpg">
-          </v-toolbar>
-          <v-container
-            class="bg fill-height"
-            fluid
-          >
-            <v-row>
-              <v-col md="2"></v-col>
+      <top-bar ref="topBar"></top-bar>
+      <v-content>
+        <v-toolbar prominent height="250px" src="../assets/school_img.jpg"></v-toolbar>
+        <v-container class="bg fill-height" fluid>
+          <v-row>
+            <v-col md="2"></v-col>
 
-              <v-col md="2">
-                <side-bar></side-bar>
-              </v-col>
+            <v-col md="2">
+              <side-bar></side-bar>
+            </v-col>
 
-              <v-col md="6">               
-                <v-card
-                  class="mx-auto fixed"
-                  style="margin-top: -300px;">
-                  <v-card flat>
-                    <v-card-title class="headline font-weight-bold">
-                        <v-col cols="10">
-                            취업 후기
+            <v-col md="6">
+              <v-card class="mx-auto fixed" style="margin-top: -300px;">
+                <v-card flat>
+                  <v-card-title class="headline font-weight-bold">
+                    <v-col cols="10">취업 후기</v-col>
+                  </v-card-title>
+                  <v-card-title>
+                    <v-col cols="2" class="pb-0">
+                      <v-select
+                        class="d-flex"
+                        sm="4"
+                        :items="mainItems"
+                        v-model="mainSelect"
+                        return-object
+                        hide-details
+                        solo
+                        label="일반"
+                      ></v-select>
+                    </v-col>
+                    <v-col cols="3" class="pb-0">
+                      <v-select
+                        class="d-flex"
+                        sm="4"
+                        :items="subItems"
+                        item-value="value"
+                        v-model="subSelect"
+                        return-object
+                        hide-details
+                        solo
+                        label="카테고리"
+                      ></v-select>
+                    </v-col>
+                  </v-card-title>
+                  <v-card-title>
+                    <v-col cols="12" class="pt-0">
+                      <v-text-field label="제목" v-model="title" outlined solo flat></v-text-field>
+                    </v-col>
+                  </v-card-title>
+                  <v-card>
+                    <v-card-text>
+                      <viewer :initialValue="editorText" height="500px" />
+                      <editor ref="editorText" height="500px" mode="wysiwyg" />
+                    </v-card-text>
+                    <v-card-text>
+                      <v-row>
+                        <v-col>
+                          <v-btn>
+                            <v-icon left>delete_forever</v-icon>취소
+                          </v-btn>
                         </v-col>
-                    </v-card-title>
-                    <v-card-title>
-                        <v-col cols="2" class="pb-0">
-                          <v-select
-                            class="d-flex"
-                            sm="4"
-                            return-object
-                            hide-details
-                            solo
-                            label="일반">
-                          </v-select>
+                        <v-col class="text-right">
+                          <v-btn dark color="#025F94" @click="post">
+                            게시
+                            <v-icon right>send</v-icon>
+                          </v-btn>
                         </v-col>
-                        <v-col cols="3" class="pb-0">
-                          <v-select
-                            class="d-flex"
-                            sm="4"
-                            :items="items"
-                            item-value="value"
-                            v-model="select"
-                            return-object
-                            hide-details
-                            solo
-                            label="제목">
-                          </v-select>
-                        </v-col>                        
-                    </v-card-title>
-                    <v-card-title>
-                        <v-col cols="12" class="pt-0">
-                            <v-text-field
-                                label="제목"
-                                outlined
-                                solo
-                                flat>
-                            </v-text-field>
-                        </v-col>
-                    </v-card-title>
-                      <v-card>
-                          <v-card-text>
-                            <viewer :initialValue="editorText" height="500px" />
-                            <editor
-                            ref="editorText"
-                            height="500px"
-                            mode="wysiwyg"/>
-                          </v-card-text>
-                          <v-card-text>
-                              <v-row>
-                                  <v-col>
-                                      <v-btn><v-icon left>delete_forever</v-icon>취소</v-btn>
-                                  </v-col>
-                                  <v-col class="text-right">
-                                      <v-btn 
-                                        :loading="loading"
-                                        dark
-                                        color="#025F94"
-                                        @click="loader = 'loading'">게시<v-icon right>send</v-icon></v-btn>
-                                  </v-col>
-                              </v-row>
-                          </v-card-text>
-                      </v-card>
-                      <v-card>
-                      </v-card>
+                      </v-row>
+                    </v-card-text>
                   </v-card>
+                  <v-card></v-card>
                 </v-card>
-              </v-col>
-            </v-row>
-          </v-container>  
-        </v-content>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-content>
     </v-app>
   </div>
 </template>
 
 <script>
-import { Editor, Viewer } from '@toast-ui/vue-editor'
-import sideBar from './sideBar.vue'
+import { Editor, Viewer } from "@toast-ui/vue-editor";
+import { router } from "../router/index.js";
+import sideBar from "./sideBar.vue";
+import topBar from "./topBar.vue"
+
 export default {
-  data () {
+  data() {
     return {
       text: 5,
-      riple : 35,
-      meal_section : `조식`,
-      meal_all : meal_all,
-      items : 
-      [
-        {
-          text: '제목',
-          value : 'likeCount'
-        },
-        {
-          text: '이전',
-          value : 'previous'
-        }
+      riple: 35,
+      mainItems: [
+        { text: "일반", value: "일반" },
+        { text: "학년", value: "학년" },
       ],
-      select: {
-        text: '제목',
-        value: 'title'
-      },
+      mainSelect: [{ text: "일반", value: "일반" }],
+      subItems: [
+        { text: "자유", value: "자유" },
+        { text: "질문", value: "질문" },
+        { text: "꿀팁", value: "꿀팁" },
+      ],
+      subDefaultItems: [
+        { text: "자유", value: "자유" },
+        { text: "질문", value: "질문" },
+        { text: "꿀팁", value: "꿀팁" },
+      ],
+      subGradeItems: [
+        { text: "1학년", value: "1학년" },
+        { text: "2학년", value: "2학년" },
+        { text: "3학년", value: "3학년" },
+        { text: "졸업생", value: "졸업생" },
+      ],
+      subSelect: [
+        {
+          text: "자유",
+          value: "자유",
+        },
+      ],
+      title: "",
       dataPerPage: 10,
       curPageNum: 1,
-      search: '',
-      category: '',
-      resText : '게시판이 비어있어요',
-      editorText: '',
-      content: '',
-      // 게시물 저장 로딩
-      loader: null,
-      loading: false,
-      //
-      company: '마이다스아이티'
-    }
+      search: "",
+      category: "",
+      resText: "게시판이 비어있어요",
+      editorText: "",
+      company: "마이다스아이티",
+    };
   },
 
-  components : {
-    'editor' : Editor,
-    'viewer' : Viewer,
-    sideBar
+  components: {
+    editor: Editor,
+    viewer: Viewer,
+    sideBar,
+    topBar
   },
 
-  created () {
- 
-  },
+  created() {},
 
   methods: {
-
-  },
-  
-  watch: {
-    select: function (value) {
-      this.category = value.value
+    post() {
+      this.$http
+        .post("/write_Bulletin", {
+          title: this.title,
+          type: this.category,
+          email: this.$store.state.auth.userInfo.user_email,
+          content: this.$refs.editorText.invoke("getMarkdown"),
+        })
+        .then((response) => {
+          alert("성공적으로 등록 되었습니다");
+          router.push({ name: "Board" });
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     },
-    
-    loader () {
-      const l = this.loader
-      this[l] = !this[l]
-      setTimeout(() => {
-        this[l] = false
-        localStorage.setItem("content", this.content)
-        this.$router.push({name : 'Home'})
-      }, 3000)
-      this.loader = null
-      this.content = this.$refs.editorText.invoke("getMarkdown")
-    }
   },
 
-  computed: {
+  watch: {
+    mainSelect: function (value) {
+      value.value === "일반"
+        ? (this.subItems = this.subDefaultItems)
+        : (this.subItems = this.subGradeItems);
+    },
+    subSelect: function (value) {
+      this.category = value.value;
+    },
+    loader() {
+      this.content = this.$refs.editorText.invoke("getMarkdown");
+    },
+  },
 
-  }
-}
+  computed: {},
+};
 </script>
 
 <style>
-.bg{
-  background-color:#ECEDEE !important; 
+.bg {
+  background-color: #ecedee !important;
 }
 
 .color {
-  color: #00B1EA;
+  color: #00b1ea;
 }
-
-
 </style>

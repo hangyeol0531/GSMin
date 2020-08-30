@@ -17,12 +17,12 @@
                 <v-card flat>
                   <v-card-title class="headline font-weight-bold">
                     <v-row>
-                      <v-col cols="7">전체</v-col>
+                      <v-col cols="7">채용 공고</v-col>
                       <v-col cols="5" class="pa-0 d-flex">
                         <v-select
                           class="d-flex"
                           sm="6"
-                          :items="categoryItems"
+                          :items="items"
                           item-value="value"
                           v-model="categorySelect"
                           return-object
@@ -30,56 +30,51 @@
                           label="선택"
                         ></v-select>
                         <v-toolbar flat dense floating>
-                          <v-btn large color="white" @click="searchBoard">
-                            <v-icon>search</v-icon>
-                          </v-btn>
+                          <v-text-field
+                            solo
+                            hide-details
+                            v-on:keyup.enter="submit"
+                            append-icon="search"
+                            v-model="searchField"
+                            single-line
+                          ></v-text-field>
                         </v-toolbar>
                       </v-col>
                     </v-row>
                   </v-card-title>
-                  <v-card hover v-for="(listItem, index) in calData" :key="index" flat>
-                    <v-card @click="eachBoard(listItem.idx)" hover>
-                      <v-card-text>
-                        <div v-if="resBoard === false">{{ resText }}</div>
-                        <tbody v-else>
-                          <tr>
-                            <td class="like">
-                              <v-icon small>thumb_up_alt</v-icon>16
-                            </td>
-                            <td class="section">
-                              <v-chip label>{{listItem.type}}</v-chip>
-                            </td>
-                            <td class="content">
-                              <strong>{{ listItem.title }}</strong>
-                            </td>
-                            <td class="writer font-weight-bold">
-                              <div>
-                                <v-img
-                                  v-if="listItem.grade === 1"
-                                  src="../assets/one_icon.png"
-                                  width="20"
-                                  style="float:left"
-                                ></v-img>
-                                <v-img
-                                  v-if="listItem.grade === 2"
-                                  src="../assets/two_icon.png"
-                                  width="20"
-                                  style="float:left"
-                                ></v-img>
-                                <v-img
-                                  v-if="listItem.grade === 3"
-                                  src="../assets/three_icon.png"
-                                  width="20"
-                                  style="float:left"
-                                ></v-img>
-                                {{listItem.nickname}}
-                              </div>
-                            </td>
-                            <td class="viewer">25</td>
-                            <td class="previous">{{ listItem.date.split("T")[0] }}</td>
-                          </tr>
-                        </tbody>
-                      </v-card-text>
+                  <v-card hover v-for="(listItem, index) in CalData" :key="index" flat>
+                    <v-card
+                      @click="alert(listItem[1])"
+                      hover
+                      outlined
+                      class="ml-4 mr-4 mb-3 rounded-lg"
+                    >
+                      <v-row>
+                        <v-col cols="11" class="ma-0">
+                          <v-card-title class="pb-0">
+                            <div v-if="resBoard === false">{{ resText }}</div>
+                            <div class="font-weight-bold">{{listItem[1]}}·</div>
+                            <div class="subtitle-1 font-weight-medium">{{listItem[2]}}</div>
+                          </v-card-title>
+                          <v-card-title class="pb-0">
+                            <div class="subtitle-2 font-weight-bold" style="color:#666666">업무내용</div>
+                            <div
+                              class="subtitle-2 font-weight-medium pl-2"
+                              style="color:#666666"
+                            >{{listItem[3]}}</div>
+                          </v-card-title>
+                          <v-card-title class="pt-0 pb-0">
+                            <div class="subtitle-2 font-weight-bold" style="color:#666666">자격요건</div>
+                            <div
+                              class="subtitle-2 font-weight-medium pl-2 col-10 text-truncate"
+                              style="color:#666666"
+                            >{{listItem[4]}}</div>
+                          </v-card-title>
+                        </v-col>
+                        <v-col cols="1" class="pt-13 pb-0">
+                          <v-icon x-large color="#41AFE5">keyboard_arrow_right</v-icon>
+                        </v-col>
+                      </v-row>
                     </v-card>
                   </v-card>
                   <v-card flat>
@@ -136,33 +131,37 @@ export default {
       resLength: "",
       selectedPage: "",
       resText: "게시판이 비어있어요",
-      calData: [],
+      items: [
+        {
+          text: "회사 명",
+          value: "1",
+        },
+        {
+          text: "업무내용",
+          value: "3",
+        },
+      ],
+      select: {
+        text: "제목",
+        value: "title",
+      },
+      searchField: '',
     };
   },
 
   created() {
     this.$store.dispatch("auth/getUserInfo");
     this.$http
-      .post("/get_all_board_information", {
-        page_num: String(this.curPageNum)
+      .get("/gsm_hire_list", {
+        //취업공고
       })
-      .then((res) => {
-        console.log(res)
-        this.listData = res.data;
-        this.resBoard = true;
-        this.calData = this.listData;
+      .then((response) => {
+        console.log(response);
+        this.listData = response.data;
+        console.log(this.listData.length);
       })
       .catch((e) => {
         console.log(e);
-        this.resBoard = false;
-      });
-
-    this.$http
-      .post("/board_num", {
-        type: this.$route.query.name,
-      })
-      .then((res) => {
-        this.resLength = res.data;
       });
   },
 
@@ -181,6 +180,20 @@ export default {
         .catch((e) => {
           swal("이런!", "게시판이 비어 있습니다", "error");
         });
+    },
+
+    submit() {
+      let gory = this.category;
+      console.log(gory);
+      this.searchData = this.listData.filter((data) => {
+        return data[gory].includes(this.searchField);
+      });
+
+      return (this.listData = this.searchData)
+    },
+
+    alert(company) {
+      alert(company, "정보 입니다.");
     },
 
     eachBoard(postIdx) {
@@ -217,8 +230,11 @@ export default {
       if (this.listData === null) {
         swal("이런!", "게시판이 비어 있습니다", "error");
       } else {
-        return Math.ceil(this.resLength / this.dataPerPage);
+        return Math.ceil(this.listData.length / this.dataPerPage);
       }
+    },
+    CalData() {
+      return this.listData.slice(this.startOffset, this.endOffset);
     },
   },
 };
@@ -231,26 +247,5 @@ export default {
 
 .color {
   color: #00b1ea;
-}
-
-.like {
-  width: 7%;
-}
-.section {
-  width: 10%;
-}
-.content {
-  width: 57%;
-}
-.writer {
-  width: 11%;
-}
-
-.viewer {
-  width: 7%;
-}
-
-.previous {
-  width: 20%;
 }
 </style>
