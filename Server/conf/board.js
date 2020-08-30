@@ -75,7 +75,7 @@ exports.get_all_board_information = async (req,res) =>{
             res.end('null');
         }else{
             var aJsonArray = new Array();
-            for(var i = 0;  i < rows.length; i++){ㄱ
+            for(var i = 0;  i < rows.length; i++){
                 var aJson = new Object();
                 aJson.idx = rows[i].idx;
                 aJson.email = rows[i].user_email;
@@ -94,10 +94,10 @@ exports.get_all_board_information = async (req,res) =>{
 }
 
 exports.get_board_information = async (req,res) =>{
-    fun_all.console_all("get_broad_information 접속");
+    fun_all.console_all("get_board_information 접속");
     console.log(req.body.type, req.body.page_num)
     req.body.page_num = Number(req.body.page_num);
-    var sql = `SELECT A.idx, A.user_email, A.title, A.content, A.date, A.type, U.grade, U.nickname FROM 
+    var sql = `SELECT A.idx, A.user_email, A.title, A.content, A.date, A.type, A.view_count, U.grade, U.nickname FROM 
     (SELECT * FROM Bulletin_Information WHERE type = "${req.body.type}" ORDER BY date DESC) 
         as A, User_Information AS U Where A.user_email = U.user_email LIMIT 10 OFFSET ${10*(req.body.page_num - 1)} `
     await db.query(sql, async function(err, rows){
@@ -117,6 +117,7 @@ exports.get_board_information = async (req,res) =>{
                 aJson.type = rows[i].type;
                 aJson.nickname = rows[i].nickname;
                 aJson.grade = rows[i].grade
+                aJson.view_count = rows[i].view_count;
                 aJsonArray.push(aJson);
             }
             console.log(JSON.stringify(aJsonArray))
