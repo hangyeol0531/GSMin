@@ -16,40 +16,59 @@
               <v-card class="mx-auto fixed" style="margin-top: -300px;">
                 <v-card flat>
                   <v-card-title class="headline font-weight-bold">
-                    <v-col cols="10">취업 후기</v-col>
+                    <v-col cols="10">글 쓰기</v-col>
                   </v-card-title>
-                  <v-card-title>
-                    <v-col cols="2" class="pb-0">
-                      <v-select
-                        class="d-flex"
-                        sm="4"
-                        :items="mainItems"
-                        v-model="mainSelect"
-                        return-object
-                        hide-details
-                        solo
-                        label="일반"
-                      ></v-select>
-                    </v-col>
-                    <v-col cols="3" class="pb-0">
-                      <v-select
-                        class="d-flex"
-                        sm="4"
-                        :items="subItems"
-                        item-value="value"
-                        v-model="subSelect"
-                        return-object
-                        hide-details
-                        solo
-                        label="카테고리"
-                      ></v-select>
-                    </v-col>
-                  </v-card-title>
-                  <v-card-title>
-                    <v-col cols="12" class="pt-0">
-                      <v-text-field label="제목" v-model="title" outlined solo flat></v-text-field>
-                    </v-col>
-                  </v-card-title>
+                  <ValidationObserver ref="section_ob" v-slot="{}">
+                    <form>
+                      <v-card-title>
+                        <v-col cols="2" class="pb-0">
+                          <ValidationProvider v-slot="{ errors }" name="카테고리" rules="required">
+                            <v-select
+                              class="d-flex"
+                              sm="4"
+                              :items="mainItems"
+                              v-model="mainSelect"
+                              :error-messages="errors"
+                              return-object
+                              hide-details
+                              solo
+                              label="일반"
+                            ></v-select>
+                          </ValidationProvider>
+                        </v-col>
+                        <v-col cols="3" class="pb-0">
+                          <ValidationProvider v-slot="{ errors }" name="서브카테고리" rules="required">
+                            <v-select
+                              class="d-flex"
+                              sm="4"
+                              :items="subItems"
+                              item-value="value"
+                              v-model="subSelect"
+                              :error-messages="errors"
+                              return-object
+                              hide-details
+                              solo
+                              label="카테고리"
+                            ></v-select>
+                          </ValidationProvider>
+                        </v-col>
+                      </v-card-title>
+                      <v-card-title>
+                        <v-col cols="12" class="pt-0">
+                          <ValidationProvider v-slot="{ errors }" name="제목" rules="required">
+                            <v-text-field
+                              label="제목"
+                              v-model="title"
+                              outlined
+                              solo
+                              flat
+                              :error-messages="errors"
+                            ></v-text-field>
+                          </ValidationProvider>
+                        </v-col>
+                      </v-card-title>
+                    </form>
+                  </ValidationObserver>
                   <v-card>
                     <v-card-text>
                       <viewer :initialValue="editorText" height="500px" />
@@ -85,8 +104,15 @@
 <script>
 import { Editor, Viewer } from "@toast-ui/vue-editor";
 import { router } from "../router/index.js";
+import { required } from "vee-validate/dist/rules";
+import { extend, ValidationObserver, ValidationProvider } from "vee-validate";
 import sideBar from "./sideBar.vue";
-import topBar from "./topBar.vue"
+import topBar from "./topBar.vue";
+
+extend("required", {
+  ...required,
+  message: "{_field_} 칸을 채워주세요",
+});
 
 export default {
   data() {
@@ -135,27 +161,31 @@ export default {
     editor: Editor,
     viewer: Viewer,
     sideBar,
-    topBar
+    topBar,
   },
 
   created() {},
 
   methods: {
     post() {
-      this.$http
-        .post("/write_Bulletin", {
-          title: this.title,
-          type: this.category,
-          email: this.$store.state.auth.userInfo.user_email,
-          content: this.$refs.editorText.invoke("getMarkdown"),
-        })
-        .then((response) => {
-          alert("성공적으로 등록 되었습니다");
-          router.push({ name: "Board" });
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      this.$refs.section_ob.validate().then((valid) => {
+        if (valid) {
+          this.$http
+            .post("/write_Bulletin", {
+              title: this.title,
+              type: this.category,
+              email: this.$store.state.auth.userInfo.user_email,
+              content: this.$refs.editorText.invoke("getMarkdown"),
+            })
+            .then((response) => {
+              alert("성공적으로 등록 되었습니다");
+              router.push({ name: "Board" });
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      });
     },
   },
 

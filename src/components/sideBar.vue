@@ -13,13 +13,16 @@
     </v-card>
     <v-card flat app class="mx-auto">
       <v-card app fixed flat>
-        <v-card-title v-if="user">
+        <v-card-title v-if="user" class="pb-0">
           <v-img v-if="user['user_grade'] === 1" src="../assets/one_icon.png" max-width="8%"></v-img>
           <v-img v-if="user['user_grade'] === 2" src="../assets/two_icon.png" max-width="8%"></v-img>
           <v-img v-if="user['user_grade'] === 3" src="../assets/three_icon.png" max-width="8%"></v-img>
           <strong>{{user['user_nickname']}}</strong>
         </v-card-title>
-        <v-card-subtitle class="font-weight-bold">{{company}}</v-card-subtitle>
+        <v-card-title class="pt-0 pb-0">
+          <v-btn block text class="subtitle-2" @click="myBoardPush('board')">내가 쓴 게시물</v-btn>
+          <v-btn block text class="subtitle-2" @click="myBoardPush('comment')">내가 쓴 댓글</v-btn>
+        </v-card-title>
         <v-divider></v-divider>
         <v-card-subtitle class="pa-1 pl-3">모아보기</v-card-subtitle>
         <v-card-text>
@@ -28,8 +31,7 @@
         <v-divider></v-divider>
         <v-card-subtitle class="pa-1 pl-3">정보</v-card-subtitle>
         <v-card-text>
-          <v-btn text block class="subtitle-1" @click="routerPush('hireList')">채용 공고</v-btn>
-          <v-btn text block class="subtitle-1">취업 현황</v-btn>
+          <v-btn text block class="subtitle-1" @click="routerPush('hireList')">채용 공고</v-btn> 
         </v-card-text>
         <v-divider></v-divider>
         <v-card-subtitle class="pa-1 pl-3">일반</v-card-subtitle>
@@ -87,12 +89,12 @@ export default {
       this.$router.push({ name });
     },
 
+    myBoardPush(name) {
+      this.$router.replace({ path: "/myBoard", query: {name}})
+    },
+
     categoryBoard(params) {
-      if (this.$router.currentRoute.path === "/subBoard") {
-        this.$router.replace({path: '/subBoard', query: params})
-      } else {
-        this.$router.replace({path: '/subBoard', query: params})
-      }
+      this.$router.replace({ path: "/subBoard", query: params });
     },
   },
 };

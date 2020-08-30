@@ -74,7 +74,6 @@
                               :chart-data="datacollection"
                               style="width:27vw; height:15vw;"
                             ></line-chart>
-                            <v-btn @click="fillData()">생성</v-btn>
                           </div>
                         </v-card-text>
                       </v-card>

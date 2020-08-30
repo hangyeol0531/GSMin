@@ -10,11 +10,6 @@
       <v-spacer />
       <v-spacer />
       <v-spacer />
-      <v-badge color="#00B1EA" content="6" bordered offset-x="22" offset-y="20" overlap>
-        <v-btn icon>
-          <v-icon large>notifications</v-icon>
-        </v-btn>
-      </v-badge>
       <v-btn @click="routerPush('Setting')" icon>
         <v-icon>settings</v-icon>
       </v-btn>

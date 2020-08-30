@@ -6,19 +6,30 @@ const state = {
 
 const getters = {};
 
-const mutations = {};
+const mutations = {
+  getLikeCount(state, payload) {
+    state.likeCount = payload
+  },
+  addLikeCount(state) {
+    state.likeCount +=1
+  },
+  subtractionCount(state) {
+    state.likeCount -=1
+  }
+};
 
 const actions = {
   addLikeCount({ commit }, { postIdx, email }) {
-    const resData = axios.post("/isgood", {
-      Bulletin_idx: parseInt(postIdx),
+    axios.post("/isgood", {
+      Bulletin_idx: String(postIdx),
       email
-    });
-    try {
-      console.log(resData);
-    } catch (e) {
-      console.log(e);
-    }
+    })
+    .then((response) => {
+      response.data === '추가' ? commit("addLikeCount") : commit("subtractionCount")
+    })
+    .catch((e) => {
+      console.log(e)
+    })
   }
 };
 

@@ -17,7 +17,10 @@
                 <v-card flat>
                   <v-card-title class="headline font-weight-bold">
                     <v-row>
-                      <v-col cols="7">{{ $route.query.name }}</v-col>
+                      <v-col cols="7">
+                        <div v-if="$route.query.name === 'board'">내가 쓴 게시물</div>
+                        <div v-else>내가 쓴 댓글</div>
+                      </v-col>
                     </v-row>
                   </v-card-title>
                   <v-card v-for="(listItem, index) in calData" :key="index" flat>
@@ -27,13 +30,16 @@
                         <tbody v-else>
                           <tr>
                             <td class="like">
-                              <v-icon small>thumb_up_alt</v-icon>{{ listItem.good_count }}
+                              <v-icon small v-if="listItem.good_count">thumb_up_alt</v-icon>{{listItem.good_count}}
+                              <div v-if="listItem.good_count === null"></div>
                             </td>
                             <td class="section">
-                              <v-chip label>{{listItem.type}}</v-chip>
+                              <v-chip label v-if="listItem.type">{{listItem.type}}</v-chip>
+                              <div v-if="listItem.type === undefined"></div>
                             </td>
                             <td class="content">
-                              <strong>{{ listItem.title }}</strong>
+                              <strong v-if="listItem.title">{{ listItem.title }}</strong>
+                              <strong v-if="listItem.comment">{{ listItem.comment }}</strong>
                             </td>
                             <td class="writer font-weight-bold">
                               <div>
@@ -66,16 +72,8 @@
                     </v-card>
                   </v-card>
                   <v-card>
-                    <v-pagination
-                      v-model="curPageNum"
-                      :length="numOfPages"
-                      :value="selectedPage"
-                    ></v-pagination>
-                    <v-card-text align="right">
-                      <v-btn dark color="#025F94" @click="Write">
-                        <v-icon>create</v-icon>글쓰기
-                      </v-btn>
-                    </v-card-text>
+                    <v-pagination v-model="curPageNum" :length="numOfPages" :value="selectedPage"></v-pagination>
+                    <v-card-text align="right"></v-card-text>
                   </v-card>
                 </v-card>
               </v-card>
@@ -131,43 +129,54 @@ export default {
     };
   },
 
-  created() {
-    this.$store.dispatch("auth/getUserInfo");
-    this.$http
-      .post("/get_board_information", {
-        page_num: this.curPageNum,
-        type: this.$route.query.name,
+  async created() {
+    await this.$store.dispatch("auth/getUserInfo");
+
+    let option = this.$route.query.name === "board" ? "b" : "c";
+    let isHover = option === 'b' ? true : false
+
+    await this.$http
+      .post("/get_my_list", {
+        page_num: String(this.curPageNum),
+        email: this.$store.state.auth.userInfo.user_email,
+        b_c: option,
       })
       .then((res) => {
+        console.log(res.data);
         this.listData = res.data;
         this.resBoard = true;
-        this.calData = this.listData
+        this.calData = this.listData;
       })
       .catch((e) => {
         console.log(e);
         this.resBoard = false;
       });
 
-    this.$http
+    await this.$http
       .post("/board_num", {
-        type: this.$route.query.name,
+        email: this.$store.state.auth.userInfo.user_email,
       })
       .then((res) => {
-        this.resLength = res.data;
+        console.log(res.data);
+        option === "b"
+          ? (this.resLength = res.data.Bulletin_count)
+          : (this.resLength = res.data.Comment_count);
       });
   },
 
   methods: {
     searchBoard(page) {
+      let option = this.$route.query.name === "board" ? "b" : "c";
       this.$http
-        .post("/get_board_information", {
+        .post("/get_my_list", {
           page_num: page,
-          type: this.$route.query.name,
+          email: this.$store.state.auth.userInfo.user_email,
+          b_c: option,
         })
         .then((res) => {
           this.listData = res.data;
           this.resBoard = true;
-          this.calData = this.listData
+          this.calData = this.listData;
         })
         .catch((e) => {
           swal("이런!", "게시판이 비어 있습니다", "error");
@@ -175,14 +184,6 @@ export default {
     },
     eachBoard(postIdx) {
       this.$router.replace({ path: "/eachBoard", query: { postIdx } });
-    },
-
-    Write() {
-      this.$router.push({ name: "Write" });
-    },
-
-    Viewer() {
-      this.$router.push({ name: "Viewer" });
     },
   },
 

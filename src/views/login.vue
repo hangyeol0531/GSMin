@@ -35,20 +35,11 @@
                           type="password"
                           v-model="password"
                           :error-messages="errors"
+                          v-on:keyup.enter="submit"
                           label="비밀번호"
                           hide-details="auto"
                           required
                         ></v-text-field>
-                      </ValidationProvider>
-                      <ValidationProvider v-slot="{ errors }" name="chpassword">
-                        <v-checkbox
-                          flat
-                          v-model="chpassword"
-                          :error-messages="errors"
-                          color="#41AFE5"
-                          label="로그인 상태 유지"
-                          required
-                        ></v-checkbox>
                       </ValidationProvider>
                       <v-btn color="#41AFE5" rounded block dark x-large @click="submit">
                         <strong class="title">로그인</strong>

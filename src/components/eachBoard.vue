@@ -60,6 +60,7 @@
                       <v-col cols="7" class="pr-9">
                         <div style="text-align:right">
                           <v-btn
+                            darlk
                             :outlined="!isLikeBtn"
                             @click="likeBtn"
                             :color="isLikeBtn ? '#5C6BC0' : '#E0E0E0'"
@@ -95,7 +96,7 @@
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-card flat>
-                  <v-card-title>
+                  <v-card-title v-if="user">
                     <v-col
                       cols="10"
                       class="subtitle-2 font-weight-bold pb-0"
@@ -198,7 +199,7 @@ export default {
       date: "",
       boardInfo: [],
       viewCount: 12,
-      likeCount: 5,
+      likeCount: "",
       rippleInfo: [],
       rippleCount: "",
       rippleContent: "",
@@ -215,8 +216,6 @@ export default {
   },
 
   created() {
-    this.likeCount = this.$store.state.board.likeCount;
-    this.$store.dispatch("auth/getUserInfo");
     this.$http
       .post("/get_one_board", {
         idx: this.$route.query.postIdx,
@@ -228,6 +227,7 @@ export default {
         this.email = response.data.user_email;
         this.viewCount = response.data.view_count;
         this.date = response.data.date.split("T")[0];
+        this.likeCount = response.data.good_count;
         this.getBoardInfo(this.email);
       })
       .catch((e) => {
@@ -243,13 +243,18 @@ export default {
         this.rippleCount = response.data.length;
         this.rippleInfo = response.data;
       });
+  },
 
+  mounted() {
     this.$http
-      .post("/isgood_num", {
+      .post("/isgoodCheck", {
         Bulletin_idx: this.$route.query.postIdx,
+        email: localStorage.getItem("current_email")
       })
       .then((response) => {
-        console.log(response);
+        if (response.data === 1) {
+          this.isLikeBtn = true;
+        }
       })
       .catch((e) => {
         console.log(e);
@@ -286,13 +291,23 @@ export default {
           console.log(e);
         });
     },
-
     likeBtn() {
-      this.likeCount = this.$store.state.board.likeCount;
       this.isLikeBtn = !this.isLikeBtn;
-      let postIdx = this.$route.query.postIdx;
+      let Bulletin_idx = this.$route.query.postIdx;
       let email = this.$store.state.auth.userInfo.user_email;
-      this.$store.dispatch("board/addLikeCount", { postIdx, email });
+      this.$http
+        .post("/isGood", {
+          Bulletin_idx,
+          email,
+        })
+        .then((response) => {
+          response.data === "추가"
+            ? (this.likeCount += 1)
+            : (this.likeCount -= 1);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     },
   },
 
@@ -301,6 +316,7 @@ export default {
   computed: {
     ...mapState({
       user: (state) => state.auth.userInfo,
+      likeNumber: (state) => state.board.likeCount,
     }),
   },
 };

@@ -44,7 +44,7 @@
                         <tbody v-else>
                           <tr>
                             <td class="like">
-                              <v-icon small>thumb_up_alt</v-icon>16
+                              <v-icon small>thumb_up_alt</v-icon>{{listItem.good_count}}
                             </td>
                             <td class="section">
                               <v-chip label>{{listItem.type}}</v-chip>
@@ -143,8 +143,9 @@ export default {
   created() {
     this.$store.dispatch("auth/getUserInfo");
     this.$http
-      .post("/get_all_board_information", {
-        page_num: String(this.curPageNum)
+      .post("/get_board_information", {
+        page_num: String(this.curPageNum),
+        type: "전체"
       })
       .then((res) => {
         console.log(res)
@@ -170,8 +171,9 @@ export default {
     searchBoard(page) {
       console.log("currP", page);
       this.$http
-        .post("/get_all_board_information", {
+        .post("/get_board_information", {
           page_num: page,
+          type: "전체"
         })
         .then((res) => {
           this.listData = res.data;
@@ -225,6 +227,7 @@ export default {
 </script>
 
 <style>
+
 .bg {
   background-color: #ecedee !important;
 }

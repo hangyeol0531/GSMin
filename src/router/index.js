@@ -5,6 +5,7 @@ import hireList from '../components/hireList'
 import Board from "../components/Board";
 import subBoard from '../components/subBoard'
 import eachBoard from '../components/eachBoard'
+import myBoard from '../components/myBoard'
 import Write from "../components/Write";
 import Viewer from "../components/Viewer";
 import Setting from "../components/Setting";
@@ -65,6 +66,12 @@ const routes = [
     path: "/eachBoard",
     name: "eachBaord",
     component: eachBoard,
+    beforeEnter: isAuthenticated
+  },
+  {
+    path: "/myBoard",
+    name: "myBoard",
+    component: myBoard,
     beforeEnter: isAuthenticated
   },
   {
