@@ -62,6 +62,7 @@ exports.delete_comment = async(req, res) =>{
 }
 
 exports.get_board_information = async (req,res) =>{
+    let flag = 0;
     fun_all.console_all("get_board_information 접속");
     console.log(req.body.type, req.body.page_num)
     req.body.page_num = Number(req.body.page_num);
@@ -93,12 +94,142 @@ exports.get_board_information = async (req,res) =>{
                 aJson.grade = rows[i].grade
                 aJson.view_count = rows[i].view_count;
                 aJsonArray.push(aJson);
+                flag = 1;
             }
-            console.log(JSON.stringify(aJsonArray))
-            res.status(200).send(JSON.stringify(aJsonArray))
+            if(flag){
+                console.log(aJsonArray.length)
+                //TODO ----1
+                if(aJsonArray.length >= 1){
+                let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[0].idx}";`
+                    db.query(sql1,(err, rows) =>{
+                        aJsonArray[0].good_count = rows[0]['COUNT(*)']
+                        var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[0].idx}";`
+                        db.query(sql2,(err, rows) =>{
+                            aJsonArray[0].comment_count = rows[0]['COUNT(*)']
+                            if(aJsonArray.length == 1) res.status(200).send(JSON.stringify(aJsonArray));
+                        })
+                    })
+                }
+                //TODO ----2
+                if(aJsonArray.length >= 2){
+                    let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[1].idx}";`
+                    db.query(sql1,(err, rows) =>{
+                        aJsonArray[1].good_count = rows[0]['COUNT(*)']
+                        var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[1].idx}";`
+                        db.query(sql2,(err, rows) =>{
+                            aJsonArray[1].comment_count = rows[0]['COUNT(*)']
+                            if(aJsonArray.length == 2) res.status(200).send(JSON.stringify(aJsonArray));
+                        })
+                    })
+                }
+                //TODO ----3
+                if(aJsonArray.length >= 3){
+                    let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[2].idx}";`
+                    db.query(sql1,(err, rows) =>{
+                        aJsonArray[2].good_count = rows[0]['COUNT(*)']
+                        var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[2].idx}";`
+                        db.query(sql2,(err, rows) =>{
+                            aJsonArray[2].comment_count = rows[0]['COUNT(*)']
+                            if(aJsonArray.length == 3) res.status(200).send(JSON.stringify(aJsonArray));
+                        })
+                    })
+                }
+                //TODO ----4
+                if(aJsonArray.length >= 4){
+                    let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[3].idx}";`
+                    db.query(sql1,(err, rows) =>{
+                        aJsonArray[3].good_count = rows[0]['COUNT(*)']
+                        var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[3].idx}";`
+                        db.query(sql2,(err, rows) =>{
+                            aJsonArray[3].comment_count = rows[0]['COUNT(*)']
+                            if(aJsonArray.length == 4) res.status(200).send(JSON.stringify(aJsonArray));
+                        })
+                    })
+                }
+
+                //TODO ----5
+                if(aJsonArray.length >= 5){
+                    let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[4].idx}";`
+                    db.query(sql1,(err, rows) =>{
+                        aJsonArray[4].good_count = rows[0]['COUNT(*)']
+                        var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[4].idx}";`
+                        db.query(sql2,(err, rows) =>{
+                            aJsonArray[4].comment_count = rows[0]['COUNT(*)']
+                            if(aJsonArray.length == 5) res.status(200).send(JSON.stringify(aJsonArray));
+                        })
+                    })
+                }
+
+                //TODO ----6
+                if(aJsonArray.length >= 6){
+                    let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[5].idx}";`
+                    db.query(sql1,(err, rows) =>{
+                        aJsonArray[5].good_count = rows[0]['COUNT(*)']
+                        var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[5].idx}";`
+                        db.query(sql2,(err, rows) =>{
+                            aJsonArray[5].comment_count = rows[0]['COUNT(*)']
+                            if(aJsonArray.length == 6) res.status(200).send(JSON.stringify(aJsonArray));
+                        })
+                    })
+                }
+
+                //TODO ----7
+                if(aJsonArray.length >= 7){
+                    let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[6].idx}";`
+                    db.query(sql1,(err, rows) =>{
+                        aJsonArray[6].good_count = rows[0]['COUNT(*)']
+                        var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[6].idx}";`
+                        db.query(sql2,(err, rows) =>{
+                            aJsonArray[6].comment_count = rows[0]['COUNT(*)']
+                            if(aJsonArray.length == 7) res.status(200).send(JSON.stringify(aJsonArray));
+                        })
+                    })
+                }
+                //TODO ----8
+                if(aJsonArray.length >= 8){
+                    let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[7].idx}";`
+                    db.query(sql1,(err, rows) =>{
+                        aJsonArray[7].good_count = rows[0]['COUNT(*)']
+                        var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[7].idx}";`
+                        db.query(sql2,(err, rows) =>{
+                            aJsonArray[7].comment_count = rows[0]['COUNT(*)']
+                            if(aJsonArray.length == 8) res.status(200).send(JSON.stringify(aJsonArray));
+                        })
+                    })
+                }
+
+                //TODO ----9
+                if(aJsonArray.length >= 9){
+                    let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[8].idx}";`
+                    db.query(sql1,(err, rows) =>{
+                        aJsonArray[8].good_count = rows[0]['COUNT(*)']
+                        var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[8].idx}";`
+                        db.query(sql2,(err, rows) =>{
+                            aJsonArray[8].comment_count = rows[0]['COUNT(*)']
+                            if(aJsonArray.length == 9) res.status(200).send(JSON.stringify(aJsonArray));
+                        })
+                    })
+                }
+                //TODO ----10
+                if(aJsonArray.length >= 10){
+                    let sql1 = `SELECT COUNT(*) FROM good_board WHERE Bulletin_idx = "${aJsonArray[9].idx}";`
+                    db.query(sql1,(err, rows) =>{
+                        aJsonArray[9].good_count = rows[0]['COUNT(*)']
+                        var sql2 = `SELECT COUNT(*) FROM Comment_information WHERE Bulletin_idx = "${aJsonArray[9].idx}";`
+                        db.query(sql2,(err, rows) =>{
+                            aJsonArray[9].comment_count = rows[0]['COUNT(*)']
+                            if(aJsonArray.length == 10) res.status(200).send(JSON.stringify(aJsonArray));
+                        })
+                    })
+                }
+
+
+
+            }       
         }
     })
 }
+
 
 exports.get_comment_information = async (req,res) =>{
     fun_all.console_all("get_comment_information 접속");
@@ -204,7 +335,6 @@ exports.check_writer = async(req, res) =>{
         }
      })
 }
-
 exports.board_num = async(req, res) =>{
     if(req.body.email !== undefined){
         var aJson = new Object();
