@@ -196,7 +196,7 @@ exports.check_writer = async(req, res) =>{
     
     await db.query(sql, function(err, rows){
         if(err) {
-            throw err;
+            throw err; 
         }else if(JSON.stringify(rows) == '[]'){ 
             res.end('null');
         }else{
@@ -206,17 +206,30 @@ exports.check_writer = async(req, res) =>{
 }
 
 exports.board_num = async(req, res) =>{
-    if(req.body.type === undefined) var sql = `SELECT Count(*) FROM Bulletin_Information;`;
-    else var sql = `SELECT Count(*) FROM Bulletin_Information WHERE type = "${req.body.type}";`;
-    await db.query(sql, function(err, rows){
-        if(err) {
-            throw err;
-        }else if(JSON.stringify(rows) == '[]'){ 
-            res.end('null');
-        }else{
-            res.end(JSON.stringify(rows[0]['Count(*)']))
-        }
-     })
+    if(req.body.email !== undefined){
+        var aJson = new Object();
+        var sql3 = `SELECT COUNT(*) FROM Comment_information WHERE user_email = "${req.body.email}";`
+        await db.query(sql3, async (err, rows) =>{
+            aJson.Comment_count = rows[0]['COUNT(*)'];
+            var sql4 = `SELECT COUNT(*) FROM Bulletin_Information WHERE user_email = "${req.body.email}";`
+            await db.query(sql4, (err, rows) => {
+                aJson.Bulletin_count = rows[0]['COUNT(*)'];
+                res.end(JSON.stringify(aJson))
+            })
+        })
+    }else{
+        if(req.body.type === undefined) var sql = `SELECT Count(*) FROM Bulletin_Information;`;
+        else var sql = `SELECT Count(*) FROM Bulletin_Information WHERE type = "${req.body.type}";`;
+        await db.query(sql, function(err, rows){
+            if(err) {
+                throw err;
+            }else if(JSON.stringify(rows) == '[]'){ 
+                res.end('null');
+            }else{
+                res.end(JSON.stringify(rows[0]['Count(*)']))
+            }
+         })
+    }
 }
 
 //TODO -- ㄸㅃ
@@ -289,7 +302,7 @@ exports.get_my_list = async(req, res) =>{
     }else if(req.body.b_c == 'c'){
         var sql = `SELECT * FROM Comment_information WHERE user_email = "${req.body.email}"`
     }
-    await db.query(sql, async function(err, rows){
+    await db.query(sql, (err, rows) => {
         if(err) {
             throw err;
         }else if(JSON.stringify(rows) == '[]'){ 

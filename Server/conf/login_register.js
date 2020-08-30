@@ -65,7 +65,6 @@ exports.emailCheck = async (req,res) =>{
                 <style>
                     body{
                         text-align: center;
-                        background-color: bisque;
                         font-family:"돋움";
                         font-size: 1em;
                     }
