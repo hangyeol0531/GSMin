@@ -596,10 +596,10 @@ exports.get_my_list = async(req, res) =>{
                         })
                     })
                 }
+            }else{
+                console.log(JSON.stringify(aJsonArray))
+                res.status(200).send(JSON.stringify(aJsonArray))
             }
-
-            // console.log(JSON.stringify(aJsonArray))
-            // res.status(200).send(JSON.stringify(aJsonArray))
         }
     })
 }
