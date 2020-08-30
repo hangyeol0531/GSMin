@@ -37,7 +37,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/boardTitle"
+                        android:id="@+id/boardTitle_bulletin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
@@ -56,8 +56,17 @@
                             android:layout_marginRight="45dp"
                             android:layout_weight="1">
 
+                            <ImageView
+                                android:layout_gravity="center"
+                                android:id="@+id/bulletinGrade"
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:layout_marginRight="7dp"
+                                android:scaleType="fitStart"
+                                android:src="@drawable/one_icon"/>
                             <TextView
-                                android:id="@+id/boardName"
+                                android:layout_gravity="center"
+                                android:id="@+id/boardName_bulletin"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:maxWidth="100dp"
@@ -67,7 +76,8 @@
                                 android:textSize="14dp" />
 
                             <TextView
-                                android:id="@+id/boardInfo"
+                                android:layout_gravity="center"
+                                android:id="@+id/boardInfo_bulletin"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
@@ -125,7 +135,7 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_gravity="center"
-                    android:id="@+id/recycler_main"
+                    android:id="@+id/recycler_main_bulletin"
                     android:layout_width="@dimen/fixWidth"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"></androidx.recyclerview.widget.RecyclerView>
@@ -146,7 +156,7 @@
             android:layout_width="@dimen/fixWidth"
             android:layout_height="2dp"
             android:layout_gravity="center"
-            android:background="#E6E6E6" />
+            android:background="#848484" />
         <LinearLayout
             android:layout_gravity="center"
             android:layout_width="@dimen/fixWidth"

@@ -7,18 +7,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class DB {
-    private String boardTitle, boardName, boardInfo, boardThumb, boardMsg, boardIdx;
+    private String boardTitle, boardName, boardInfo, boardThumb, boardMsg, boardIdx, boardGrade;
     private String chatName, chatInfo, chatThumb, chatContent, chatGrade;
     public String[] getBoardData() {
-        return new String[]{boardTitle, boardName, boardInfo, boardThumb, boardMsg, boardIdx};
+        return new String[]{boardTitle, boardName, boardInfo, boardThumb, boardMsg, boardIdx, boardGrade};
     }
-    public void setBoardData(String boardTitle, String boardName, String boardInfo, String boardThumb, String boardMsg, String boardIdx) {
+    public void setBoardData(String boardTitle, String boardName, String boardInfo, String boardThumb, String boardMsg, String boardIdx, String boardGrade) {
         this.boardTitle = boardTitle;
         this.boardName = boardName;
         this.boardInfo = boardInfo;
         this.boardThumb = boardThumb;
         this.boardMsg = boardMsg;
         this.boardIdx = boardIdx;
+        this.boardGrade = boardGrade;
     }
     public String[] getChatData() {
         return new String[]{chatName, chatInfo, chatThumb, chatContent, chatGrade};

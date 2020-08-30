@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,7 +43,7 @@ public class WriteActivity extends AppCompatActivity {
     private EditText editWrite, editTitle;
     private JSONTask jt;
     private Context ct;
-
+    private SweetAlertDialog pDialog;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,7 @@ public class WriteActivity extends AppCompatActivity {
         wLayout = findViewById(R.id.writeLayout);
         wLayout.setVisibility(View.VISIBLE);
 
+        pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         search = findViewById(R.id.searchBtn);
         search.setVisibility(View.INVISIBLE);
 
@@ -84,6 +86,7 @@ public class WriteActivity extends AppCompatActivity {
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (editTitle.getText().toString().equals("")){
 
                     new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE)
@@ -98,7 +101,10 @@ public class WriteActivity extends AppCompatActivity {
                             .setContentText("내용을 입력하세요!!")
                             .show();
                     return;
-                }
+                }               pDialog.getProgressHelper().setBarColor(Color.parseColor("#41AFE5"));
+                pDialog.setTitleText("Loading...");
+                pDialog.setCancelable(false);
+                pDialog.show();
                 Data.setData(new String[]{"title", "type", "email", "content"}, new String[]{
                         editTitle.getText().toString(),
                         channelText.getText().toString(),
@@ -112,6 +118,7 @@ public class WriteActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if(jt.jsonReturn().equals("success")){
+                            pDialog.hide();
                             new SweetAlertDialog(ct, SweetAlertDialog.SUCCESS_TYPE)
                                     .setTitleText("굿..!")
                                     .setContentText("글쓰기 성공!!")
@@ -124,6 +131,7 @@ public class WriteActivity extends AppCompatActivity {
                                     })
                                     .show();
                         } else {
+                            pDialog.hide();
                             new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE)
                                     .setTitleText("이런...")
                                     .setContentText("글쓰기 실패!!")

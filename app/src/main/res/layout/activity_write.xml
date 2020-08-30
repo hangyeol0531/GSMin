@@ -18,7 +18,8 @@
 
         <LinearLayout
             android:layout_margin="15dp"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/fixWidth"
+            android:layout_gravity="center|top"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
@@ -26,6 +27,8 @@
                 android:id="@+id/editTitle"
                 android:layout_width="match_parent"
                 android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_height="40dp"
                 android:backgroundTint="#41AFE5"
                 android:hint="제목을 입력하세요!"
@@ -36,6 +39,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="20dp"
                 android:orientation="vertical"
                 android:background="#e5e5e5">

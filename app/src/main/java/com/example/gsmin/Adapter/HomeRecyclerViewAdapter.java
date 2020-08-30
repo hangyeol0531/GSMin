@@ -7,8 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,10 +30,13 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.ItemViewHolder> {
     private static String[] strli;
-    private static TextView boardName, boardTitle, boardInfo, boardThumb, boardMsg, boardIdx;
+    private static ImageView boardGrade_image;
+    private static TextView boardName, boardTitle, boardInfo, boardThumb, boardMsg, boardIdx, boardGrade;
     public static String jsonResult = "";
     // adapter에 들어갈 list 입니다.
     private ArrayList<DB> listData = new ArrayList<>();
@@ -57,12 +62,19 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         // RecyclerView의 총 개수 입니다.
         return listData.size();
     }
-
+    public void clear() {
+        int size = getItemCount();
+        listData.clear();
+        notifyItemRangeRemoved(0, size);
+    }
     public void addItem(DB data) {
         // 외부에서 item을 추가시킬 함수입니다.
         listData.add(data);
     }
-
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
     // RecyclerView의 핵심인 ViewHolder 입니다.
     // 여기서 subView를 setting 해줍니다.
     class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -77,26 +89,8 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
             boardThumb = itemView.findViewById(R.id.t_cnt_1);
             boardMsg = itemView.findViewById(R.id.c_cnt_1);
             boardIdx = itemView.findViewById(R.id.boardIdx);
-            mLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Log.d("HomeRecyclerViewAdapter", "onClick: "+ BoardActivity.channel + " / " + boardIdx.getText().toString()+":"+boardTitle.getText().toString()+ "|" + boardName.getText().toString());
-                    Intent intent = new Intent(itemView.getContext(), BulletinActivity.class);
-                    intent.putExtra("title", boardTitle.getText().toString());
-                    intent.putExtra("name", boardName.getText().toString());
-                    intent.putExtra("content", boardName.getText().toString());
-                    intent.putExtra("date", boardInfo.getText().toString());
-                    intent.putExtra("idx", boardIdx.getText().toString());
-                    itemView.getContext().startActivity(intent);
-
-//                    Data.setData(new String[]{"channel", "boardTitle", "boardName"}, new String[]{BoardActivity.channel, boardTitle.getText().toString(), boardName.getText().toString()});
-//                    JSONTask jt = new JSONTask();
-//                    jt.execute(Data.url + "/login_check"); // 백엔드 개발 후 변경
-//                    Handler hd = new Handler();
-//                    hd.postDelayed(new HomeRecyclerViewAdapter.splashhandler(jt), 2000);
-
-                }
-            });
+            boardGrade = itemView.findViewById(R.id.boardGrade);
+            boardGrade_image = itemView.findViewById(R.id.boardGrade_image);
         }
 
         void onBind(DB db) {
@@ -107,7 +101,40 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
             boardThumb.setText(strli[3]);
             boardMsg.setText(strli[4]);
             boardIdx.setText(strli[5]);
+            boardGrade.setText(strli[6]);
+            final String
+                    title = boardTitle.getText().toString(),
+                    name = boardName.getText().toString(),
+                    info = boardInfo.getText().toString(),
+                    idx = boardIdx.getText().toString(),
+                    grade = boardGrade.getText().toString();
+            switch (grade){
+                case "1" : boardGrade_image.setImageResource(R.drawable.one_icon);break;
+                case "2" :boardGrade_image.setImageResource(R.drawable.two_icon);break;
+                case "3" :boardGrade_image.setImageResource(R.drawable.three_icon);break;
+                default: boardGrade_image.setImageResource(R.drawable.grad_icon);break;
+            }
+
+            mLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("HomeRecyclerViewAdapter", "onClick: "+ BoardActivity.channel + " / " + boardIdx.getText().toString()+":"+boardTitle.getText().toString()+ "|" + boardName.getText().toString());
+                    Intent intent = new Intent(itemView.getContext(), BulletinActivity.class);
+                    intent.putExtra("title", title);
+                    intent.putExtra("name", name);
+                    intent.putExtra("date", info);
+                    intent.putExtra("idx", idx);
+                    intent.putExtra("grade", grade);
+                    itemView.getContext().startActivity(intent);
+                }
+            });
+            Log.d("HomeRecyclerViewAdapter", "onClick: "+
+                    BoardActivity.channel + " / " +
+                    boardIdx.getText().toString()+":"+
+                    boardTitle.getText().toString()+ "|" +
+                    boardName.getText().toString());
         }
+
     }
     public class splashhandler implements Runnable {
         JSONTask jt;

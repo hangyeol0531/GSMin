@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.JsonToken;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.gsmin.Adapter.ChatRecyclerViewAdapter;
-import com.example.gsmin.Adapter.HomeRecyclerViewAdapter;
 import com.example.gsmin.Json.JSONTask;
 import com.example.gsmin.Model.DB;
 import com.example.gsmin.Model.Data;
@@ -40,12 +38,12 @@ import us.feras.mdv.MarkdownView;
 public class BulletinActivity extends AppCompatActivity {
 
     JSONTask jt;
-    private String title;
-    private String content;
-    private String date;
+    private String title, grade;
+    private String date, name;
     private static String idx;
     private TextView title_tv, name_tv, info_tv, chatCnt;
     private EditText chatEdit;
+    private ImageView bulletinGrade;
     private ImageButton heart, menu, back, chatSend;
     SweetAlertDialog pDialog;
     MarkdownView markdownView;
@@ -71,7 +69,9 @@ public class BulletinActivity extends AppCompatActivity {
         chatSend = findViewById(R.id.chatSend);
         chatEdit = findViewById(R.id.chatEdit);
 
-        recyclerView = findViewById(R.id.recycler_main);
+        bulletinGrade = findViewById(R.id.bulletinGrade);
+
+        recyclerView = findViewById(R.id.recycler_main_bulletin);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
@@ -85,21 +85,30 @@ public class BulletinActivity extends AppCompatActivity {
         pDialog.setCancelable(false);
         pDialog.show();
 
-        title_tv = findViewById(R.id.boardTitle);
-        name_tv = findViewById(R.id.boardName);
-        info_tv = findViewById(R.id.boardInfo);
+        title_tv = findViewById(R.id.boardTitle_bulletin);
+        name_tv = findViewById(R.id.boardName_bulletin);
+        info_tv = findViewById(R.id.boardInfo_bulletin);
 
         Intent intent = getIntent();
         if (getIntent()!=null && intent.getExtras()!= null) {
             title = intent.getExtras().getString("title");
-            content = intent.getExtras().getString("content");
+            name = intent.getExtras().getString("name");
             date = intent.getExtras().getString("date");
             idx = intent.getExtras().getString("idx");
+            grade = intent.getExtras().getString("grade");
+
             Log.d("BulletingActivity",
                     "title: "+title+"\n"+
-                    "content: "+content+"\n"+
+                    "name: "+name+"\n"+
                     "date: "+date+"\n"+
-                    "idx: "+idx+"\n");
+                    "idx: "+idx+"\n"+
+                    "grade: "+grade+"\n");
+            switch (grade){
+                case "1" : bulletinGrade.setImageResource(R.drawable.one_icon);break;
+                case "2" :bulletinGrade.setImageResource(R.drawable.two_icon);break;
+                case "3" :bulletinGrade.setImageResource(R.drawable.three_icon);break;
+                default: bulletinGrade.setImageResource(R.drawable.grad_icon);break;
+            }
         }
         getContent();
 
@@ -107,14 +116,13 @@ public class BulletinActivity extends AppCompatActivity {
         slayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                listData.clear();
                 setChatData();
                 slayout.setRefreshing(false);
             }
         });
 
         title_tv.setText(title);
-        name_tv.setText(content);
+        name_tv.setText(name);
         info_tv.setText(date);
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -131,7 +139,11 @@ public class BulletinActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                chatSend.setImageResource(R.drawable.mdi_send);
+                if (chatEdit.getText().toString().equals("")){
+                    chatSend.setImageResource(R.drawable.ic_mdi_send_gray);
+                }else {
+                    chatSend.setImageResource(R.drawable.mdi_send);
+                }
             }
 
             @Override
@@ -142,6 +154,7 @@ public class BulletinActivity extends AppCompatActivity {
         chatSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (chatEdit.getText().toString().equals("")){
                     SweetAlertDialog sd = new SweetAlertDialog(BulletinActivity.this, SweetAlertDialog.ERROR_TYPE);
                     sd.setTitleText("음...");
@@ -150,6 +163,10 @@ public class BulletinActivity extends AppCompatActivity {
                     sd.findViewById(R.id.confirm_button).setBackgroundColor(ContextCompat.getColor( BulletinActivity.this, R.color.skyblue));
                     return;
                 }
+                pDialog.getProgressHelper().setBarColor(Color.parseColor("#41AFE5"));
+                pDialog.setTitleText("Loading...");
+                pDialog.setCancelable(false);
+                pDialog.show();
                 Data.setData(
                         new String[]{
                                 "idx",
@@ -166,6 +183,7 @@ public class BulletinActivity extends AppCompatActivity {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        pDialog.hide();
                         if (jt.jsonReturn().equals("success")) {
                             SweetAlertDialog sd = new SweetAlertDialog(BulletinActivity.this, SweetAlertDialog.SUCCESS_TYPE);
                             sd.setTitleText("성공!!");
@@ -173,9 +191,8 @@ public class BulletinActivity extends AppCompatActivity {
                             chatEdit.setText("");
                             sd.show();
                             sd.findViewById(R.id.confirm_button).setBackgroundColor(ContextCompat.getColor( BulletinActivity.this,R.color.skyblue));
-
-                            setChatData();
                         }else{
+                            pDialog.hide();
                             SweetAlertDialog sd = new SweetAlertDialog(BulletinActivity.this, SweetAlertDialog.ERROR_TYPE);
                             sd.setTitleText("오류 발생...");
                             sd.setContentText("잠시 후 다시 시도해 주세요!");
@@ -213,9 +230,16 @@ public class BulletinActivity extends AppCompatActivity {
                     String jsonRt = jt.jsonReturn();
                     JSONObject jo = new JSONObject(jsonRt);
                     markdownView.loadMarkdown(jo.getString("content"));
+                    info_tv.setText(info_tv.getText().toString()+" ・ 조회수 "+jo.getString("view_count"));
                     pDialog.hide();
                 } catch (JSONException e) {
                     pDialog.hide();
+                    SweetAlertDialog sd = new SweetAlertDialog(BulletinActivity.this, SweetAlertDialog.ERROR_TYPE);
+                    sd.setTitleText("서버 오류 발생...");
+                    sd.setContentText("문제가 생겼어요! 잠시만요..");
+                    sd.show();
+                    sd.findViewById(R.id.confirm_button).setBackgroundColor(ContextCompat.getColor( BulletinActivity.this, R.color.skyblue));
+
                     e.printStackTrace();
                 }
                 pDialog.hide();
@@ -224,8 +248,9 @@ public class BulletinActivity extends AppCompatActivity {
             }
         }, 500);
     }
-
     private void setChatData() {
+        adapter.clear();
+        listData.clear();
         Data.setData(
                 new String[]{
                         "idx"},
@@ -258,12 +283,17 @@ public class BulletinActivity extends AppCompatActivity {
                     pDialog.hide();
                 } catch (JSONException e) {
                     pDialog.hide();
+                    SweetAlertDialog sd = new SweetAlertDialog(BulletinActivity.this, SweetAlertDialog.ERROR_TYPE);
+                    sd.setTitleText("서버 오류 발생...");
+                    sd.setContentText("문제가 생겼어요! 잠시만요..");
+                    sd.show();
+                    sd.findViewById(R.id.confirm_button).setBackgroundColor(ContextCompat.getColor(BulletinActivity.this, R.color.skyblue));
+
                     e.printStackTrace();
                 }
             }
         }, 1000);
     }
-
     public void getData(){
         adapter = new ChatRecyclerViewAdapter();
         recyclerView.setAdapter(adapter);

@@ -24,6 +24,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 
 public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerViewAdapter.ItemViewHolder> {
     private static String[] strli;
@@ -59,7 +61,15 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
         // 외부에서 item을 추가시킬 함수입니다.
         listData.add(data);
     }
-
+    public void clear() {
+        int size = getItemCount();
+        listData.clear();
+        notifyItemRangeRemoved(0, size);
+    }
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
     // RecyclerView의 핵심인 ViewHolder 입니다.
     // 여기서 subView를 setting 해줍니다.
     class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -84,6 +94,15 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
                 case "3" :chatGrade.setImageResource(R.drawable.three_icon);break;
                 default: chatGrade.setImageResource(R.drawable.grad_icon);break;
             }
+//            chatThumb.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    SweetAlertDialog sd = new SweetAlertDialog(itemView.getContext(), SweetAlertDialog.ERROR_TYPE);
+//                    sd.setTitleText(strli[0]);
+//                    sd.setContentText(strli[3]);
+//                    sd.show();
+//                }
+//            });
         }
     }
     public class splashhandler implements Runnable {

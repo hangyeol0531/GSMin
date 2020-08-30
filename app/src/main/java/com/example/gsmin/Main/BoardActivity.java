@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -61,13 +62,14 @@ public class BoardActivity extends AppCompatActivity {
         back = findViewById(R.id.drawer_btn);
         search = findViewById(R.id.searchBtn);
         mainEdit = findViewById(R.id.mainEdit);
-        recyclerView = findViewById(R.id.recycler_main);
+        recyclerView = findViewById(R.id.recycler_main_board);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
         adapter = new HomeRecyclerViewAdapter();
         recyclerView.setAdapter(adapter);
+
 
         back.setBackgroundResource(R.drawable.arrow_back);
         gsmin.setVisibility(View.GONE);
@@ -92,6 +94,7 @@ public class BoardActivity extends AppCompatActivity {
         slayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                adapter.clear();
                 listData.clear();
                 getChannel();
                 mainEdit.setText("");
@@ -145,6 +148,7 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     private void getChannel() {
+        mainText.setText(channel);
         if (channel.equals("채용 공고")){
             Data.type = "GET";
             jt = new JSONTask();
@@ -165,11 +169,19 @@ public class BoardActivity extends AppCompatActivity {
                         findViewById(R.id.no_board_layout).setVisibility(View.GONE);
                         for (int i = 0; i < ja.length(); i++){
                             JSONObject jo = ja.getJSONObject(i);
-                            String[] a = new String[]{jo.getString("1"), jo.getString("2"), jo.getString("3"), "0", "0", "null"};
+                            String[] a = new String[]{jo.getString("1"), jo.getString("2"), jo.getString("3"), "0", "0", "null", "채용 공고"};
                             listData.add(i, a);
                         }
                         getData();
                     } catch (JSONException e) {
+                        pDialog.hide();
+
+                        SweetAlertDialog sd = new SweetAlertDialog(BoardActivity.this, SweetAlertDialog.ERROR_TYPE);
+                        sd.setTitleText("서버 오류 발생...");
+                        sd.setContentText("문제가 생겼어요! 잠시만요..");
+                        sd.show();
+                        sd.findViewById(R.id.confirm_button).setBackgroundColor(ContextCompat.getColor( BoardActivity.this, R.color.skyblue));
+
                         e.printStackTrace();
                     }
                     Data.type = "POST";
@@ -196,7 +208,6 @@ public class BoardActivity extends AppCompatActivity {
                     try {
                         if (jt.jsonReturn().equals("null")){
                             findViewById(R.id.no_board_layout).setVisibility(View.VISIBLE);
-                            mainText.setText(channel);
                             pDialog.hide();
                             return;
                         }
@@ -206,7 +217,7 @@ public class BoardActivity extends AppCompatActivity {
                         for (int i = 0; i < ja.length(); i++){
                             JSONObject jo = ja.getJSONObject(i);
                             String[] t = jo.getString("date").split("T");
-                            String[] a = new String[]{jo.getString("title"), jo.getString("email"), t[0], "0", "0", jo.getString("idx")};
+                            String[] a = new String[]{jo.getString("title"), jo.getString("nickname"), t[0], "0", "0", jo.getString("idx"), jo.getString("grade")};
                             listData.add(i, a);
                         }
                         mainText.setText(channel);
@@ -214,6 +225,11 @@ public class BoardActivity extends AppCompatActivity {
                         pDialog.hide();
                     } catch (JSONException e) {
                         pDialog.hide();
+                        SweetAlertDialog sd = new SweetAlertDialog(BoardActivity.this, SweetAlertDialog.ERROR_TYPE);
+                        sd.setTitleText("서버 오류 발생...");
+                        sd.setContentText("문제가 생겼어요! 잠시만요..");
+                        sd.show();
+                        sd.findViewById(R.id.confirm_button).setBackgroundColor(ContextCompat.getColor( BoardActivity.this, R.color.skyblue));
                         e.printStackTrace();
                     }
                 }
@@ -246,15 +262,16 @@ public class BoardActivity extends AppCompatActivity {
     public static void getData(){
         adapter = new HomeRecyclerViewAdapter();
         recyclerView.setAdapter(adapter);
+
         for (int i = 0; i < listData.size(); i++) {
             DB db = new DB();
             if (mainEdit.getText().toString().length() != 0){
                 if (isTextChange(listData.get(i)[0])){
-                    db.setBoardData(listData.get(i)[0], listData.get(i)[1], listData.get(i)[2], listData.get(i)[3], listData.get(i)[4], listData.get(i)[5]);
+                    db.setBoardData(listData.get(i)[0], listData.get(i)[1], listData.get(i)[2], listData.get(i)[3], listData.get(i)[4], listData.get(i)[5], listData.get(i)[6]);
                     adapter.addItem(db);
                 }
             }else{
-                db.setBoardData(listData.get(i)[0], listData.get(i)[1], listData.get(i)[2], listData.get(i)[3], listData.get(i)[4], listData.get(i)[5]);
+                db.setBoardData(listData.get(i)[0], listData.get(i)[1], listData.get(i)[2], listData.get(i)[3], listData.get(i)[4], listData.get(i)[5], listData.get(i)[6]);
                 adapter.addItem(db);
             }
         }

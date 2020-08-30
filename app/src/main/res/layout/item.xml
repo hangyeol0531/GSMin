@@ -17,6 +17,10 @@
             android:layout_width="0dp"
             android:layout_height="0dp"/>
         <TextView
+            android:id="@+id/boardGrade"
+            android:layout_width="0dp"
+            android:layout_height="0dp"/>
+        <TextView
             android:id="@+id/boardTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,10 +37,21 @@
                 android:layout_width="261dp"
                 android:layout_marginRight="45dp"
                 android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_gravity="center"
+                    android:id="@+id/boardGrade_image"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginRight="7dp"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/one_icon"/>
+
                 <TextView
                     android:id="@+id/boardName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:textColor="#000000"
                     android:maxLines="1"
                     android:maxWidth="100dp"
@@ -48,6 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:layout_gravity="center"
                     android:maxLines="1"
                     android:text="6초 전 ・ 조회수 1"
                     android:textColor="#424242"
@@ -59,6 +75,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
