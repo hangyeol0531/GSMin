@@ -79,6 +79,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/thumbImg"
                     android:layout_width="19dp"
                     android:layout_height="19dp"
                     android:background="@drawable/mdi_thumb_up" />
@@ -93,6 +94,7 @@
                     android:textStyle="bold" />
 
                 <ImageView
+                    android:id="@+id/msgImg"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="6dp"

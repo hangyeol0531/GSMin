@@ -41,12 +41,14 @@ public class BulletinActivity extends AppCompatActivity {
     private String title, grade;
     private String date, name;
     private static String idx;
+    private boolean isThumb;
     private TextView title_tv, name_tv, info_tv, chatCnt;
     private EditText chatEdit;
     private ImageView bulletinGrade;
-    private ImageButton heart, menu, back, chatSend;
+    private ImageButton heart, menu, back, chatSend, thumbsUp;
     SweetAlertDialog pDialog;
     MarkdownView markdownView;
+    private int likeCnt = 0, viewCnt = 0;
     private static ChatRecyclerViewAdapter adapter = new ChatRecyclerViewAdapter();
     private static ArrayList<String[]> listData = new ArrayList<>();
     private static RecyclerView recyclerView;
@@ -111,6 +113,40 @@ public class BulletinActivity extends AppCompatActivity {
             }
         }
         getContent();
+
+        heart.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Data.setData(
+                        new String[]{
+                                "Bulletin_idx",
+                                "email"},
+                        new String[]{
+                                idx,
+                                Data.UserEmail
+                        });
+                jt = new JSONTask();
+                jt.execute(Data.url + "/isgood");
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (jt.jsonReturn().equals("추가")) {
+                            heart.setBackgroundResource(R.drawable.ic_mdi_thumb_up);
+                            likeCnt += 1;
+                            isThumb = true;
+                        }else if (jt.jsonReturn().equals("삭제")) {
+                            heart.setBackgroundResource(R.drawable.mdi_thumb_up);
+                            likeCnt -= 1;
+                            isThumb = false;
+                        }
+                        info_tv.setText(date+" ・ 조회수 "+viewCnt+" ・ 좋아요 "+likeCnt+"개");
+                        return;
+                    }
+                }, 500);
+            }
+        });
 
         final SwipeRefreshLayout slayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         slayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -230,7 +266,9 @@ public class BulletinActivity extends AppCompatActivity {
                     String jsonRt = jt.jsonReturn();
                     JSONObject jo = new JSONObject(jsonRt);
                     markdownView.loadMarkdown(jo.getString("content"));
-                    info_tv.setText(info_tv.getText().toString()+" ・ 조회수 "+jo.getString("view_count"));
+                    likeCnt = Integer.parseInt(jo.getString("good_count"));
+                    viewCnt = Integer.parseInt(jo.getString("view_count"));
+                    info_tv.setText(date+" ・ 조회수 "+jo.getString("view_count")+" ・ 좋아요 "+jo.getString("good_count")+"개");
                     pDialog.hide();
                 } catch (JSONException e) {
                     pDialog.hide();
@@ -239,7 +277,6 @@ public class BulletinActivity extends AppCompatActivity {
                     sd.setContentText("문제가 생겼어요! 잠시만요..");
                     sd.show();
                     sd.findViewById(R.id.confirm_button).setBackgroundColor(ContextCompat.getColor( BulletinActivity.this, R.color.skyblue));
-
                     e.printStackTrace();
                 }
                 pDialog.hide();
@@ -251,6 +288,11 @@ public class BulletinActivity extends AppCompatActivity {
     private void setChatData() {
         adapter.clear();
         listData.clear();
+        if(idx.equals("null")){
+            chatCnt.setText("댓글 0개");
+            pDialog.hide();
+            return;
+        }
         Data.setData(
                 new String[]{
                         "idx"},
@@ -288,11 +330,36 @@ public class BulletinActivity extends AppCompatActivity {
                     sd.setContentText("문제가 생겼어요! 잠시만요..");
                     sd.show();
                     sd.findViewById(R.id.confirm_button).setBackgroundColor(ContextCompat.getColor(BulletinActivity.this, R.color.skyblue));
-
                     e.printStackTrace();
                 }
+                Data.setData(
+                        new String[]{
+                                "Bulletin_idx",
+                                "email"},
+                        new String[]{
+                                idx,
+                                Data.UserEmail
+                        });
+                jt = new JSONTask();
+                jt.execute(Data.url + "/isgoodCheck");
             }
         }, 1000);
+        handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.d("BullutinActivityigCheck", "run: "+jt.jsonReturn());
+                if (jt.jsonReturn().equals("1")) {
+                    heart.setBackgroundResource(R.drawable.ic_mdi_thumb_up);
+                    isThumb = true;
+                    return;
+                }else{
+                    isThumb = false;
+                    heart.setBackgroundResource(R.drawable.mdi_thumb_up);
+                    return;
+                }
+            }
+        }, 1250);
     }
     public void getData(){
         adapter = new ChatRecyclerViewAdapter();

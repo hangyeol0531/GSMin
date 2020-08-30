@@ -35,7 +35,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.ItemViewHolder> {
     private static String[] strli;
-    private static ImageView boardGrade_image;
+    private static ImageView boardGrade_image, boardThumbImg, boardMsgImg;
     private static TextView boardName, boardTitle, boardInfo, boardThumb, boardMsg, boardIdx, boardGrade;
     public static String jsonResult = "";
     // adapter에 들어갈 list 입니다.
@@ -88,6 +88,8 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
             boardInfo = itemView.findViewById(R.id.boardInfo);
             boardThumb = itemView.findViewById(R.id.t_cnt_1);
             boardMsg = itemView.findViewById(R.id.c_cnt_1);
+            boardThumbImg = itemView.findViewById(R.id.thumbImg);
+            boardMsgImg = itemView.findViewById(R.id.msgImg);
             boardIdx = itemView.findViewById(R.id.boardIdx);
             boardGrade = itemView.findViewById(R.id.boardGrade);
             boardGrade_image = itemView.findViewById(R.id.boardGrade_image);
@@ -106,15 +108,44 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
                     title = boardTitle.getText().toString(),
                     name = boardName.getText().toString(),
                     info = boardInfo.getText().toString(),
+                    thumb = boardThumb.getText().toString(),
+                    msg = boardMsg.getText().toString(),
                     idx = boardIdx.getText().toString(),
                     grade = boardGrade.getText().toString();
-            switch (grade){
-                case "1" : boardGrade_image.setImageResource(R.drawable.one_icon);break;
-                case "2" :boardGrade_image.setImageResource(R.drawable.two_icon);break;
-                case "3" :boardGrade_image.setImageResource(R.drawable.three_icon);break;
-                default: boardGrade_image.setImageResource(R.drawable.grad_icon);break;
+            if (thumb.equals("0")){
+                boardThumb.setVisibility(View.GONE);
+                boardThumbImg.setVisibility(View.GONE);
+            }else {
+                boardThumb.setVisibility(View.VISIBLE);
+                boardThumbImg.setVisibility(View.VISIBLE);
+            }
+            if (msg.equals("0")){
+                boardMsg.setVisibility(View.GONE);
+                boardMsgImg.setVisibility(View.GONE);
+            }else{
+                boardMsg.setVisibility(View.VISIBLE);
+                boardMsgImg.setVisibility(View.VISIBLE);
             }
 
+            if (BoardActivity.channel.equals("채용 공고")){
+                boardGrade_image.setVisibility(View.GONE);
+            }else {
+                boardGrade_image.setVisibility(View.VISIBLE);
+                switch (grade) {
+                    case "1":
+                        boardGrade_image.setImageResource(R.drawable.one_icon);
+                        break;
+                    case "2":
+                        boardGrade_image.setImageResource(R.drawable.two_icon);
+                        break;
+                    case "3":
+                        boardGrade_image.setImageResource(R.drawable.three_icon);
+                        break;
+                    default:
+                        boardGrade_image.setImageResource(R.drawable.grad_icon);
+                        break;
+                }
+            }
             mLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

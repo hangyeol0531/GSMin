@@ -1,6 +1,10 @@
 package com.example.gsmin.Fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +14,38 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.gsmin.Adapter.ChatRecyclerViewAdapter;
+import com.example.gsmin.Adapter.HomeRecyclerViewAdapter;
+import com.example.gsmin.Json.JSONTask;
+import com.example.gsmin.Main.BulletinActivity;
+import com.example.gsmin.Main.MainActivity;
+import com.example.gsmin.Model.DB;
+import com.example.gsmin.Model.Data;
 import com.example.gsmin.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class MyChatFragment extends Fragment {
+
+    private static RecyclerView recyclerViewChat;
+    private static ArrayList<String[]> listData = new ArrayList<>();
+    private static ChatRecyclerViewAdapter adapterChat  = new ChatRecyclerViewAdapter();
+    static SweetAlertDialog pDialog;
+
+    static JSONTask jt;
+    static View view;
 
     private LinearLayout notice_lay;
     private ImageView gsmin;
@@ -25,13 +56,128 @@ public class MyChatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_mychat, container, false);
+        view = inflater.inflate(R.layout.fragment_mychat, container, false);
 //        init(view);
 
+        recyclerViewChat = view.findViewById(R.id.recycler_main_chat);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
+        recyclerViewChat.setLayoutManager(linearLayoutManager);
 
+        adapterChat = new ChatRecyclerViewAdapter();
+        recyclerViewChat.setAdapter(adapterChat);
+
+        listData = new ArrayList<>();
+        pDialog = new SweetAlertDialog(view.getContext(), SweetAlertDialog.PROGRESS_TYPE);
+
+        final SwipeRefreshLayout slayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
+        slayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getMyChat();
+                slayout.setRefreshing(false);
+            }
+        });
+
+        MainActivity.mainEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                getDataChat();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         return view;
     }
+
+    public static void getDataChat(){
+        adapterChat = new ChatRecyclerViewAdapter();
+        recyclerViewChat.setAdapter(adapterChat);
+
+        for (int i = 0; i < listData.size(); i++) {
+            DB db = new DB();
+            if (MainActivity.mainEdit.getText().toString().length() != 0){
+                if (isTextChange(listData.get(i)[3])){
+                    db.setChatData(listData.get(i)[0], listData.get(i)[1], listData.get(i)[2], listData.get(i)[3], listData.get(i)[4]);
+                    adapterChat.addItem(db);
+                }
+            }else{
+                db.setChatData(listData.get(i)[0], listData.get(i)[1], listData.get(i)[2], listData.get(i)[3], listData.get(i)[4]);
+                adapterChat.addItem(db);
+            }
+        }
+        adapterChat.notifyDataSetChanged();
+        Log.d("MyChatFragment", "getData: Adapter");
+    }
+
+    public static void getMyChat(){
+        adapterChat.clear();
+        listData.clear();
+        Data.setData(
+                new String[]{
+                        "page_num",
+                        "email",
+                        "b_c"},
+                new String[]{
+                        "1",
+                        Data.UserEmail,
+                        "c"
+                });
+        jt = new JSONTask();
+        jt.execute(Data.url + "/get_my_list");
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (jt.jsonReturn().equals("null")){
+                        view.findViewById(R.id.no_board_layout).setVisibility(View.VISIBLE);
+                        pDialog.hide();
+                        return;
+                    }
+                    String jsonRt = jt.jsonReturn();
+                    JSONArray ja = new JSONArray(jsonRt);
+                    for (int i = 0; i < ja.length(); i++){
+                        JSONObject jo = ja.getJSONObject(i);
+                        String[] t = jo.getString("date").split("T");
+                        Log.d("BulletingActivity", "run: "+jo.getString("comment"));
+                        String[] a = new String[]{Data.UserName, t[0], "0", jo.getString("comment"), String.valueOf(Data.UserGrade)};
+                        listData.add(i, a);
+                    }
+                    getDataChat();
+                    pDialog.hide();
+                } catch (JSONException e) {
+                    pDialog.hide();
+                    SweetAlertDialog sd = new SweetAlertDialog(view.getContext(), SweetAlertDialog.ERROR_TYPE);
+                    sd.setTitleText("서버 오류 발생...");
+                    sd.setContentText("문제가 생겼어요! 잠시만요..");
+                    sd.show();
+                    sd.findViewById(R.id.confirm_button).setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.skyblue));
+
+                    e.printStackTrace();
+                }
+            }
+        }, 500);
+    }
+
+    private static boolean isTextChange(String gdata) {
+        if (!gdata.contains( MainActivity.mainEdit.getText().toString() )) {
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+
+
 
     private void init(View v) {
         nameChange = v.findViewById(R.id.nameChange);

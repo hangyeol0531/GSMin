@@ -70,7 +70,6 @@ public class BoardActivity extends AppCompatActivity {
         adapter = new HomeRecyclerViewAdapter();
         recyclerView.setAdapter(adapter);
 
-
         back.setBackgroundResource(R.drawable.arrow_back);
         gsmin.setVisibility(View.GONE);
 
@@ -173,6 +172,7 @@ public class BoardActivity extends AppCompatActivity {
                             listData.add(i, a);
                         }
                         getData();
+
                     } catch (JSONException e) {
                         pDialog.hide();
 
@@ -217,7 +217,7 @@ public class BoardActivity extends AppCompatActivity {
                         for (int i = 0; i < ja.length(); i++){
                             JSONObject jo = ja.getJSONObject(i);
                             String[] t = jo.getString("date").split("T");
-                            String[] a = new String[]{jo.getString("title"), jo.getString("nickname"), t[0], "0", "0", jo.getString("idx"), jo.getString("grade")};
+                            String[] a = new String[]{jo.getString("title"), jo.getString("nickname"), t[0], jo.getString("good_count"), jo.getString("comment_count"), jo.getString("idx"), jo.getString("grade")};
                             listData.add(i, a);
                         }
                         mainText.setText(channel);

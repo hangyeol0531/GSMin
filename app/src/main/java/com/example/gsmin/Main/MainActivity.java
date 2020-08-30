@@ -31,11 +31,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.gsmin.Adapter.HomeRecyclerViewAdapter;
 import com.example.gsmin.Adapter.ViewPagerAdapter;
 //import com.example.gsmin.Fragment.HomeFragment;
 import com.example.gsmin.Fragment.HomeFragment;
@@ -43,16 +47,25 @@ import com.example.gsmin.Fragment.MyChatFragment;
 import com.example.gsmin.Fragment.MyWriteFragment;
 import com.example.gsmin.Fragment.NoticeFragment;
 import com.example.gsmin.Fragment.SettingFragment;
+import com.example.gsmin.Json.JSONTask;
+import com.example.gsmin.Model.DB;
 import com.example.gsmin.Model.Data;
 import com.example.gsmin.R;
 import com.example.gsmin.Splash.SplashActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.concurrent.BlockingDeque;
 
-public class MainActivity extends AppCompatActivity {
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
+public class MainActivity extends AppCompatActivity {
+    private static ArrayList<String[]> listData = new ArrayList<>();
 
     private FragmentManager fragmentManager = getSupportFragmentManager();
     public static HomeFragment homeFragment;
@@ -72,7 +85,13 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton drawwr_btn, search, menu;
     private ImageView navImg;
     private boolean mSlideState = false, searchActivity= true;
-    private EditText mainEdit;
+    public static EditText mainEdit;
+    JSONTask jt;
+    static SweetAlertDialog pDialog;
+
+    private static RecyclerView recyclerViewWrite;
+    private static HomeRecyclerViewAdapter adapterWrite  = new HomeRecyclerViewAdapter();
+
 
     @SuppressLint("ResourceType")
     @Override
@@ -90,6 +109,17 @@ public class MainActivity extends AppCompatActivity {
         navName = hView.findViewById(R.id.navName);
         navEmail = hView.findViewById(R.id.navEmail);
 //        navigationView.setLayoutParams(new NavigationView.LayoutParams(getResources().getDisplayMetrics().widthPixels/2, NavigationView.LayoutParams.FILL_PARENT));
+
+//        recyclerViewWrite = findViewById(R.id.recycler_main_write);
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+//        recyclerViewWrite.setLayoutManager(linearLayoutManager);
+//
+//        adapterWrite = new HomeRecyclerViewAdapter();
+//        recyclerViewWrite.setAdapter(adapterWrite);
+//
+//        listData = new ArrayList<>();
+        pDialog = new SweetAlertDialog(getApplicationContext(), SweetAlertDialog.PROGRESS_TYPE);
+
 
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         final NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
@@ -263,12 +293,14 @@ public class MainActivity extends AppCompatActivity {
                         MainActivity.gsmin.setVisibility(View.GONE);
                         MainActivity.mainText.setVisibility(View.VISIBLE);
                         MainActivity.mainText.setText("내가 쓴 글");
+                        MyWriteFragment.getMyWrite();
                         break;
                     case 3:
                         menu.setVisibility(View.VISIBLE);
                         MainActivity.gsmin.setVisibility(View.GONE);
                         MainActivity.mainText.setVisibility(View.VISIBLE);
                         MainActivity.mainText.setText("내가 쓴 댓글");
+                        MyChatFragment.getMyChat();
                         break;
                     case 4:
                         menu.setVisibility(View.GONE);
@@ -294,6 +326,13 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager(viewPager);
     }
 
+    private static boolean isTextChange(String gdata) {
+        if (!gdata.contains( mainEdit.getText().toString() )) {
+            return false;
+        }else{
+            return true;
+        }
+    }
     private void isTextChange() {
         for(int j = 0; j < HomeFragment.TV_LEN; j++) {
             final int finalI = j;
