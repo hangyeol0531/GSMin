@@ -98,9 +98,7 @@ app.post('/insert_user_information', (req,res) =>{
 app.post('/get_board_information', (req,res) => {
     board_func.get_board_information(req,res);
 })
-app.post('/get_all_board_information', (req,res) => {
-    board_func.get_all_board_information(req,res);
-})
+
 app.post('/get_comment_information', (req, res) =>{
     board_func.get_comment_information(req,res);
 })
