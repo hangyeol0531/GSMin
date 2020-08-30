@@ -222,32 +222,38 @@ exports.isgoodCheck = async (req ,res) => {
     })
 }
 
-exports.isgood = async (req ,res) => { 
-    console.log(`isgood 접속 ${req.body.Bulletin_idx, req.body.email}`);
-    var sql = "insert into good_board(user_email, Bulletin_idx) VALUES(?, ?)";
-    await db.query(sql, [req.body.email, req.body.Bulletin_idx],(err, rows) =>{
-        if(err){
-            console.log(err);
-            res.end(config.failed);
-        }else{
-            res.end(config.success)
+exports.isgood = async (req ,res) => {
+    let check_Code = 0;
+    let sql = `SELECT * FROM good_board WHERE Bulletin_idx = "${req.body.Bulletin_idx}" AND user_email = "${req.body.email}";`
+    await db.query(sql, async (err, rows) =>{
+        console.log(rows);
+        if(rows.length == 0) check_Code = 0;
+        else check_Code = 1;
+        
+        if(check_Code == 0){
+            console.log(`isgood 접속 ${req.body.Bulletin_idx, req.body.email}`);
+            sql = "insert into good_board(user_email, Bulletin_idx) VALUES(?, ?)";
+            await db.query(sql, [req.body.email, req.body.Bulletin_idx],(err, rows) =>{
+                if(err){
+                    console.log(err);
+                    res.end(config.failed);
+                }else{
+                    res.end(config.success)
+                }
+            })
+        }else if(check_Code == 1){
+            sql = `DELETE FROM good_board where Bulletin_idx = ${req.body.Bulletin_idx} AND user_email = ${ req.body.email};`;
+            await db.query(sql, (err, rows) =>{
+                if(err){
+                    console.log(err);
+                    res.end(config.failed);
+                }else{
+                    res.end(config.success)
+                }
+            })
         }
-    })
-}
+    })}
 
-exports.iungood = async (req ,res) => { 
-
-    console.log(req.body.Bulletin_idx, req.body.email)
-    var sql = `DELETE FROM good_board where Bulletin_idx = ${req.body.Bulletin_idx} AND user_email = ${ req.body.email};`;
-    await db.query(sql, (err, rows) =>{
-        if(err){
-            console.log(err);
-            res.end(config.failed);
-        }else{
-            res.end(config.success)
-        }
-    })
-}
 
 exports.isgood_num = async (req ,res) => { 
     console.log(req.body.Bulletin_idx)
