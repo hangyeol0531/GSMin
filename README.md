@@ -45,12 +45,4 @@ npm run serve
 
 ## 웹 사이트 스크린샷
 
-<img src="C:\Users\user\Desktop\gsmin\student.PNG"  />
-
-<img src="C:\Users\user\Desktop\gsmin\통계.PNG" style="zoom:75%;" />
-
-<img src="C:\Users\user\Desktop\gsmin\채용 공고.PNG" style="zoom:75%;" />
-
-<img src="C:\Users\user\Desktop\gsmin\게시글 전체.PNG" style="zoom:75%;" />
-
-<img src="C:\Users\user\Desktop\gsmin\게시글 본문.PNG" style="zoom:75%;" />
+![student](C:\Users\user\Desktop\gsmin\student.PNG)
