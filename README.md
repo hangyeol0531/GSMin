@@ -46,3 +46,5 @@ npm run serve
 ## 웹 사이트 스크린샷
 
 ![student](C:\Users\user\Desktop\gsmin\student.PNG)
+
+![](C:\Users\user\Desktop\gsmin\student.PNG)
