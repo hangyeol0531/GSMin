@@ -38,6 +38,7 @@ npm run serve
 - #### 📈 졸업생, 재학생 취업 데이터
 
   - 졸업생과 재학생(3학년)의 취업률, 평균 연봉, 입사한 기업의 규모등을 통계 또는 차트로 보여줍니다.
+  - 기업체의 채용 공고 스프레드시트 데이터를 사용하여 깔끔하게 보여줍니다.
 
 * #### 📫 졸업생, 재학생간의 소통활동
 
@@ -45,6 +46,12 @@ npm run serve
 
 ## 웹 사이트 스크린샷
 
-![student](C:\Users\user\Desktop\gsmin\student.PNG)
+<img src="https://github.com/hangyeol0531/GSMin/blob/GSMin_Web/README/student.PNG?raw=true" width="100%"/>
 
-![](C:\Users\user\Desktop\gsmin\student.PNG)
+<img src="https://github.com/hangyeol0531/GSMin/blob/GSMin_Web/README/%ED%86%B5%EA%B3%84.PNG?raw=true" width="100%"/>
+
+![](https://github.com/hangyeol0531/GSMin/blob/GSMin_Web/README/%EC%B1%84%EC%9A%A9%20%EA%B3%B5%EA%B3%A0.PNG?raw=true)
+
+![](https://github.com/hangyeol0531/GSMin/blob/GSMin_Web/README/%EA%B2%8C%EC%8B%9C%EA%B8%80%20%EC%A0%84%EC%B2%B4.PNG?raw=true)
+
+![](https://github.com/hangyeol0531/GSMin/blob/GSMin_Web/README/%EA%B2%8C%EC%8B%9C%EA%B8%80%20%EB%B3%B8%EB%AC%B8.PNG?raw=true)
