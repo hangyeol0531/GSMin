@@ -1,0 +1,19 @@
+{
+  "name": "gsmin",
+  "version": "1.0.0",
+  "description": "광주소프트웨어마이스터고등학교 커뮤니티앱 GSMin(App & Web)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hangyeol0531/GSMin.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hangyeol0531/GSMin/issues"
+  },
+  "homepage": "https://github.com/hangyeol0531/GSMin#readme"
+}
