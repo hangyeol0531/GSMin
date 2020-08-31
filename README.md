@@ -45,6 +45,12 @@ npm run serve
 
 ## 웹 사이트 스크린샷
 
-![image-20200831171252069](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20200831171252069.png)
+<img src="C:\Users\user\Desktop\gsmin\학생 인증.PNG" style="zoom:75%;" />
 
-<img src="C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20200831171317825.png" alt="image-20200831171317825" style="zoom:50%;" />
+<img src="C:\Users\user\Desktop\gsmin\통계.PNG" style="zoom:75%;" />
+
+<img src="C:\Users\user\Desktop\gsmin\채용 공고.PNG" style="zoom:75%;" />
+
+<img src="C:\Users\user\Desktop\gsmin\게시글 전체.PNG" style="zoom:75%;" />
+
+<img src="C:\Users\user\Desktop\gsmin\게시글 본문.PNG" style="zoom:75%;" />
