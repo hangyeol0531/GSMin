@@ -45,7 +45,7 @@ npm run serve
 
 ## 웹 사이트 스크린샷
 
-<img src="C:\Users\user\Desktop\gsmin\학생 인증.PNG"  />
+<img src="C:\Users\user\Desktop\gsmin\student.PNG"  />
 
 <img src="C:\Users\user\Desktop\gsmin\통계.PNG" style="zoom:75%;" />
 
