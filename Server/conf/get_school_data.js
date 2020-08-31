@@ -32,7 +32,8 @@ exports.gsmschoolfood = async (req, res) =>{
 exports.gsm_hire_list = async (req,res) =>{
     const job_list = await axios.get('https://sheet.best/api/sheets/a954e6a3-0e4f-48a6-8a20-234ff289fffd');
     const spread_list = job_list[6]
-    res.end(JSON.stringify(job_list.data.slice(6, -1)));
+    console.log(job_list.data)
+    res.end(JSON.stringify(job_list.data.slice(6)));
     // var data = fs.readFileSync('../emplist','utf-8');   //!임시
     // res.end(data) //!임시
 }
