@@ -58,7 +58,7 @@
                           2900
                           <div class="font-weight-bold headline mt-5">만원</div>
                         </v-card-title>
-                        <v-card-text class="grey--text caption" align="left">{{getJobNum}}</v-card-text>
+                        <v-card-text class="grey--text caption" align="left">1기 72명 중 59명</v-card-text>
                       </v-card>
                     </v-col>
                   </v-row>
@@ -79,9 +79,6 @@
                       </v-card>
                     </v-col>
                     <v-col class="ml-6 mr-4">
-                      <v-card outlined>
-                        <v-card-title class="font-weight-black title">근무지</v-card-title>
-                      </v-card>
                     </v-col>
                   </v-row>
                 </v-card>
@@ -104,10 +101,10 @@ export default {
   data() {
     return {
       meal_section: `조식`,
-      graduatePercent: "75",
+      graduatePercent: "81.94",
       enrolledPercent: "",
       getJobNum: "",
-      getJobText: "1기 76명 중 50명",
+      getJobText: "1기 72명 중 59명",
       datacollection: null,
     };
   },
@@ -150,12 +147,11 @@ export default {
     fillData() {
       this.datacollection = {
         labels: [
-          "공기업 공공기관",
           "공무원",
+          "공기업",
           "그룹 및 200인 이상",
           "20인 이상 200인 이하",
           "20인 이하",
-          "기타",
         ],
         datasets: [
           {
@@ -164,12 +160,11 @@ export default {
             hoverBackgroundColor: "#2980b9",
             backgroundColor: "#41AFE5",
             data: [
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
+              2,
+              2,
+              3,
+              8,
+              44,
             ],
           },
         ],

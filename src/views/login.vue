@@ -41,9 +41,11 @@
                           required
                         ></v-text-field>
                       </ValidationProvider>
-                      <v-btn color="#41AFE5" rounded block dark x-large @click="submit">
-                        <strong class="title">로그인</strong>
-                      </v-btn>
+                      <v-card-title>
+                        <v-btn color="#41AFE5" rounded block dark x-large @click="submit">
+                          <strong class="title">로그인</strong>
+                        </v-btn>
+                      </v-card-title>
                     </form>
                   </ValidationObserver>
                 </v-card-text>
@@ -106,8 +108,8 @@ export default {
     submit() {
       this.$refs.login_ob.validate().then((valid) => {
         if (valid) {
-          let email = this.email
-          let pw = this.password
+          let email = this.email;
+          let pw = this.password;
 
           this.$store.dispatch("auth/login", { email, pw });
         }

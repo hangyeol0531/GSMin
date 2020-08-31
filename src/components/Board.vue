@@ -170,10 +170,11 @@ export default {
   methods: {
     searchBoard(page) {
       console.log("currP", page);
+      console.log(this.category)
       this.$http
         .post("/get_board_information", {
-          page_num: page,
-          type: "전체"
+          page_num: 1,
+          type: this.category
         })
         .then((res) => {
           this.listData = res.data;
@@ -182,7 +183,7 @@ export default {
         })
         .catch((e) => {
           swal("이런!", "게시판이 비어 있습니다", "error");
-        });
+        });     
     },
 
     eachBoard(postIdx) {

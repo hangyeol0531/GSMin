@@ -169,7 +169,7 @@ export default {
     searchBoard(page) {
       console.log("currP", page);
       this.$http
-        .post("/get_all_board_information", {
+        .post("/gsm_hire_list", {
           page_num: page,
         })
         .then((res) => {
@@ -178,7 +178,7 @@ export default {
           this.calData = this.listData;
         })
         .catch((e) => {
-          swal("이런!", "게시판이 비어 있습니다", "error");
+          // swal("이런!", "게시판이 비어 있습니다", "error");
         });
     },
 
