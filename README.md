@@ -8,13 +8,13 @@
 - JsonTask
 - Android API
 
-## 코드 컨벤션
+## APK 설치 방법
 
-Airbnb JS Style Guide를 따릅니다. https://github.com/airbnb/javascript IDE 에서 prettier 켜주세요.
+QR코드와 구글 드라이브를 이용함
 
-## 설치 방법
+​	![gsmin_qr](C:\dev\GSMin\app\release\gsmin_qr.jpg)
 
-
+# 기능
 
 ### 1. SplashActivity
 
