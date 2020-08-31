@@ -227,7 +227,7 @@
                         android:textSize="@dimen/frag_main_font"
                         android:layout_weight="1"
                         android:textColor="#000000"
-                        android:text="장터"
+                        android:text="꿀팁"
                         />
                     <ImageButton
                         android:id="@+id/b6"

@@ -44,7 +44,6 @@ public class SplashActivity extends Activity {
             String email = userLogin.getString("email","");
             String pw = userLogin.getString("pw","");
             if (!email.equals("") && !pw.equals("")){
-
                 Login l = new Login();
                 l.login_user(email, pw);
 

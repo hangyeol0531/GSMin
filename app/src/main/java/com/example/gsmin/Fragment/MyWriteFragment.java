@@ -147,7 +147,7 @@ public class MyWriteFragment extends Fragment {
                     for (int i = 0; i < ja.length(); i++){
                         JSONObject jo = ja.getJSONObject(i);
                         String[] t = jo.getString("date").split("T");
-                        String[] a = new String[]{jo.getString("title"), Data.UserName, t[0], "0", "0", jo.getString("idx"), String.valueOf(Data.UserGrade)};
+                        String[] a = new String[]{jo.getString("title"), Data.UserName, t[0], jo.getString("good_count"), jo.getString("comment_count"), jo.getString("idx"), String.valueOf(Data.UserGrade)};
                         listData.add(i, a);
                     }
                     getDataWrite();

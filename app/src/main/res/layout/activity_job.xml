@@ -54,7 +54,7 @@
                             android:id="@+id/job_grade_rate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="70%"
+                            android:text="81.94%"
                             android:layout_marginTop="10dp"
                             android:textColor="#025F94"
                             android:textStyle="bold"

@@ -119,23 +119,26 @@ public class WriteActivity extends AppCompatActivity {
                     public void run() {
                         if(jt.jsonReturn().equals("success")){
                             pDialog.hide();
-                            new SweetAlertDialog(ct, SweetAlertDialog.SUCCESS_TYPE)
-                                    .setTitleText("굿..!")
-                                    .setContentText("글쓰기 성공!!")
-                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                        @Override
-                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                            startActivity(new Intent(getApplication(), BoardActivity.class));
-                                            WriteActivity.this.finish();
-                                        }
-                                    })
-                                    .show();
+
+                            SweetAlertDialog sd = new SweetAlertDialog(ct, SweetAlertDialog.SUCCESS_TYPE);
+                            sd.setTitleText("굿..!");
+                            sd.setContentText("글쓰기 성공!!");
+                            sd.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    startActivity(new Intent(getApplication(), BoardActivity.class));
+                                    WriteActivity.this.finish();
+                                }
+                            });
+                            sd.findViewById(R.id.confirm_button).setBackgroundColor(ContextCompat.getColor( ct, R.color.skyblue));
+                            sd.show();
                         } else {
                             pDialog.hide();
-                            new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE)
-                                    .setTitleText("이런...")
-                                    .setContentText("글쓰기 실패!!")
-                                    .show();
+                            SweetAlertDialog sd = new SweetAlertDialog(ct, SweetAlertDialog.ERROR_TYPE);
+                            sd.setTitleText("이런...");
+                            sd.setContentText("글쓰기 실패!!");
+                            sd.show();
+                            sd.findViewById(R.id.confirm_button).setBackgroundColor(ContextCompat.getColor( ct, R.color.skyblue));
                         }
                     }
                 }, 1000);
