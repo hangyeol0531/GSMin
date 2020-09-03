@@ -1,14 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../components/Home";
-import hireList from '../components/hireList'
-import Board from "../components/Board";
-import subBoard from '../components/subBoard'
-import eachBoard from '../components/eachBoard'
-import myBoard from '../components/myBoard'
-import Write from "../components/Write";
-import Viewer from "../components/Viewer";
-import Setting from "../components/Setting";
 import { store } from "../store";
 
 Vue.use(VueRouter);
@@ -40,56 +31,50 @@ const routes = [
   {
     path: "/home",
     name: "Home",
-    component: Home,
+    component: () => import("../views/Home.vue"),
     beforeEnter: isAuthenticated
   },
   {
     path: "/hireList",
     name: "hireList",
-    component : hireList,
+    component: () => import("../views/hireList.vue"),
     beforeEnter: isAuthenticated
   },
   {
     path: "/board",
     name: "Board",
-    component: Board,
+    component: () => import("../views/Board.vue"),
     beforeEnter: isAuthenticated
   },
   {
     path: "/subBoard",
     name: "subBoard",
-    component: subBoard,
+    component: () => import("../views/subBoard.vue"),
     props: true,
     beforeEnter: isAuthenticated
   },
   {
     path: "/eachBoard",
     name: "eachBaord",
-    component: eachBoard,
+    component: () => import("../views/eachBaord.vue"),
     beforeEnter: isAuthenticated
   },
   {
     path: "/myBoard",
     name: "myBoard",
-    component: myBoard,
+    component: () => import("../views/myBoard.vue"),
     beforeEnter: isAuthenticated
   },
   {
     path: "/write",
     name: "Write",
-    component: Write,
-    beforeEnter: isAuthenticated
-  },
-  {
-    path: "/viewer",
-    name: "Viewer",
-    component: Viewer,
+    component: () => import("../views/Write.vue"),
     beforeEnter: isAuthenticated
   },
   {
     path: "/setting",
     name: "Setting",
-    component: Setting,
+    component: () => import("../views/Setting.vue"),
     beforeEnter: isAuthenticated
   },
   {

@@ -117,8 +117,6 @@ extend("required", {
 export default {
   data() {
     return {
-      text: 5,
-      riple: 35,
       mainItems: [
         { text: "일반", value: "일반" },
         { text: "학년", value: "학년" },
@@ -147,13 +145,7 @@ export default {
         },
       ],
       title: "",
-      dataPerPage: 10,
-      curPageNum: 1,
-      search: "",
-      category: "",
-      resText: "게시판이 비어있어요",
       editorText: "",
-      company: "마이다스아이티",
     };
   },
 
@@ -182,7 +174,7 @@ export default {
               router.push({ name: "Board" });
             })
             .catch((e) => {
-              console.log(e);
+              alert(e)
             });
         }
       });
@@ -202,8 +194,6 @@ export default {
       this.content = this.$refs.editorText.invoke("getMarkdown");
     },
   },
-
-  computed: {},
 };
 </script>
 

@@ -139,12 +139,10 @@ export default {
         type: this.$route.query.name,
       })
       .then((res) => {
-        this.listData = res.data;
         this.resBoard = true;
-        this.calData = this.listData
+        this.calData = res.data;
       })
       .catch((e) => {
-        console.log(e);
         this.resBoard = false;
       });
 
@@ -165,9 +163,8 @@ export default {
           type: this.$route.query.name,
         })
         .then((res) => {
-          this.listData = res.data;
           this.resBoard = true;
-          this.calData = this.listData
+          this.calData = res.data;
         })
         .catch((e) => {
           swal("이런!", "게시판이 비어 있습니다", "error");
@@ -189,7 +186,6 @@ export default {
   watch: {
     categorySelect: function (value) {
       this.category = value.value;
-      console.log(this.category);
     },
     curPageNum: function (page) {
       this.searchBoard(page);

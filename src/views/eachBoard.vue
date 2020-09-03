@@ -191,14 +191,10 @@ export default {
       curPageNum: 1,
       search: "",
       category: "",
-      resText: "게시판이 비어있어요",
-      editorText: "",
-      content: null,
-      company: "마이다스아이티",
       email: "",
       date: "",
       boardInfo: [],
-      viewCount: 12,
+      viewCount: '',
       likeCount: "",
       rippleInfo: [],
       rippleCount: "",
@@ -239,7 +235,6 @@ export default {
         idx: this.$route.query.postIdx,
       })
       .then((response) => {
-        console.log(response.data);
         this.rippleCount = response.data.length;
         this.rippleInfo = response.data;
       });
@@ -257,7 +252,7 @@ export default {
         }
       })
       .catch((e) => {
-        console.log(e);
+        alert(e)
       });
   },
 
@@ -268,11 +263,10 @@ export default {
           email,
         })
         .then((response) => {
-          console.log(response.data);
           this.boardInfo = response.data;
         })
         .catch((e) => {
-          console.log(e);
+          alert(e)
         });
     },
     postRipple() {
@@ -283,12 +277,11 @@ export default {
           comment: this.rippleContent,
         })
         .then((response) => {
-          console.log(response.data);
           this.rippleContent = "";
           window.history.go();
         })
         .catch((e) => {
-          console.log(e);
+          alert(e)
         });
     },
     likeBtn() {
@@ -306,7 +299,7 @@ export default {
             : (this.likeCount -= 1);
         })
         .catch((e) => {
-          console.log(e);
+          alert(e)
         });
     },
   },

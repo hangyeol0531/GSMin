@@ -102,8 +102,6 @@ export default {
 
   data() {
     return {
-      text: 5,
-      riple: 35,
       categoryItems: [
         { text: "자유", value: "자유" },
         { text: "질문", value: "질문" },
@@ -142,13 +140,10 @@ export default {
         b_c: option,
       })
       .then((res) => {
-        console.log(res.data);
-        this.listData = res.data;
         this.resBoard = true;
-        this.calData = this.listData;
+        this.calData = res.data;
       })
       .catch((e) => {
-        console.log(e);
         this.resBoard = false;
       });
 
@@ -157,7 +152,6 @@ export default {
         email: this.$store.state.auth.userInfo.user_email,
       })
       .then((res) => {
-        console.log(res.data);
         option === "b"
           ? (this.resLength = res.data.Bulletin_count)
           : (this.resLength = res.data.Comment_count);
@@ -174,9 +168,8 @@ export default {
           b_c: option,
         })
         .then((res) => {
-          this.listData = res.data;
           this.resBoard = true;
-          this.calData = this.listData;
+          this.calData = res.data;
         })
         .catch((e) => {
           swal("이런!", "게시판이 비어 있습니다", "error");
@@ -190,7 +183,6 @@ export default {
   watch: {
     categorySelect: function (value) {
       this.category = value.value;
-      console.log(this.category);
     },
     curPageNum: function (page) {
       this.searchBoard(page);

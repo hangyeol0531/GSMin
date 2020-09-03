@@ -76,35 +76,6 @@ export default {
 
   data() {
     return {
-      text: 5,
-      riple: 35,
-      meal_section: `조식`,
-      meal_all: meal_all,
-      items: [
-        {
-          text: "제목",
-          value: "likeCount",
-        },
-        {
-          text: "이전",
-          value: "previous",
-        },
-      ],
-      select: {
-        text: "제목",
-        value: "title",
-      },
-      dataPerPage: 10,
-      curPageNum: 1,
-      search: "",
-      category: "",
-      resText: "게시판이 비어있어요",
-      editorText: "",
-      content: "",
-      // 게시물 저장 로딩
-      loader: null,
-      loading: false,
-      company: "마이다스아이티",
       chNickname: "",
       email: "",
     };
@@ -130,26 +101,6 @@ export default {
       this.$store.dispatch("auth/logOut");
     },
   },
-
-  watch: {
-    select: function (value) {
-      this.category = value.value;
-    },
-
-    loader() {
-      const l = this.loader;
-      this[l] = !this[l];
-      setTimeout(() => {
-        this[l] = false;
-        localStorage.setItem("content", this.content);
-        this.$router.push({ name: "Home" });
-      }, 3000);
-      this.loader = null;
-      this.content = this.$refs.editorText.invoke("getMarkdown");
-    },
-  },
-
-  computed: {},
 };
 </script>
 

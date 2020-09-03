@@ -100,7 +100,6 @@ import topBar from "./topBar.vue"
 export default {
   data() {
     return {
-      meal_section: `조식`,
       graduatePercent: "81.94",
       enrolledPercent: "",
       getJobNum: "",
@@ -121,7 +120,7 @@ export default {
         //취업공고
       })
       .then((response) => {
-        console.log(response);
+        
       })
       .catch((e) => {
         console.log(e);
@@ -132,7 +131,6 @@ export default {
         //취업률
       })
       .then((response) => {
-        console.log(response);
         this.enrolledPercent = response.data.rate;
         this.getJobNum = `2기 80명 중 ${response.data.emp_num}명`;
       });

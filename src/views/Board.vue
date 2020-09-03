@@ -88,7 +88,6 @@
                       <v-btn dark color="#025F94" @click="Write">
                         <v-icon>create</v-icon>글쓰기
                       </v-btn>
-                      <!-- <v-btn dark color="#025F94" @click="Viewer"><v-icon>create</v-icon>뷰어테스트</v-btn> -->
                     </v-card-text>
                   </v-card>
                 </v-card>
@@ -114,8 +113,6 @@ export default {
 
   data() {
     return {
-      text: 5,
-      riple: 35,
       categoryItems: [
         { text: "자유", value: "자유" },
         { text: "질문", value: "질문" },
@@ -129,7 +126,6 @@ export default {
       listData: [],
       dataPerPage: 10,
       curPageNum: 1,
-      search: "",
       category: "",
       searchData: [],
       resBoard: {},
@@ -148,13 +144,10 @@ export default {
         type: "전체"
       })
       .then((res) => {
-        console.log(res)
-        this.listData = res.data;
         this.resBoard = true;
-        this.calData = this.listData;
+        this.calData = res.data;
       })
       .catch((e) => {
-        console.log(e);
         this.resBoard = false;
       });
 
@@ -169,17 +162,14 @@ export default {
 
   methods: {
     searchBoard(page) {
-      console.log("currP", page);
-      console.log(this.category)
       this.$http
         .post("/get_board_information", {
           page_num: 1,
           type: this.category
         })
         .then((res) => {
-          this.listData = res.data;
           this.resBoard = true;
-          this.calData = this.listData;
+          this.calData = this.res.data;
         })
         .catch((e) => {
           swal("이런!", "게시판이 비어 있습니다", "error");
@@ -202,7 +192,6 @@ export default {
   watch: {
     categorySelect: function (value) {
       this.category = value.value;
-      console.log(this.category);
     },
     curPageNum: function (page) {
       this.searchBoard(page);

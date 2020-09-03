@@ -109,8 +109,6 @@ export default {
 
   data() {
     return {
-      text: 5,
-      riple: 35,
       categoryItems: [
         { text: "자유", value: "자유" },
         { text: "질문", value: "질문" },
@@ -156,12 +154,10 @@ export default {
         //취업공고
       })
       .then((response) => {
-        console.log(response);
         this.listData = response.data;
-        console.log(this.listData.length);
       })
       .catch((e) => {
-        console.log(e);
+        alert(e)
       });
   },
 
@@ -173,18 +169,16 @@ export default {
           page_num: page,
         })
         .then((res) => {
-          this.listData = res.data;
           this.resBoard = true;
-          this.calData = this.listData;
+          this.calData = res.data;
         })
         .catch((e) => {
-          // swal("이런!", "게시판이 비어 있습니다", "error");
+          swal("이런!", "게시판이 비어 있습니다", "error");
         });
     },
 
     submit() {
       let gory = this.category;
-      console.log(gory);
       this.searchData = this.listData.filter((data) => {
         return data[gory].includes(this.searchField);
       });
@@ -212,7 +206,6 @@ export default {
   watch: {
     categorySelect: function (value) {
       this.category = value.value;
-      console.log(this.category);
     },
     curPageNum: function (page) {
       this.searchBoard(page);

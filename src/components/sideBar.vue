@@ -69,7 +69,6 @@ export default {
   data() {
     return {
       today: `${curmonth + 1}월 ${curdate}일 ${week[curday]}요일`,
-      company: "마이다스 아이티",
       viewer: true,
     };
   },

@@ -136,7 +136,6 @@
 <script>
 import { required, email, min, confirmed } from "vee-validate/dist/rules";
 import { extend, ValidationObserver, ValidationProvider } from "vee-validate";
-// import axios from 'axios'
 
 extend("required", {
   ...required,
@@ -183,10 +182,9 @@ export default {
               this.confirmValue = true;
               this.disable = true;
               this.codeData = res.data;
-              console.log(res);
             })
             .catch((e) => {
-              console.log(e);
+              alert(e)
             });
         }
       });

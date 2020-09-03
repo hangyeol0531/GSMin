@@ -10,7 +10,6 @@
         <v-card flat>
           <div align="center" justify="center">
             <v-img src="../assets/full_logo.svg" max-width="243"></v-img>
-            <!-- <v-img src="../assets/GSMin.svg" class="mx-auto" max-width="158"></v-img> -->
           </div>          
         </v-card>
             <v-card flat>
