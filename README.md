@@ -5,9 +5,12 @@
 앱(Andoid) : Android Studio(Java)<br>
 웹(Web) : Vue.js<br>
 서버(Server) : Node.js(express)<br>
-디자인(Design) : figma
-봇(bot) : Discord.js
-
+디자인(Design) : figma<br>
+봇(bot) : Discord.js<br>
+<hr>
+💻(Web) https://github.com/hangyeol0531/GSMin/tree/GSMin_Web <br>
+📱(Android App) https://github.com/hangyeol0531/GSMin/tree/GSMin_App<br>
+<hr>
 협업도구 : Github, Gitbook<br>
 <hr>
 <h3> 2020GSM NCS 프로젝트 전시 (8/31) <h3>
