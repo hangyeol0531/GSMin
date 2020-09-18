@@ -4,9 +4,10 @@
 
 앱(Andoid) : Android Studio(Java)<br>
 웹(Web) : Vue.js<br>
-서버(Server) : Node.js(express)<br>
+서버(Server) : Node.js(express), AWS(EC2 ubuntu) <br>
 디자인(Design) : figma<br>
 봇(bot) : Discord.js<br>
+DB : Mysql<br>
 협업도구 : Github, Gitbook<br>
 <hr>
 💻(Web) https://github.com/hangyeol0531/GSMin/tree/GSMin_Web <br>
