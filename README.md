@@ -7,7 +7,7 @@
 서버(Server) : Node.js(express), AWS(EC2 ubuntu) <br>
 디자인(Design) : figma<br>
 봇(bot) : Discord.js<br>
-DB : Mysql<br>
+DB : MySQL<br>
 협업도구 : Github, Gitbook<br>
 <hr>
 💻(Web) https://github.com/hangyeol0531/GSMin/tree/GSMin_Web <br>
