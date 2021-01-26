@@ -12,7 +12,7 @@
     "cors": "^2.8.5",
     "discord.js": "^12.3.1",
     "express": "^4.17.1",
-    "googleapis": "^30.0.0",
+    "googleapis": "^39.1.0",
     "ip": "^1.1.5",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.27.0",
